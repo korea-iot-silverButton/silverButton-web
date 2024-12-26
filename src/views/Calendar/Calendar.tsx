@@ -9,14 +9,12 @@ import { EventClickArg } from "@fullcalendar/core";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; // react-router-dom에서 navigate 훅을 import
 
-// 이벤트 타입 정의
 interface Event {
   id: string;
   title: string;
   date: string;
 }
 
-// ModalProps 타입 정의
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -27,7 +25,6 @@ interface ModalProps {
   onDelete: (eventId: string) => void;
 }
 
-// 모달 컴포넌트
 const Modal: React.FC<ModalProps> = ({
   isOpen,
   onClose,
@@ -37,12 +34,8 @@ const Modal: React.FC<ModalProps> = ({
   onSave,
   onDelete,
 }) => {
-  const [eventTitle, setEventTitle] = useState<string>(
-    eventToEdit ? eventToEdit.title : ""
-  );
-  const [selectedEventId, setSelectedEventId] = useState<string | null>(
-    eventToEdit?.id || null
-  );
+  const [eventTitle, setEventTitle] = useState<string>(eventToEdit ? eventToEdit.title : "");
+  const [selectedEventId, setSelectedEventId] = useState<string | null>(eventToEdit?.id || null);
 
   useEffect(() => {
     if (eventToEdit) {
@@ -53,11 +46,6 @@ const Modal: React.FC<ModalProps> = ({
       setSelectedEventId(null);
     }
   }, [eventToEdit]);
-
-  useEffect(() => {
-    setEventTitle(eventToEdit ? eventToEdit.title : "");
-    setSelectedEventId(eventToEdit?.id || null);
-  }, [selectedDate, eventToEdit]);
 
   const handleSave = () => {
     if (eventTitle) {
@@ -89,53 +77,18 @@ const Modal: React.FC<ModalProps> = ({
     }
   };
 
-  const handleKeyPress = (e: KeyboardEvent) => {
-    if (e.key === "Enter" && eventTitle) {
-      handleSave();
-    }
-  };
-
-  useEffect(() => {
-    const modalElement = document.getElementById("modal-overlay");
-    if (modalElement) {
-      modalElement.addEventListener("keydown", handleKeyPress);
-    }
-
-    return () => {
-      const modalElement = document.getElementById("modal-overlay");
-      if (modalElement) {
-        modalElement.removeEventListener("keydown", handleKeyPress);
-      }
-    };
-  }, [eventTitle]);
-
   return isOpen ? (
-    <div
-      id="modal-overlay"
-      className="modal-overlay"
-      onClick={handleOutsideClick}
-    >
-      <div
-        className="modal-content"
-        onClick={(e) => e.stopPropagation()}
-        tabIndex={-1}
-      >
+    <div id="modal-overlay" className="modal-overlay" onClick={handleOutsideClick}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-left">
           <h4>{selectedDate}</h4>
           <div className="event-list">
             {events
               .filter((event) => event.date === selectedDate)
               .map((event) => (
-                <div
-                  key={event.id}
-                  className="event-item"
-                  onClick={() => handleEventClick(event)}
-                >
+                <div key={event.id} className="event-item" onClick={() => handleEventClick(event)}>
                   {event.title}
-                  <button
-                    className="delete-btn"
-                    onClick={() => onDelete(event.id)}
-                  >
+                  <button className="delete-btn" onClick={() => onDelete(event.id)}>
                     X
                   </button>
                 </div>
@@ -179,7 +132,6 @@ const CalendarComponent: React.FC = () => {
   const calendarRef = useRef<any>(null);
   const navigate = useNavigate(); // navigate 훅을 사용하여 페이지 이동
 
-  // 쿠키에서 'token' 값을 가져오는 함수
   const getTokenFromCookies = () => {
     const cookies = document.cookie.split(";");
     for (let i = 0; i < cookies.length; i++) {
@@ -188,46 +140,63 @@ const CalendarComponent: React.FC = () => {
         return cookie.substring("token=".length, cookie.length);
       }
     }
-    return null; // 쿠키에 token이 없으면 null 반환
+    return null;
   };
 
   const token = getTokenFromCookies();
   console.log(token);
 
-  // token이 없으면 로그인 페이지로 리디렉션 (알람 후 이동)
   useEffect(() => {
     if (!token) {
-      window.alert("로그인 정보가 없습니다. 로그인 페이지로 이동합니다."); // 알람 창 띄우기
-      navigate("/auth"); // 로그인 페이지로 리디렉션
+      window.alert("로그인 정보가 없습니다. 로그인 페이지로 이동합니다.");
+      navigate("/auth");
     }
   }, [token, navigate]);
 
-  // 일정 데이터를 서버에서 받아오는 useEffect
   const fetchEvents = async (year: number, month: number) => {
-    console.log(year + " " + month);
+    console.log(`Fetching events for: ${year}-${month}`);
+    
     try {
-      const response = await axios.get(
-        `http://localhost:8080/api/v1/schedule/search?year=${year}&month=${month}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Bearer 토큰을 헤더에 추가
-          },
-        }
-      );
+      const fetchPromises = [
+        axios.get(
+          `http://localhost:8080/api/v1/schedule/search?year=${year}&month=${month}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        ),
+        axios.get(
+          `http://localhost:8080/api/v1/schedule/search?year=${month === 1 ? year - 1 : year}&month=${month === 1 ? 12 : month - 1}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        ),
+        axios.get(
+          `http://localhost:8080/api/v1/schedule/search?year=${month === 12 ? year + 1 : year}&month=${month === 12 ? 1 : month + 1}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        ),
+      ];
 
-      // 이벤트를 FullCalendar에 맞는 형식으로 변환
-      const calendarEvents = response.data.data.map(
-        (event: { scheduleDate: string; task: string }) => {
-          const startDate = new Date(event.scheduleDate); // 문자열을 Date 객체로 변환
-
+      const responses = await Promise.all(fetchPromises);
+      const calendarEvents = responses.flatMap((response) =>
+        response.data.data.map((event: { scheduleDate: string; task: string }) => {
+          const startDate = new Date(event.scheduleDate);
           return {
             id: event.scheduleDate,
             title: event.task,
-            start: startDate.toISOString(),
+            date: startDate.toISOString().split("T")[0],
           };
-        }
+        })
       );
-      setEvents(calendarEvents);
+
+      setEvents(calendarEvents); // 새로운 이벤트 리스트를 상태에 반영
     } catch (error) {
       console.error("일정을 가져오는 데 실패했습니다:", error);
     }
@@ -235,11 +204,9 @@ const CalendarComponent: React.FC = () => {
 
   const handleDatesSet = (arg: { start: Date; end: Date; view: any }) => {
     let year = arg.view.currentStart.getFullYear();
-    let month = arg.view.currentStart.getMonth() + 1; // getMonth()는 0부터 시작하므로 +1
-
-    console.log(`현재 보고 있는 월: ${year}년 ${month}월`);
-
-    fetchEvents(year, month);
+    let month = arg.view.currentStart.getMonth();
+    console.log(`현재 보고 있는 월: ${year}년 ${month + 1}월`);
+    fetchEvents(year, month + 1);
   };
 
   const handleDateClick = (info: { dateStr: string }) => {
@@ -257,26 +224,53 @@ const CalendarComponent: React.FC = () => {
     }
   };
 
-  const handleSaveEvent = (
-    date: string | null,
-    title: string,
-    eventId?: string
-  ) => {
+  const handleSaveEvent = async (date: string | null, title: string, eventId?: string) => {
     if (eventId) {
+      // 기존 일정 수정
       setEvents(
         events.map((event) =>
           event.id === eventId ? { ...event, title } : event
         )
       );
     } else {
+      // 새 일정 추가
       const newEvent = {
-        id: String(events.length + 1),
-        title,
-        date: date || "",
+        scheduleDate: date || "",
+        task: title,
       };
-      setEvents([...events, newEvent]);
+
+      try {
+        const response = await axios.post(
+          "http://localhost:8080/api/v1/schedule/create",
+          newEvent,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        // 새로 추가된 이벤트 반영 후, 최신 일정을 불러옴
+        const addedEvent = {
+          id: response.data.id, // 서버에서 반환한 ID로 업데이트
+          title: title,
+          date: date || "",
+        };
+
+        // 기존 이벤트 목록에 새 이벤트 추가
+        setEvents((prevEvents) => [...prevEvents, addedEvent]);
+
+        // FullCalendar를 강제로 리렌더링하여 새로 추가된 일정을 반영하도록 함
+        if (calendarRef.current) {
+          calendarRef.current.getApi().refetchEvents();
+        }
+
+        setIsModalOpen(false); // 모달 닫기
+      } catch (error) {
+        console.error("일정을 추가하는 데 실패했습니다:", error);
+        alert("일정을 추가하는 데 실패했습니다.");
+      }
     }
-    setIsModalOpen(false);
   };
 
   const handleDeleteEvent = (eventId: string) => {
@@ -297,7 +291,6 @@ const CalendarComponent: React.FC = () => {
         eventClick={handleEventClick}
         datesSet={handleDatesSet}
         eventContent={(eventInfo) => {
-          // 시간을 제외한 제목만 표시
           const eventTitle = eventInfo.event.title
             .replace(/\d{1,2}:\d{2}/, "")
             .trim();
@@ -306,13 +299,12 @@ const CalendarComponent: React.FC = () => {
           };
         }}
       />
-
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         selectedDate={selectedDate}
         eventToEdit={eventToEdit}
-        events={events}
+        events={events.filter((event) => event.date === selectedDate)}
         onSave={handleSaveEvent}
         onDelete={handleDeleteEvent}
       />

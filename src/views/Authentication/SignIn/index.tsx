@@ -7,20 +7,16 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../../stores/auth.store";
-import Header from "../../../layouts/Header";
-
-// 사용자 입력 정보
 interface Credentials {
   userId: string;
   password: string;
   nickname: string;
 }
 
-// 서버에서 반환하는 로그인 응답 데이터
 interface SignInResponseDto {
   token: string;
   user: { id: number; userId: string; nickname: string };
@@ -39,7 +35,6 @@ export default function SignIn() {
   const { login } = useAuthStore();
   const navigate = useNavigate();
 
-  // 로그인 성공 시 토큰과 사용자 정보를 상태에 저장
   const SignInSuccessResponse = (data: SignInResponseDto) => {
     if (data) {
       const { token, exprTime, user } = data;
@@ -55,7 +50,6 @@ export default function SignIn() {
     }
   };
 
-  // 인증 토큰을 쿠키에 저장하는 함수
   const setToken = (token: string, exprTime: number) => {
     const expires = new Date(Date.now() + exprTime);
     setCookies("token", token, {
@@ -64,7 +58,6 @@ export default function SignIn() {
     });
   };
 
-  // 로그인 입력 필드의 값 변경 시 처리
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const element = e.target;
     setCredentials({
@@ -93,6 +86,12 @@ export default function SignIn() {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSignIn();
+    }
+  };
+
   return (
     <Card variant="outlined" sx={{ width: 360, m: "auto", mt: 4 }}>
       <CardContent>
@@ -106,6 +105,7 @@ export default function SignIn() {
           variant="outlined"
           value={credentials.userId}
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown} 
           fullWidth
           margin="normal"
         />
@@ -116,6 +116,7 @@ export default function SignIn() {
           variant="outlined"
           value={credentials.password}
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown} 
           fullWidth
           margin="normal"
         />
