@@ -1,6 +1,6 @@
 
 // 약품 검색 옵션 상태 관리 (useState)
-interface SelectedDrugOption {
+export interface SelectedDrugOption {
   shape: string;
   color: string;
   line: string;
