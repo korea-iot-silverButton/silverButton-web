@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import * as s from "../../styles/drugSearchStyle";
+import * as s from "../styles/drugSearchStyle";
 import { FaRegCircle } from "react-icons/fa";
 import { TbCircleHalfVertical } from "react-icons/tb";
 import { GrAddCircle } from "react-icons/gr";
@@ -14,28 +14,14 @@ import { LuPentagon } from "react-icons/lu";
 import { MdOutlineHexagon } from "react-icons/md";
 import { FiOctagon } from "react-icons/fi";
 
-export interface LineShape {
-  id: number;
-  name: string;
-  icon: React.ReactNode;
-  style: {};
-}
-
-export const lineShape: LineShape[] = [
+export const lineShape = [
   { id: 1, name: "없음", icon: <FaRegCircle />, style: s.circle },
   { id: 2, name: "(-)형", icon: <TbCircleHalfVertical />, style: s.minus },
   { id: 3, name: "(+)형", icon: <GrAddCircle />, style: s.ten },
   { id: 4, name: "기타", icon: <HiOutlineArrowUpCircle />, style: s.kita },
 ];
 
-
-
-export interface ColorShape {
-  id: number;
-  name: string;
-  style: any;
-}
-export const colorShape: ColorShape[] = [
+export const colorShape = [
   { id: 1, name: "하양", style: s.white },
   { id: 2, name: "노랑", style: s.yellow },
   { id: 3, name: "주황", style: s.orange },
@@ -54,15 +40,7 @@ export const colorShape: ColorShape[] = [
   { id: 16, name: "투명", style: s.two },
 ];
 
-export interface DrugShape {
-  id: number;
-  name: string;
-  icon: React.ReactNode; 
-  style: React.CSSProperties | any; 
-}
-
-
-export const drugShape: DrugShape[] = [
+export const drugShape = [
   { id: 1, name: "원형", icon: <FaRegCircle />, style: s.circle },
   { id: 2, name: "타원형", icon: <TbOvalVertical />, style: s.taone },
   { id: 3, name: "사각형", icon: <FaRegSquare />, style: s.box },
@@ -74,6 +52,4 @@ export const drugShape: DrugShape[] = [
   { id: 9, name: "육각형", icon: <MdOutlineHexagon />, style: s.six },
   { id: 10, name: "팔각형", icon: <FiOctagon />, style: s.eight },
 ];
-
-
 
