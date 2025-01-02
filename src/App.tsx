@@ -7,6 +7,11 @@ import CreatePost from './views/board/CreatePost'
 import PostDetail from './views/board/PostDetail'
 import EditPost from './views/board/EditPost'
 import Index from './views/drug/medicineSearch'
+import SignUp from './views/Authentication/SignUp'
+import SignIn from './views/Authentication/SignIn'
+import MedicineSearch from './views/drug/medicineSearch'
+import MedicineDetailPage from './views/drug/medicineDetailPage'
+import MedicineSearchList from './views/drug/medicineListPage'
 
 
 export default function App() {
