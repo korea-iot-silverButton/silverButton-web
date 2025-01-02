@@ -1,14 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from "react";
-import * as s from "../../styles/drugSearchStyle";
-import {colorShape} from "./drugOprionData";
+import * as s from "../../../styles/drugSearchStyle";
+import { SelectedDrugOption } from "../../../types/DrugSearchListType"; 
+import { colorShape } from "../../../constants/DrugSearchList";
 
-// 약품 검색 옵션 상태 관리 (useState)
-interface SelectedDrugOption {
-  shape: string;
-  color: string;
-  line: string;
-}
 
 const optionInitialData: SelectedDrugOption = {
   shape: '전체',
@@ -16,17 +11,7 @@ const optionInitialData: SelectedDrugOption = {
   line: '전체'
 }
 
-// const selectedDrugOption: SelectedDrugOption = {
-//   shape:drugShape,
-//   color:colorShape,
-//   line:lineShape
-// }
-
-// const optionInitialization: SelectedDrugOption = {
-//   shape: {}
-// }
-
-export default function Index01() {
+export default function Index() {
   const [selectedDrugOption, setSelectedDrugOption] = useState<SelectedDrugOption>(optionInitialData);
 
 
@@ -61,3 +46,4 @@ export default function Index01() {
     </>
   );
 }
+
