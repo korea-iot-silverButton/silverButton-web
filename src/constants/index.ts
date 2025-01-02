@@ -15,3 +15,7 @@ export const REACT_STUDY_PATH= '/react-study';
 export const TODO_PATH = '/todos';
 
 export const BOARD_LIST_PATH= '/board'
+
+export const MESSAGE_PATH = '/message';
+
+export const MATCHING_PATH = '/matching';
