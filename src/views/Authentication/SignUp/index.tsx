@@ -1,156 +1,285 @@
 import React, { useState } from "react";
+import "./Signup.css";
 
-import { useNavigate } from "react-router-dom";
-
-import { Button, Card, CardActions, CardContent, TextField, Typography } from "@mui/material";
-import axios from "axios";
-
-interface UserInfo {
-  email: string; // 사용자 이메일
-  password: string; // 사용자 비밀번호
-  confirmPassword: string; // 비밀번호 확인 필드(비밀번호와 일치해야 함)
-}
-
-interface Errors {
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
-  form?: string; // 전체 폼 오류 메시지 (EX: 서버 오류 등)
-}
-
-// 환경 변수로부터 API URL 가져오기
-//const API_URL= process.env.REACT_APP_API_URL;
-
-export default function SignUp() {
-  // userInfo: 사용자가 입력한 회원가입 정보를 관리
-  const [userInfo, setUserInfo] = useState<UserInfo>({
+const SignUp: React.FC = () => {
+  const [formData, setFormData] = useState({
+    username: "",
+    userId: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    userNickname: "",
+    dateOfBirth: "",
+    phone: "",
+    gender: "",
+    agree: false
   });
 
-  const [errors, setErrors] = useState<Errors>({});
 
-  // useNavigate() Hook: Page 전환 기능을 사용
-  const navigate = useNavigate();
+  // 생년 월일 
+  const [birthDate, setBirthDate] = useState("");
 
-  // ! == 이벤트 핸들러 == //
-  // 입력 필드 변경 이벤트 핸들러
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const element= e.target;
-    setUserInfo({
-        ...userInfo,
-        [element.name]: element.value
+  const handleChangeBirth = ((e: React.ChangeEvent<HTMLInputElement>) => {
+    setBirthDate(e.target.value); // yyyy-mm-dd 형식
+  });
+
+  // phone(전화번호)
+  const [phoneNumber, setPhoneNumber] = useState("");
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // 숫자와 하이픈만 허용하도록 필터링 (예: 010-1234-5678)
+    const filteredValue = value.replace(/[^0-9-]/g, "");
+    setPhoneNumber(filteredValue);
+  };
+
+  // 요양사 인증번호 
+  const [licenseNumber, setLicenseNumber] = useState("");
+
+  const handleLicenseNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+  const value = e.target.value.replace(/[^0-9]/g, "");
+  setLicenseNumber(value);
+};
+
+  // 이름이랑 아이디랑 비번 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name,  value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
     });
   };
 
-  // 회원가입 버튼 클릭 시 이벤트 핸들러    
-  const handleSignUp = async ()=>{
-    const isValidation= validateForm();
-    if(isValidation){
-        try{
-            // 서버에 회원가입 요청(Post Method)
-            const response= await axios.post("http://localhost:8080/api/v1/auth/signUp", userInfo);
-            if(response.data){
-                navigate('/');
-            }
-            else{
-                setErrors(p=>({
-                    ...p, form: '서버 에러가 발생하였습니다.'
-                }));
-            }
-        }
-        catch{
-            setErrors(p=>({
-                ...p, form: '서버 에러가 발생하였습니다.'
-            }));
-        }
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formData.password !== formData.confirmPassword) {
+      alert("비밀번호가 일치하지 않습니다.");
+      return;
     }
-  }
-
-  const validateForm= ()=>{
-    let tempErrors: Errors={};
-    tempErrors.email= userInfo.email ? '': '이메일을 입력하세요.';
-    tempErrors.password= userInfo.password.length >=8? '': '비밀번호는 8자 이상이어야 합니다.'
-    tempErrors.confirmPassword= userInfo.confirmPassword === userInfo.password? '': '비밀번호가 일치하지 않습니다.';
-
-    // 오류 상태 업데이트
-    setErrors(tempErrors);
-
-    // 모든 입력이 유효한지 확인하여 true 또는 false 반환
-    return Object.values(tempErrors).every(x=>x==='');
-  }
+    alert("회원가입이 완료되었습니다!");
+    console.log(formData);
+  };
 
 
+  // 이용약관 동의 모달창 
+  const [showModal, setShowModal] = useState(false);
 
   return (
-    <Card variant="outlined" sx={{ width: 360, m: "auto", mt: 4 }}>
-      <CardContent>
-        {/* 회원가입 제목 표시 */}
-        <Typography variant="h5" mb={2}>
-          SignUp
-        </Typography>
+    <>
+      
+      <div className="signup-container">
+      <h1>회원가입</h1>
+      <form className="signup-form" onSubmit={handleSubmit}>
 
-        {/* 입력 필드 */}
-        <TextField
-          label="이메일"
-          type="email"
-          name="email"
-          variant="outlined"
-          value={userInfo.email}
-          onChange={handleInputChange}
-          fullWidth // 전체 너비 차지
-          margin="normal"
-          // !!데이터 값
-          // : 값을 불리언 타입으로 변환하는 방식
-          // - 값이 존재하면 true
-          // - 값이 존재하지 않으면 false로 변환
-          error={!!errors.email}
-          helperText={errors.email}
-        />
+        <div className="tmi">
+          <label htmlFor="username">이름</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="이름을 입력하세요"
+            value={formData.username}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-        <TextField
-          label="비밀번호"
-          type="password"
-          name="password"
-          variant="outlined"
-          value={userInfo.password}
-          onChange={handleInputChange}
-          fullWidth // 전체 너비 차지
-          margin="normal"
-          error={!!errors.password}
-          helperText={errors.password}
-        />
+        <div className="tmi">
+          <label htmlFor="userId">아이디</label>
+          <input
+            type="text"
+            id="userId"
+            name="userId"
+            placeholder="이름을 입력하세요"
+            value={formData.userId}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-        <TextField
-          label="checking Password"
-          type="password"
-          name="confirmPassword"
-          variant="outlined"
-          value={userInfo.confirmPassword}
-          onChange={handleInputChange}
-          fullWidth // 전체 너비 차지
-          margin="normal"
-          // !!데이터 값
-          // : 값을 불리언 타입으로 변환하는 방식
-          // - 값이 존재하면 true
-          // - 값이 존재하지 않으면 false로 변환
-          error={!!errors.confirmPassword}
-          helperText={errors.confirmPassword}
-        />
-        {/* 전체 폼 오류 메시지가 있을 경우 표시 */}
-        {/* {errors.form이 있으면 errors.form을 출력} */}
-        {errors.form &&( <Typography color="error" mt={2}>
-            {errors.form}
-        </Typography>
+        <div className="tmi">
+          <label htmlFor="email">이메일</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="이메일을 입력하세요"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+
+        </div>
+
+        <div className="tmi">
+          <label htmlFor="password">비밀번호</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="비밀번호를 입력하세요"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="tmi">
+          <label htmlFor="confirmPassword">비밀번호 확인</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            placeholder="비밀번호를 다시 입력하세요"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        
+        <div className="tmi">
+          <label className="gender-label">성별</label>
+          <div className="gender-options">
+            <div className="gender-item">
+              <input
+                type="radio"
+                name="gender"
+                id="male"
+                value="male"
+                checked={formData.gender === 'male'}
+                onChange={handleChange}
+              />
+              <span>남자</span>
+            </div>
+            <div className="gender-item">
+              <input
+                type="radio"
+                name="gender"
+                id="female"
+                value="female"
+                checked={formData.gender === 'female'}
+                onChange={handleChange}
+              />
+              <span>여자</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="tmi">
+          <label htmlFor="phone">핸드폰 번호</label>
+          <input
+            type="tel"
+            id="phone"
+            placeholder="010-1234-5678"
+            value={phoneNumber}
+            onChange={handlePhoneChange}
+            required
+          />
+          
+        </div>
+
+        <div className="tmi">
+          <label htmlFor="confirmPassword">닉네임</label>
+          <input
+            type="text"
+            id="confirmPassword"
+            name="confirmPassword"
+            placeholder="닉네임을 입력해주세요"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
+          />
+          
+        </div>
+
+        <div className="tmi">
+          <label htmlFor="confirmPassword">생년월일</label>
+          <input
+            type="date"
+            // min={"1920-01-01"} max={2029-12-31}
+            id="birthdate"
+            placeholder="생년월일을 입력해주세요"
+            value={birthDate}
+            onChange={handleChangeBirth}
+            required
+          />
+        </div>
+        <div className="wrapper">
+          <p>요양사 이신가요 ?</p>
+          <p>요양사 이시면 라이센스 번호를 입력해주세요</p>
+        </div>
+        <div />
+        <div className="tmi">
+        <label htmlFor="licenseNumber">요양사 인증 번호</label>
+          <input
+            type="text"
+            id="licenseNumber"
+            placeholder="라이센스 번호를 입력해주세요"
+            value={licenseNumber}
+            onChange={handleLicenseNumberChange}
+            maxLength={10} // 최대 길이 제한
+          />
+        </div>
+
+        <div className="terms">
+          <input
+            type="checkbox"
+            id="agree"
+            name="agree"
+            checked={formData.agree}
+            onChange={handleChange}
+            required
+          />
+          <label htmlFor="agree">
+            <span onClick={() => setShowModal(true)}>이용약관</span>에
+            동의합니다.
+          </label>
+        </div>
+
+        {showModal && (
+          <div className="modal">
+            <div className="modal-content">
+              <h2>이용약관</h2>
+              <p>
+                본 약관은 실버니즈의 이용 조건과 절차, 권리와 의무를 규정합니다.
+              </p>
+              <ul>
+                <li>
+                  <strong>회원가입:</strong> 회원은 약관에 동의하고 필요한
+                  정보를 입력하여 가입할 수 있습니다.
+                </li>
+                <li>
+                  <strong>개인정보 보호:</strong> 서비스는 회원의 개인정보를
+                  보호하며 관련 법령에 따라 관리합니다.
+                </li>
+                <li>
+                  <strong>금지사항:</strong> 타인의 개인정보를 도용하거나 부정
+                  사용하지 않습니다.
+                </li>
+                <li>
+                  <strong>약관 변경:</strong> 약관은 필요 시 개정될 수 있으며,
+                  변경 사항은 사전 공지됩니다.
+                </li>
+              </ul>
+              <button onClick={() => setShowModal(false)}>닫기</button>
+            </div>
+          </div>
         )}
-      </CardContent>
-      {/* 회원 가입 버튼 */}
-      <CardActions>
-        <Button onClick={handleSignUp} fullWidth variant="contained" color="primary">
-            Join
-        </Button>
-      </CardActions>
-    </Card>
+
+        <div className="button-container">
+          <button className="previous-btn" onClick={() => window.history.back()}>
+            이전 화면
+          </button>
+          <button className="signup-btn">
+            회원가입 완료
+          </button>
+        </div>
+
+      </form>
+    </div>
+    </>
   );
-}
+};
+
+export default SignUp;

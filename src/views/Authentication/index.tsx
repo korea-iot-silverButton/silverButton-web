@@ -3,6 +3,7 @@ import SignUp from './SignUp'
 import { Box, Typography } from '@mui/material';
 import SignIn from './SignIn';  
 
+
 // Authentication Component
 // : 사용자가 로그인 또는 회원가입 화면을 전환할 수 있는 기능을 제공
 export default function Authentication() {
@@ -30,8 +31,8 @@ export default function Authentication() {
 
       {/* 로그인 또는 회원가입 컴포넌트 표시 */}
       <Box sx={{ display: 'flex', justifyContent: 'center', p:2}}>
-        {view === 'sign-in'? ( 
-          <SignIn / >
+        {view === 'sign-in'? (
+          <SignIn />
         ): (
           <SignUp />
         )}
