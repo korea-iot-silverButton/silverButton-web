@@ -8,6 +8,7 @@ import "../../styles/Calendar.css";
 import { EventClickArg } from "@fullcalendar/core";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; // react-router-dom에서 navigate 훅을 import
+import Navi from "../../layouts/Navi";
 
 interface Event {
   id: string;
@@ -130,7 +131,7 @@ const CalendarComponent: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [eventToEdit, setEventToEdit] = useState<Event | null>(null);
   const calendarRef = useRef<any>(null);
-  const navigate = useNavigate(); // navigate 훅을 사용하여 페이지 이동
+  const navigate = useNavigate();
 
   const getTokenFromCookies = () => {
     const cookies = document.cookie.split(";");
@@ -144,7 +145,6 @@ const CalendarComponent: React.FC = () => {
   };
 
   const token = getTokenFromCookies();
-  console.log(token);
 
   useEffect(() => {
     if (!token) {
@@ -154,49 +154,40 @@ const CalendarComponent: React.FC = () => {
   }, [token, navigate]);
 
   const fetchEvents = async (year: number, month: number) => {
-    console.log(`Fetching events for: ${year}-${month}`);
-    
     try {
       const fetchPromises = [
-        axios.get(
-          `http://localhost:8080/api/v1/schedule/search?year=${year}&month=${month}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        ),
-        axios.get(
-          `http://localhost:8080/api/v1/schedule/search?year=${month === 1 ? year - 1 : year}&month=${month === 1 ? 12 : month - 1}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        ),
-        axios.get(
-          `http://localhost:8080/api/v1/schedule/search?year=${month === 12 ? year + 1 : year}&month=${month === 12 ? 1 : month + 1}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        ),
+        axios.get(`http://localhost:8080/api/v1/schedule/search?year=${year}&month=${month}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+        axios.get(`http://localhost:8080/api/v1/schedule/search?year=${month === 1 ? year - 1 : year}&month=${month === 1 ? 12 : month - 1}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+        axios.get(`http://localhost:8080/api/v1/schedule/search?year=${month === 12 ? year + 1 : year}&month=${month === 12 ? 1 : month + 1}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
       ];
 
       const responses = await Promise.all(fetchPromises);
       const calendarEvents = responses.flatMap((response) =>
-        response.data.data.map((event: { scheduleDate: string; task: string }) => {
+        response.data.data.map((event: { id: string; scheduleDate: string; task: string }) => {
           const startDate = new Date(event.scheduleDate);
+          const eventId = `${startDate.toISOString()}@${event.id}`;
+
           return {
-            id: event.scheduleDate,
+            id: eventId,
             title: event.task,
-            date: startDate.toISOString().split("T")[0],
+            date: startDate.toISOString().split("T")[0], // date는 YYYY-MM-DD 형식
           };
         })
       );
 
-      setEvents(calendarEvents); // 새로운 이벤트 리스트를 상태에 반영
+      setEvents(calendarEvents);
     } catch (error) {
       console.error("일정을 가져오는 데 실패했습니다:", error);
     }
@@ -205,7 +196,6 @@ const CalendarComponent: React.FC = () => {
   const handleDatesSet = (arg: { start: Date; end: Date; view: any }) => {
     let year = arg.view.currentStart.getFullYear();
     let month = arg.view.currentStart.getMonth();
-    console.log(`현재 보고 있는 월: ${year}년 ${month + 1}월`);
     fetchEvents(year, month + 1);
   };
 
@@ -226,90 +216,114 @@ const CalendarComponent: React.FC = () => {
 
   const handleSaveEvent = async (date: string | null, title: string, eventId?: string) => {
     if (eventId) {
-      // 기존 일정 수정
-      setEvents(
-        events.map((event) =>
-          event.id === eventId ? { ...event, title } : event
-        )
-      );
-    } else {
-      // 새 일정 추가
-      const newEvent = {
-        scheduleDate: date || "",
-        task: title,
-      };
-
+      // 수정 로직
       try {
-        const response = await axios.post(
-          "http://localhost:8080/api/v1/schedule/create",
-          newEvent,
+        const temp = eventId.indexOf('@');
+        eventId = eventId.substring(temp + 1);
+        const response = await axios.put(
+          `http://localhost:8080/api/v1/schedule/update/${eventId}`, 
+          { task: title }, // 수정할 task만 전달
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
-
-        // 새로 추가된 이벤트 반영 후, 최신 일정을 불러옴
+  
+        if (response.status === 200) {
+          // 이벤트 리스트에서 수정된 항목을 업데이트
+          setEvents((prevEvents) =>
+            prevEvents.map((event) =>
+              event.id === eventId ? { ...event, title } : event
+            )
+          );
+          fetchEvents(new Date().getFullYear(), new Date().getMonth() + 1);
+        }
+      } catch (error) {
+        console.error("일정 수정 실패:", error);
+      }
+    } else {
+      // 새 일정 추가 로직 (기존과 동일)
+      const newEvent = { scheduleDate: date || "", task: title };
+  
+      try {
+        const response = await axios.post("http://localhost:8080/api/v1/schedule/create", newEvent, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
         const addedEvent = {
-          id: response.data.id, // 서버에서 반환한 ID로 업데이트
+          id: `${Date.now()}`, // 고유한 ID를 timestamp로 설정
           title: title,
           date: date || "",
         };
-
-        // 기존 이벤트 목록에 새 이벤트 추가
+  
         setEvents((prevEvents) => [...prevEvents, addedEvent]);
-
-        // FullCalendar를 강제로 리렌더링하여 새로 추가된 일정을 반영하도록 함
-        if (calendarRef.current) {
-          calendarRef.current.getApi().refetchEvents();
-        }
-
-        setIsModalOpen(false); // 모달 닫기
+        fetchEvents(new Date().getFullYear(), new Date().getMonth() + 1);
       } catch (error) {
-        console.error("일정을 추가하는 데 실패했습니다:", error);
-        alert("일정을 추가하는 데 실패했습니다.");
+        console.error("일정 추가 실패:", error);
       }
     }
   };
 
-  const handleDeleteEvent = (eventId: string) => {
-    setEvents(events.filter((event) => event.id !== eventId));
+  const handleDeleteEvent = async (eventId: string) => {
+    try {
+      const temp = eventId.indexOf('@');
+      eventId = eventId.substring(temp + 1);  // 삭제할 ID 부분만 추출
+      const response = await axios.delete(
+        `http://localhost:8080/api/v1/schedule/delete/${eventId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        setEvents((prevEvents) =>
+          prevEvents.filter((event) => event.id !== eventId)
+        );
+        fetchEvents(new Date().getFullYear(), new Date().getMonth() + 1);
+      }
+    } catch (error) {
+      console.error("삭제 중 오류가 발생했습니다:", error);
+    }
   };
 
   return (
-    <div id="calendar-container">
+    <>
       <Header />
-      <FullCalendar
-        ref={calendarRef}
-        plugins={[dayGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        locale={koLocale}
-        events={events}
-        height="100%"
-        dateClick={handleDateClick}
-        eventClick={handleEventClick}
-        datesSet={handleDatesSet}
-        eventContent={(eventInfo) => {
-          const eventTitle = eventInfo.event.title
-            .replace(/\d{1,2}:\d{2}/, "")
-            .trim();
-          return {
-            html: `<div>${eventTitle}</div>`,
-          };
-        }}
-      />
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        selectedDate={selectedDate}
-        eventToEdit={eventToEdit}
-        events={events.filter((event) => event.date === selectedDate)}
-        onSave={handleSaveEvent}
-        onDelete={handleDeleteEvent}
-      />
-    </div>
+      <Navi />
+      <div id="calendar-container">
+        <FullCalendar
+          ref={calendarRef}
+          plugins={[dayGridPlugin, interactionPlugin]}
+          locale={koLocale}
+          headerToolbar={{
+            left: "",
+            center: "title",
+            right: "today prev,next",
+          }}
+          initialView="dayGridMonth"
+          events={events}
+          eventClick={handleEventClick}
+          dateClick={handleDateClick}
+          datesSet={handleDatesSet}
+        />
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          selectedDate={selectedDate}
+          eventToEdit={eventToEdit}
+          events={events}
+          onSave={handleSaveEvent}
+          onDelete={handleDeleteEvent}
+        />
+      </div>
+    </>
   );
 };
 
 export default CalendarComponent;
+//end

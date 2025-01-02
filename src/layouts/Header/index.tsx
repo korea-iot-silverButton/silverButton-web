@@ -30,34 +30,50 @@ export default function Header() {
   };
 
   return (
-    <div>
-      <Box display="flex" justifyContent="space-between" p={2}>
-        <Box flex={1} display="flex" justifyContent="center">
-          <Button variant="contained" onClick={toggleTheme}>
+    <Box>
+      {/* Light 버튼과 로그인/회원가입 - 상단 배경색 */}
+      <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ paddingLeft: 50, paddingRight: 50, backgroundColor: "#76c3c5", p: 0.5 }}>
+        <Box display="flex" alignItems="center">
+          {/* Light 버튼 */}
+          <Button variant="contained" onClick={toggleTheme} sx={{ marginRight: 2 }}>
             {theme === "light" ? "Dark" : "Light"}
           </Button>
         </Box>
-        <Box flex={1} display="flex" justifyContent="center" alignItems="center" textAlign="center">
-          <Link to={""} style={{ textDecoration: "none", color: "inherit" }}>
-            <Typography variant="h3">실버니즈</Typography>
-          </Link>
-        </Box>
-        <Box flex={1} display="flex" justifyContent="flex-end">
+
+        <Box display="flex" alignItems="center">
+          {/* 로그인/회원가입 상태 */}
           {isAuthenticated ? (
-            <Typography variant="subtitle1" m={2} onClick={handleLogOutClick}>
-              {user && <>{user.nickname}님 안녕하세요</>}
-              <br />
-              logOut
-            </Typography>
-          ) : (
-            <Link to={"/auth"} style={{ textDecoration: "none", color: "inherit" }}>
+            <>
               <Typography variant="subtitle1" m={2}>
-                로그인
+                {user && <>{user.nickname}님 안녕하세요</>}
               </Typography>
-            </Link>
+              <Button variant="text" onClick={handleLogOutClick}>
+                로그아웃
+              </Button>
+            </>
+          ) : (
+            <>
+              <Link to={"/auth"} style={{ textDecoration: "none", color: "inherit" }}>
+                <Typography variant="subtitle1" m={2}>
+                  로그인
+                </Typography>
+              </Link>
+              <Link to={"/auth/signup"} style={{ textDecoration: "none", color: "inherit" }}>
+                <Typography variant="subtitle1" m={2}>
+                  회원가입
+                </Typography>
+              </Link>
+            </>
           )}
         </Box>
       </Box>
-    </div>
+
+      {/* 실버니즈 텍스트 - 배경색 추가 */}
+      <Box display="flex" justifyContent="center" alignItems="center" mt={2} sx={{ backgroundColor: "#f4f4f4", py: 2 }}>
+        <Typography variant="h3" sx={{ textAlign: "center" }}>
+          실버니즈
+        </Typography>
+      </Box>
+    </Box>
   );
 }
