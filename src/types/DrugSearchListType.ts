@@ -18,6 +18,7 @@ export interface IDrugShape {
 export interface IDrugColor {
   id: number;
   name: string;
+  icon:React.ReactNode;
   style: any;
 }
 
