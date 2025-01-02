@@ -12,6 +12,9 @@ import SignIn from './views/Authentication/SignIn'
 import MedicineSearch from './views/drug/medicineSearch'
 import MedicineDetailPage from './views/drug/medicineDetailPage'
 import MedicineSearchList from './views/drug/medicineListPage'
+import Matching from './views/Matching/CaregiverMatching'
+import MessageBox from './views/Message/MessageBox'
+
 
 
 export default function App() {
@@ -33,7 +36,11 @@ export default function App() {
           <Route path="/board" element={<Board />} />
           <Route path="/board/create" element={<CreatePost />} />
           <Route path="/board/:id" element={<PostDetail />} />
-         <Route path="/board/:id/edit" element={<EditPost />} />
+          <Route path="/board/:id/edit" element={<EditPost />} />
+
+          <Route path="/matching" element={<Matching />} />
+          <Route path="/message" element={<MessageBox />} />
+
     </Routes>
   )
 }
