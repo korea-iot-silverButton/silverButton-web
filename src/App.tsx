@@ -9,6 +9,7 @@ import EditPost from './views/board/EditPost'
 import Index from './views/drug/medicineSearch'
 
 
+
 export default function App() {
   return (
     <Routes>
@@ -28,7 +29,7 @@ export default function App() {
           <Route path="/board" element={<Board />} />
           <Route path="/board/create" element={<CreatePost />} />
           <Route path="/board/:id" element={<PostDetail />} />
-         <Route path="/board/:id/edit" element={<EditPost />} />
+          <Route path="/board/:id/edit" element={<EditPost />} />
     </Routes>
   )
 }
