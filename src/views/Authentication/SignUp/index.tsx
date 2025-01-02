@@ -50,7 +50,7 @@ export default function SignUp() {
     if(isValidation){
         try{
             // 서버에 회원가입 요청(Post Method)
-            const response= await axios.post("http://localhost:8080/api/v1/auth/signUp", userInfo);
+            const response= await axios.post("http://localhost:4040/api/v1/auth/signUp", userInfo);
             if(response.data){
                 navigate('/');
             }

@@ -30,7 +30,7 @@ export default function Authentication() {
 
       {/* 로그인 또는 회원가입 컴포넌트 표시 */}
       <Box sx={{ display: 'flex', justifyContent: 'center', p:2}}>
-        {view === 'sign-in'? (
+        {view === 'sign-in'? ( 
           <SignIn / >
         ): (
           <SignUp />
