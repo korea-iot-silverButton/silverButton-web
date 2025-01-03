@@ -1,3 +1,7 @@
+// zustand 파일명 권장
+// : 전역 상태관리할 데이터명.store.ts
+// user.store.ts
+
 import { create } from "zustand";
 
 // 사용자 정보를 담을 interface 정의
@@ -6,6 +10,8 @@ interface User {
     userId: string;
     nickname: string;
     name?: string;
+    phone: string;
+    profileImg: string;
 }
 
 // 인증 상태의 interface 정의
