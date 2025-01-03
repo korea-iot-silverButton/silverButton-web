@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Button, Card, CardActions, CardContent, TextField, Typography } from "@mui/material";
-import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../../stores/auth.store";  // 수정된 store 가져오기
 
 import axios from "axios";
-import useAuthStore from "../../../stores/auth.store";
-import { Button, TextField, Typography, Card, CardContent, CardActions } from "@mui/material";
 import "./Signin.css";
 
 
@@ -28,7 +25,7 @@ export default function SignIn() {
     userId: "",
     password: "",
     nickname: "",
-      phoneNumber: "",
+    phoneNumber: "",
   });
   const [error, setError] = useState<string>("");
   const [, setCookies] = useCookies(["token"]);
