@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Button, Card, CardActions, CardContent, TextField, Typography } from "@mui/material";
+import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import useAuthStore from "../../../stores/auth.store";  // 수정된 store 가져오기
+
 import axios from "axios";
 import useAuthStore from "../../../stores/auth.store";
 import { Button, TextField, Typography, Card, CardContent, CardActions } from "@mui/material";
@@ -20,15 +24,44 @@ interface SignInResponseDto {
 }
 
 export default function SignIn() {
-  const [credentials, setCredentials] = useState({
+  const [credentials, setCredentials] = useState<Credentials>({
     userId: "",
     password: "",
-    phoneNumber: "",
+    nickname: "",
+      phoneNumber: "",
   });
+  const [error, setError] = useState<string>("");
+  const [, setCookies] = useCookies(["token"]);
+  const { login } = useAuthStore();  // 수정된 store에서 login 함수 사용
+  const navigate = useNavigate();
   const [error, setError] = useState("");
   const [isElder, setIsElder] = useState(false); // 노인 여부를 판단하는 상태
 
-  // 입력 값 변경 핸들러
+  // 컴포넌트가 처음 렌더링될 때 token을 쿠키에서 확인
+  useEffect(() => {
+    const token = document.cookie.split(";").find((cookie) => cookie.trim().startsWith("token="));
+    if (token) {
+      alert("이미 로그인된 상태입니다.");
+      navigate("/");  // 이미 로그인되어 있으면 바로 /calendar로 이동
+    }
+  }, [navigate]);
+
+  const SignInSuccessResponse = (data: SignInResponseDto) => {
+    if (data) {
+      const { token, exprTime, user } = data;
+      setToken(token, exprTime);
+      login(user, token);  // 사용자 정보와 토큰을 store에 저장
+      navigate("/calendar");
+    } else {
+      setError("로그인 실패: 인증 정보를 확인해주세요.");
+    }
+  };
+
+  const setToken = (token: string, exprTime: number) => {
+    const expires = new Date(Date.now() + exprTime);
+    setCookies("token", token, { path: "/", expires });
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const element = e.target;
     setCredentials({
@@ -44,8 +77,23 @@ export default function SignIn() {
       setError("모든 필드를 입력해주세요.");
       return;
     }
-    setError(""); // 성공 시 에러 메시지 없애기
-    alert("로그인 성공!");
+    try {
+      const response = await axios.post(
+        "http://localhost:4040/api/v1/auth/login",
+        credentials
+      );
+      if (response.data) {
+        SignInSuccessResponse(response.data.data);
+      }
+    } catch (error) {
+      setError("로그인 중 문제가 발생했습니다.");
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSignIn();
+    }
   };
 
   return (

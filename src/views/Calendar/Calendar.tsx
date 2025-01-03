@@ -156,17 +156,17 @@ const CalendarComponent: React.FC = () => {
   const fetchEvents = async (year: number, month: number) => {
     try {
       const fetchPromises = [
-        axios.get(`http://localhost:8080/api/v1/schedule/search?year=${year}&month=${month}`, {
+        axios.get(`http://localhost:4040/api/v1/schedule/search?year=${year}&month=${month}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }),
-        axios.get(`http://localhost:8080/api/v1/schedule/search?year=${month === 1 ? year - 1 : year}&month=${month === 1 ? 12 : month - 1}`, {
+        axios.get(`http://localhost:4040/api/v1/schedule/search?year=${month === 1 ? year - 1 : year}&month=${month === 1 ? 12 : month - 1}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }),
-        axios.get(`http://localhost:8080/api/v1/schedule/search?year=${month === 12 ? year + 1 : year}&month=${month === 12 ? 1 : month + 1}`, {
+        axios.get(`http://localhost:4040/api/v1/schedule/search?year=${month === 12 ? year + 1 : year}&month=${month === 12 ? 1 : month + 1}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -221,7 +221,7 @@ const CalendarComponent: React.FC = () => {
         const temp = eventId.indexOf('@');
         eventId = eventId.substring(temp + 1);
         const response = await axios.put(
-          `http://localhost:8080/api/v1/schedule/update/${eventId}`, 
+          `http://localhost:4040/api/v1/schedule/update/${eventId}`, 
           { task: title }, // 수정할 task만 전달
           {
             headers: {
@@ -247,7 +247,7 @@ const CalendarComponent: React.FC = () => {
       const newEvent = { scheduleDate: date || "", task: title };
   
       try {
-        const response = await axios.post("http://localhost:8080/api/v1/schedule/create", newEvent, {
+        const response = await axios.post("http://localhost:4040/api/v1/schedule/create", newEvent, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -272,7 +272,7 @@ const CalendarComponent: React.FC = () => {
       const temp = eventId.indexOf('@');
       eventId = eventId.substring(temp + 1);  // 삭제할 ID 부분만 추출
       const response = await axios.delete(
-        `http://localhost:8080/api/v1/schedule/delete/${eventId}`,
+        `http://localhost:4040/api/v1/schedule/delete/${eventId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
