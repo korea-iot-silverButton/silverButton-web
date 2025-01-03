@@ -10,12 +10,14 @@ interface User{
     id: number;
     name: string;
     nickname: string;
+    phone: string;
+    profileImg: string;
 }
 // # 인증 상태의 interface 정의 //
 interface AuthStateType{
     // 상태 필드 정의
     isAuthenticated: boolean; // 인증 여부를 나타냄
-    user: {id: number; name: string; nickname: string} | null; // 사용자 정보를 담은 객체 또는 null
+    user: {id: number; name: string; nickname: string; phone: string; profileImg: string;} | null; // 사용자 정보를 담은 객체 또는 null
 
     // 상태 업데이트 함수
     login: (user: User)=> void;
