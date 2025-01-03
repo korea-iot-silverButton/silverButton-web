@@ -4,15 +4,16 @@ import exp from "constants";
 
 export const contSt = css`
   width: 100%;
-  height: 100vh; 
+  height: 100%; 
   display: flex;
   justify-content: center; 
   align-items: center; 
+
 `;
 
 export const ListContainer = css`
   width: 100%;
-  height: 100vh; 
+  height: 100%; 
   display: flex;
   justify-content: center; 
   align-items: center; 
@@ -20,12 +21,16 @@ export const ListContainer = css`
 
 export const conttSt = css`
   width: 90%;
-  height: 90%;
+  height: 100%;
   border-radius: 10px;
   background-color: #ece6cc;
   overflow-y: scroll;
   overflow-x: hidden;
-  
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+  -ms-overflow-style: none; 
 `;
 
 export const ListtContainer = css`
