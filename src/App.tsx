@@ -14,6 +14,8 @@ import MedicineDetailPage from './views/drug/medicineDetailPage'
 import MedicineSearchList from './views/drug/medicineListPage'
 import Matching from './views/Matching/CaregiverMatching'
 import MessageBox from './views/Message/MessageBox'
+import ReSign from './views/Authentication/ReSign'
+import PasswordReset from './views/passwordReset'
 
 
 
@@ -21,9 +23,11 @@ export default function App() {
   return (
     <Routes>
           <Route path='/calendar' element={<Calendar />} />
+
           <Route path='/auth' element={<Authentication />} />
           <Route path='/auth/signup' element={<SignUp />} />
           <Route path='/auth/signin' element={<SignIn /> } />
+          <Route path='/auth/resign' element={<ReSign />} />
           <Route path='/medicinesearch' element={<Index />} />
 
           <Route path="/calendar" element={<Calendar />} />
@@ -40,7 +44,6 @@ export default function App() {
 
           <Route path="/matching" element={<Matching />} />
           <Route path="/message" element={<MessageBox />} />
-
     </Routes>
   )
 }
