@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import useAuthStore from "../../stores/auth.store";
 import { Box, Button, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import useThemeStore from "../../stores/theme.store";
 
@@ -10,10 +10,12 @@ export default function Header() {
   const { isAuthenticated, user, logout } = useAuthStore();
   const { theme, toggleTheme } = useThemeStore();
   const [cookies, setCookies] = useCookies(["token"]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!cookies.token) {
       logout();
+      navigate("/auth");
     }
   }, [cookies.token, logout]);
 
