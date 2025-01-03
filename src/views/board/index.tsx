@@ -6,8 +6,6 @@ import { useNavigate } from "react-router-dom";
 import style from "./board.module.css";
 import LikeButton from "../../Components/LikeButton";
 
-
-
 interface Post {
   id: number;
   title: string;
@@ -17,8 +15,6 @@ interface Post {
   likes: number;
   views: number;
   imgeUrl?: string;
-  likeId?: number;  // likeId 추가
-  liked: boolean;   // 좋아요 상태 추가
 }
 
 export default function Board() {
@@ -150,41 +146,7 @@ export default function Board() {
     return firstLine.length > 15 ? `${firstLine.slice(0, 15)}...` : firstLine;
   };
 
-  const handleLikeToggle  = async (postId: number, liked: boolean ) => {
-    const postIndex = posts.findIndex((post) => post.id === postId);
-    if (postIndex === -1) return;
-
-    const post = posts[postIndex];
-    try {
-      let url = `http://localhost:4040/api/v1/board/boardlike/${
-        liked ? "delete/" + post.likeId : "insert"
-      }`;
-
-      // 좋아요 추가/삭제 요청
-      const response = await axios.post(
-        url,
-        {boardId: postId  },
-        {
-          headers: {
-            // Authorization: cookies.token ? `Bearer ${cookies.token}` : "",
-          },
-        }
-      );
-
-      // 좋아요 상태와 수 업데이트
-      const updatedPosts = [...posts];
-      updatedPosts[postIndex] = {
-        ...post,
-        liked: !liked,
-        likes: response.data.data.likes,
-        likeId: !liked ? response.data.data.likeId : undefined,
-      };
-
-      setPosts(updatedPosts);
-    } catch (error) {
-      console.error("Failed to toggle like", error);
-    }
-  };
+ 
 
   // 전체 게시글 조회 (검색 조건 초기화)
   const handleBoardClick = () => {
@@ -275,15 +237,7 @@ export default function Board() {
                   </tr>
 
                   <tr>
-                  <td>
-                  <LikeButton
-                        postId={post.id}       //게시글의 ID
-                        likes={post.likes}   // 좋아요 수수   
-                        liked={post.liked}    // 좋아요의 상태      
-                        likeId={post.likeId}   // 좋아요의 ID
-                        onLikeToggle={handleLikeToggle}
-                      />
-                    </td>
+                    <td>{post.likes}</td>
                     <td>{post.views}</td>
                     <td>
                       {post.createdAt

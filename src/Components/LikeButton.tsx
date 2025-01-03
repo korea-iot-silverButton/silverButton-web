@@ -1,34 +1,55 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-
-
-interface LikeButtonProps {
+interface LikeButton {
   postId: number;
   likes: number;
   liked: boolean;
-  likeId?: number;
-  onLikeToggle: (postId: number, liked: boolean, likeId: number|null) => void;
+  likeId?: number | null;
+  onLikeToggle: (postId: number, liked: boolean, likeId: number | null) => void;
 }
 
-const LikeButton: React.FC<LikeButtonProps> = ({ postId, likes, liked,  onLikeToggle }) => {
-  const [localLiked, setLocalLiked] = useState(liked);
-  const [likeId, setLikeId] = useState<number | null>(null); // likeId 상태 추가
-
+const LikeButton: React.FC<LikeButton> = ({
+  postId,
+  likes,
+  liked,
+  likeId,
+  onLikeToggle,
+}) => {
+  const [currentLikes, setCurrentLikes] = useState(likes); // 현재 좋아요 수
+  const [isLiked, setIsLiked] = useState(liked); // 현재 좋아요 상태
+  const [currentLikeId, setCurrentLikeId] = useState<number | null>(
+    likeId ?? null // likeId가 undefined이면 null로 초기화
+  );
+  console.log("currentLikeId : " , currentLikeId);
+  console.log("likeId : " , likeId);
+  
+  
   const handleLikeClick = async () => {
-    setLocalLiked(!localLiked);
-    onLikeToggle(postId, !localLiked, likeId);
-  };
+    try {
+      const userId = 1; // 테스트용
+      const likeData = { boardId: postId};
+      
+      const method = isLiked ? "DELETE" : "POST";
+      const url = isLiked
+        ? `http://localhost:4040/api/v1/board/boardlike/toggle` // 토글 경로
+        : "http://localhost:4040/api/v1/board/boardlike/toggle";
 
-  useEffect(() => {
-    // 좋아요 상태가 바뀔 때마다 likeId 업데이트
-    if (localLiked && likeId === null) {
-      // 예시: 좋아요를 추가할 때 서버에서 likeId를 받아오는 방식
-      setLikeId(123); // 실제로는 서버에서 받아오는 로직
-    } else if (!localLiked && likeId !== null) {
-      // 좋아요를 취소할 때
-      setLikeId(null); // 좋아요 취소 시에는 likeId 초기화
+
+        const response = await axios.post(url, likeData);
+
+      const responseData = response.data.data;
+
+      if (responseData) {
+        setCurrentLikes(isLiked ? currentLikes - 1 : currentLikes + 1);
+        setCurrentLikeId(isLiked ? null : responseData.likeId);
+        setIsLiked(!isLiked);
+        onLikeToggle(postId, !isLiked, responseData.likeId);
+      }
+    } catch (error) {
+      console.error("Failed to toggle like", error);
     }
-  }, [localLiked]);
+  };
 
 
   return (
@@ -36,13 +57,13 @@ const LikeButton: React.FC<LikeButtonProps> = ({ postId, likes, liked,  onLikeTo
       onClick={handleLikeClick}
       style={{
         cursor: "pointer",
-        color: liked ? "red" : "blue",
+        color: isLiked ? "red" : "blue",
         border: "none",
         background: "none",
         fontSize: "16px",
       }}
     >
-     {likes}
+      {currentLikes}
     </button>
   );
 };
