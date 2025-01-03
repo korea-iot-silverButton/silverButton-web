@@ -1,21 +1,46 @@
-// variable: 상대 경로 상수
-// - 출력되는 화면에 pathVariable(동적인 데이터값)이 필요 없는 경우: 상수(변수)
-// - 출력되는 화면에 pathVariable(동적인 데이터값)이 필요한 경우: 매개변수로 데이터값을 받아 템플릿 리터럴로 명시하는 함수
+// 테이블 경로 상수 선언
 
-export const MAIN_PATH= '/';
-export const AUTH_PATH= '/auth'
-export const BOARD_DETAIL_PATH= (boardNumber: number| string) => `/board/detail/${boardNumber}`;
-export const BOARD_WRITE_PATH= '/board/write';
-export const BOARD_UPDATE_PATH= (boardNumber: number | string)=> `/board/update/${boardNumber}`;
+//% 메인 페이지
+export const MAIN_PAGE = "/"
 
-export const USER_PATH= '/user';
+//% 회원가입,로그인 페이지
+export const AUTHENTICATION_PAGE = "/auth"
 
-export const REACT_STUDY_PATH= '/react-study';
 
-export const TODO_PATH = '/todos';
+//% 약품 검색 기능 페이지
+export const MEDICINESEARCH_PAGE = "/medicine/search"
 
-export const BOARD_LIST_PATH= '/board'
+//% 약품 검색 결과 리스트 페이지
+export const MEDICINESEARCHLIST_PAGE = "/medicne/list-page"
 
+//% 약품 검색 결과 상세 정보 페이지
+export const MEDICINEDETAIL_PAGE = "/medicine/detail-page"
+
+//% 게시판 페이지
+export const BOARD_PAGE = "/board"
+
+export const POSTDETAIL_PAGE = "/board/:id"
+
+export const CREATEPOST_PAGE = "/board/create"
+
+export const EDITPOST_PAGE = "/board/:id/edit"
+
+//% 마이페이지
+export const MYPAGE = "/my-page"
+
+export const RESIGN_PAGE = "/my-page/resign"
+
+export const CALENDAR_PAGE = "/my-page/calendar"
+
+//% 매세지
 export const MESSAGE_PATH = '/message';
 
-export const MATCHING_PATH = '/matching';
+
+//% 매칭
+export const MATCHING_PAGE = "/matching"
+
+export const CAREGIVERDETAIL_PAGE = "/matching/:id"
+
+export const MANAGE_PAGE = "matching/manage"
+
+

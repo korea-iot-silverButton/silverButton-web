@@ -3,12 +3,11 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import koLocale from "@fullcalendar/core/locales/ko";
 import interactionPlugin from "@fullcalendar/interaction";
-import Header from "../../layouts/Header";
+import Header from "../../layouts/header/Header";
 import "../../styles/Calendar.css";
 import { EventClickArg } from "@fullcalendar/core";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; // react-router-dom에서 navigate 훅을 import
-import Navi from "../../layouts/Navi";
 
 interface Event {
   id: string;
@@ -294,7 +293,6 @@ const CalendarComponent: React.FC = () => {
   return (
     <>
       <Header />
-      <Navi />
       <div id="calendar-container">
         <FullCalendar
           ref={calendarRef}
