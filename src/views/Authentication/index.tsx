@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import SignUp from './SignUp'
+import SignUp from './signUp'
 import { Box, Typography } from '@mui/material';
-import SignIn from './SignIn';  
+import SignIn from './signIn';  
 
 
 // Authentication Component
