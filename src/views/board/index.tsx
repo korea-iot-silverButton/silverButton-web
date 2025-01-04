@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Pagination from "../../components/Pagination";
+import Pagination from "../../Components/Pagination";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import style from "./board.module.css";
-import LikeButton from "../../components/LikeButton";
+
 
 interface Post {
   id: number;

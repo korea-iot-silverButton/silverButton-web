@@ -190,14 +190,45 @@ export default function PostDetail() {
       <p>작성일: {new Date(post.createdAt).toLocaleString()}</p>
       <p>조회수: {post.views}</p>
       <p>
-        좋아요: {post.likes}{" "}
-        <span
-          style={{ cursor: "pointer", fontSize: "24px" }}
-          onClick={handleLike}
-        >
-          {post.liked ? "♥" : "♡"}
-        </span>
-      </p>
+  좋아요: {post.likes}{" "}
+  <span
+    style={{ cursor: "pointer", fontSize: "24px", color: post.liked ? "red" : "black" }}
+    onClick={async () => {
+      try {
+        const likeData = { boardId: id }; // 게시글 ID 전달
+        if (post.liked) {
+          // 좋아요 취소
+          await axios.delete(
+            `http://localhost:4040/api/v1/board/boardlike/toggle`,
+            { data: likeData }
+          );
+          setPost((prevPost) => ({
+            ...prevPost!,
+            liked: false,
+            likes: prevPost!.likes - 1,
+          }));
+        } else {
+          // 좋아요 추가
+          const response = await axios.post(
+            `http://localhost:4040/api/v1/board/boardlike/toggle`,
+            likeData
+          );
+          const responseData = response.data.data;
+          setPost((prevPost) => ({
+            ...prevPost!,
+            liked: true,
+            likes: prevPost!.likes + 1,
+          }));
+        }
+      } catch (error) {
+        console.error("좋아요 처리 실패:", error);
+      }
+    }}
+  >
+    {post.liked ? "♥" : "♡"}
+  </span>
+</p>
+
 
       {post.imgeUrl && (
         <img
