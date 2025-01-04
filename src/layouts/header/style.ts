@@ -22,14 +22,14 @@ background: linear-gradient(135deg, #6d5dfc, #3c82fc);
 
 export const headerContianer = css`
   box-sizing: border-box;
-  background-color: #e9e7fb;
+  background-color:rgba(233,231,251,0.7);
   display: flex;
   align-items: center;
   justify-content: space-between; 
   width: 100%;
   height: 100%;
   padding: 0 100px; 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7); 
+  //box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7); 
 `;
 
 export const img  = css`
