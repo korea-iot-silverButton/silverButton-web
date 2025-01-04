@@ -292,7 +292,6 @@ const CalendarComponent: React.FC = () => {
 
   return (
     <>
-      <Header />
       <div id="calendar-container">
         <FullCalendar
           ref={calendarRef}
