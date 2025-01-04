@@ -3,7 +3,7 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import style from "./board.module.css";
 
-interface Post {
+interface Board {
   id: number;
   title: string;
   content: string;
@@ -22,38 +22,41 @@ interface Comment {
   username: string; // 댓글 작성자 이름
 }
 
-export default function PostDetail() {
+export default function BoardDetail() {
   const { id } = useParams<{ id: string }>(); // URL 파라미터에서 ID 추출
-  const [post, setPost] = useState<Post | null>(null);
+  const [board, setBoard] = useState<Board | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState<string>("");
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(true); // 로딩 상태 추가
-  
+  const [currentUserId, setCurrentUserId] = useState<number | null>(null); // 현재 사용자 ID 추가
 
   useEffect(() => {
-    const fetchPost = async () => {
+    const userId = parseInt(localStorage.getItem("userId") || "0");
+    setCurrentUserId(userId);
+
+    const fetchBoard = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4040/api/v1/board/${id}`
+          `http://localhost:4040/api/v1/board/${id}?userId=1`
         );
-        setPost(response.data.data);
+        setBoard(response.data.data);
       } catch (error) {
-        console.error("Failed to fetch post:", error);
+        console.error("Failed to fetch Board:", error);
         alert("게시글을 불러오는 데 실패했습니다.");
       } finally {
         setIsLoading(false);
       }
     };
 
-    if (id) fetchPost();
+    if (id) fetchBoard();
   }, [id]);
 
   useEffect(() => {
     const fetchComments = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4040/api/v1/board/comment/all?postId=${id}`
+          `http://localhost:4040/api/v1/board/comment/all?BoardId=${id}`
         );
         setComments(response.data.data);
       } catch (error) {
@@ -63,7 +66,6 @@ export default function PostDetail() {
 
     if (id) fetchComments();
   }, [id]);
-
 
   const handleAddComment = async () => {
     if (!newComment.trim()) {
@@ -102,61 +104,52 @@ export default function PostDetail() {
 
   // 좋아요 처리 함수
   const handleLike = async () => {
-    const userId = 1; // 로그인한 사용자 ID (테스트용 ID)
-    const likeData = {
-      userId,
-      postId: id,
-    };
-
+    // const userId = 1; // 테스트용 사용자 ID
+    const likeData = { boardId: id, currentUserId, liked: !board?.liked }; // liked 상태도 전달
+  
     try {
-      if (post?.liked) {
-        // 좋아요 취소
-        await axios.delete(
-          `http://localhost:4040/api/v1/board/like?postId=${id}&userId=${userId}`
-        );
-        setPost((prevPost) => ({
-          ...prevPost!,
-          liked: false,
-          likes: prevPost!.likes - 1,
-        }));
-      } else {
-        // 좋아요 추가
-        await axios.post(
-          `http://localhost:4040/api/v1/board/like`,
-          likeData
-        );
-        setPost((prevPost) => ({
-          ...prevPost!,
-          liked: true,
-          likes: prevPost!.likes + 1,
-        }));
-      }
+      let response;
+  
+      // 좋아요 추가 또는 취소
+      response = await axios.post(`http://localhost:4040/api/v1/board/boardlike/toggle`, likeData);
+  
+      // 서버 응답에 따라 상태 업데이트
+      setBoard((prevBoard) => ({
+        ...prevBoard!,
+        liked: !prevBoard?.liked,  // liked 상태 토글
+        likes: prevBoard?.liked ? prevBoard!.likes - 1 : prevBoard!.likes + 1, // 좋아요 수 증가 또는 감소
+      }));
+  
+      console.log("응답 데이터:", response.data); // 응답 데이터 확인
     } catch (error) {
-      console.error("Failed to handle like:", error);
+      console.error("좋아요 처리 실패:", error);
     }
   };
   
+  
 
-  // 게시글 수정 버튼 클릭 시
+  // 게시글 수정 버튼 클릭 
   const handleEdit = () => {
-    // if (!cookies.token) {
-    //   alert("수정하려면 로그인해야 합니다.");
-    //   return;
-    // }
+    if (currentUserId !== board?.id) {
+      alert("수정하려면 로그인해야 합니다.");
+      return;
+    }
     navigate(`/board/${id}/edit`); // 게시글 수정 페이지로 이동
   };
 
-
-
   // // 게시글 삭제 버튼 클릭 시
   const handleDelete = async () => {
+    if (currentUserId !== board?.id) {
+      alert("삭제 권한이 없습니다.");
+      return;
+    }
     if (!id) {
-      console.error("ID is missing, cannot delete post.");
+      console.error("ID is missing, cannot delete Board.");
       return;
     }
     if (window.confirm("게시글을 삭제하시겠습니까?")) {
       try {
-        console.log(`Deleting post with ID: ${id}`);
+        console.log(`Deleting Board with ID: ${id}`);
         const response = await axios.delete(
           `http://localhost:4040/api/v1/board/delete/${id}`
         );
@@ -164,7 +157,7 @@ export default function PostDetail() {
         alert("게시글이 삭제되었습니다.");
         navigate("/board"); // 게시글 메인 페이지로 이동
       } catch (error) {
-        console.error("Failed to delete post:", error);
+        console.error("Failed to delete Board:", error);
         alert("게시글 삭제에 실패했습니다.");
       }
     }
@@ -175,73 +168,46 @@ export default function PostDetail() {
     navigate("/board"); // 게시판 메인 페이지로 이동
   };
 
-
-
-
-
   if (isLoading) return <p>게시글을 불러오는 중...</p>;
-  if (!post) return <p>게시글이 없습니다.</p>;
+  if (!board) return <p>게시글이 없습니다.</p>;
 
   return (
     <div>
-      <h2>{post.title}</h2>
-      <p>{post.content}</p>
-      <p>작성자: {post.username}</p>
-      <p>작성일: {new Date(post.createdAt).toLocaleString()}</p>
-      <p>조회수: {post.views}</p>
+      <h2>{board.title}</h2>
+      <p>{board.content}</p>
+      <p>작성자: {board.username}</p>
+      <p>작성일: {new Date(board.createdAt).toLocaleString()}</p>
+      <p>조회수: {board.views}</p>
       <p>
-  좋아요: {post.likes}{" "}
+  좋아요: {board?.likes}{" "}
   <span
-    style={{ cursor: "pointer", fontSize: "24px", color: post.liked ? "red" : "black" }}
-    onClick={async () => {
-      try {
-        const likeData = { boardId: id }; // 게시글 ID 전달
-        if (post.liked) {
-          // 좋아요 취소
-          await axios.delete(
-            `http://localhost:4040/api/v1/board/boardlike/toggle`,
-            { data: likeData }
-          );
-          setPost((prevPost) => ({
-            ...prevPost!,
-            liked: false,
-            likes: prevPost!.likes - 1,
-          }));
-        } else {
-          // 좋아요 추가
-          const response = await axios.post(
-            `http://localhost:4040/api/v1/board/boardlike/toggle`,
-            likeData
-          );
-          const responseData = response.data.data;
-          setPost((prevPost) => ({
-            ...prevPost!,
-            liked: true,
-            likes: prevPost!.likes + 1,
-          }));
-        }
-      } catch (error) {
-        console.error("좋아요 처리 실패:", error);
-      }
+    style={{
+      cursor: "pointer",
+      fontSize: "24px",
+      color: board?.liked ? "red" : "black", // liked 상태에 따라 색상 변경
     }}
+    onClick={handleLike}
   >
-    {post.liked ? "♥" : "♡"}
+    {board?.liked ? "♥" : "♡"}
   </span>
 </p>
 
 
-      {post.imgeUrl && (
+      {board.imgeUrl && (
         <img
-          src={post.imgeUrl}
+          src={board.imgeUrl}
           alt="게시글 이미지"
           style={{ width: "200px", height: "200px" }}
         />
       )}
 
-      <div>
-        <button onClick={handleEdit}>게시글 수정</button>
-        <button onClick={handleDelete}>게시글 삭제</button>
-      </div>
+           {/* 수정/삭제 버튼을 작성자만 볼 수 있도록 */}
+           {currentUserId === board?.id && (
+        <div>
+          <button onClick={handleEdit}>게시글 수정</button>
+          <button onClick={handleDelete}>게시글 삭제</button>
+        </div>
+      )}
 
       {/* 댓글 기능 */}
       <div style={{ marginTop: "30px" }}>
@@ -271,7 +237,7 @@ export default function PostDetail() {
           <button onClick={handleAddComment}>댓글 작성</button>
         </div>
         <div>
-        <button onClick={handleExit}>나가기</button> {/* 나가기 버튼 추가 */}
+          <button onClick={handleExit}>나가기</button> {/* 나가기 버튼 추가 */}
         </div>
       </div>
     </div>

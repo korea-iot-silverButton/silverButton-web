@@ -1,17 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
-// import { useCookies } from "react-cookie";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 
 export default function CreatePost() {
   const [title, setTitle] = useState<string>("");
-  // const [content, setContent] = useState<string>("");
-  // const [imageUrl, setImageUrl] = useState<string>("");
   const quillRef = useRef<HTMLDivElement>(null);
-  // const [cookies] = useCookies(["token"]);
+  const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
   
   useEffect(() => {  
@@ -27,35 +25,75 @@ export default function CreatePost() {
         ],
       },
     });
-      // Quill 인스턴스를 참조에 저장
-      (quillRef.current as any).quillInstance = quill;
-  }
-}, []);
+     // 이미지 업로드 처리
+     const toolbar = quill.getModule("toolbar") as any; // `any`로 타입 지정
+     const imageButton = toolbar.container.querySelector("[title='Image']");
+ 
+       if (imageButton) {
+         imageButton.addEventListener("click", () => {
+           // 이미지 업로드 기능 처리
+           const input = document.createElement("input");
+           input.setAttribute("type", "file");
+           input.setAttribute("accept", "image/*");
+ 
+           input.addEventListener("change", async (e) => {
+             const file = (e.target as HTMLInputElement).files?.[0];
+             if (file) {
+               const formData = new FormData();
+               formData.append("image", file);
+ 
+               // 이미지 서버로 업로드
+               try {
+                 const response = await axios.post(
+                   "http://localhost:4040/api/v1/upload", // 이미지 업로드 API URL
+                   formData,
+                   {
+                     headers: {
+                       "Content-Type": "multipart/form-data",
+                       Authorization: `Bearer ${cookies.token}`,
+                     },
+                   }
+                 );
+                 const imageUrl = response.data.imageUrl; // 서버에서 반환된 이미지 URL
+ 
+                 // 에디터에 이미지 삽입
+                 const range = quill.getSelection();
+                 if (range && range.index !== null) {
+                   quill.insertEmbed(range.index, "image", imageUrl);
+                 }
+               } catch (error) {
+                 console.error("이미지 업로드 실패", error);
+               }
+             }
+           });
+ 
+           input.click();
+         });
+       }
+ 
+       (quillRef.current as any).quillInstance = quill;
+     }
+   }, [cookies.token]);
 
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
 
   
-  // if (!cookies.token) {
-    //   alert("로그인 후 작성할 수 있습니다.");
-    //   return;
-    // }
+  if (!cookies.token) {
+      alert("로그인 후 작성할 수 있습니다.");
+      return;
+    }
     
     const tempAuthor = "임시작성자"; // 임시 작성자 설정
     const quillInstance = (quillRef.current as any)?.quillInstance as Quill;
-    const content = quillInstance?.getText().trim(); // Quill에서 텍스트만 추출
+    const content = quillInstance?.root.innerHTML; // HTML 형식으로 내용 가져오기
     
-
-    // if (!content || content === "<p><br></p>") {
-    //   alert("내용을 입력해주세요.");
-    //   return;
-    // }
 
     try {
       await axios.post(
         "http://localhost:4040/api/v1/board/create",
         { title, content, author: tempAuthor },
-        // { headers: { Authorization: `Bearer ${cookies.token}` } }
+        { headers: { Authorization: `Bearer ${cookies.token}` } }
       );
       alert("게시글이 작성되었습니다.");
       navigate("/board");
@@ -84,14 +122,6 @@ const handleSubmit = async (e: React.FormEvent) => {
         <div>
         <div ref={quillRef} style={{ height: "300px", margin: "16px 0" }}></div>
         </div>
-        {/* <div>
-          <input
-            type="text"
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
-            placeholder="이미지 URL (선택)"
-          />
-        </div> */}
         <button type="submit">게시글 작성</button>
         <button type="button" onClick={handleExit}>나가기</button> {/* 나가기 버튼 추가 */}
       </form>

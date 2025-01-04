@@ -59,16 +59,17 @@ export default function Board() {
         }
       }
 
-      // 요청 전 파라미터, URL, 헤더 확인
-      console.log("Request URL:", url);
-      console.log("Request Params:", params);
-      console.log(
-        "Authorization Header:",
-        cookies.token ? `Bearer ${cookies.token}` : "No Token"
-      );
+        // 요청 전 파라미터, URL, 헤더 확인
+        console.log("Request URL:", url);
+        console.log("Request Params:", params);
+  
+        const headers = cookies.token
+          ? { Authorization: `Bearer ${cookies.token}` }
+          : {}; // Authorization 헤더 포함
 
-      const response = await axios.get(url, {
+       const response = await axios.get(url, {
         params,
+        headers, // 헤더에 토큰 추가
       });
 
       const data = response.data.data;
@@ -147,6 +148,15 @@ export default function Board() {
   };
 
  
+  const handleCreatePostClick = () => {
+    // 로그인 여부 확인
+    if (!cookies.token) {
+      alert("로그인 후 게시글을 작성할 수 있습니다.");
+      navigate("/auth"); // 로그인 페이지로 이동
+    } else {
+      navigate("/board/create"); // 게시글 작성 페이지로 이동
+    }
+  };
 
   // 전체 게시글 조회 (검색 조건 초기화)
   const handleBoardClick = () => {
@@ -160,17 +170,8 @@ export default function Board() {
     <div>
       <h2>게시판 목록</h2>
 
-      {/*} {cookies.token && (
-   <p onClick={() => navigate("/board/create")} className={style["board-link"]}>
-     게시글 작성
-   </p>
- )}  */}
-
-      {/* 현재 테스트용: 바로 게시글 작성 페이지로 이동 */}
-      <p
-        onClick={() => navigate("/board/create")}
-        className={style["board-link"]}
-      >
+     {/* 게시글 작성 버튼 */}
+     <p onClick={handleCreatePostClick} className={style["board-link"]}>
         게시글 작성
       </p>
 
@@ -233,7 +234,7 @@ export default function Board() {
                     onClick={() => handlePostClick(post.id)} // <tr>에 클릭 이벤트 추가
                     style={{ cursor: "pointer" }} // 포인터 커서 스타일 추가
                   >
-                    <td colSpan={3}>{getSummary(post.content)}</td>
+                    <td colSpan={3} dangerouslySetInnerHTML={{ __html: post.content }}></td>
                   </tr>
 
                   <tr>
