@@ -24,7 +24,7 @@ export default function Header() {
     alert("로그아웃 되었습니다.");
   };
 
-  const handleNavigate = (path: string) => {
+  const handleNavigate = () => {
     navigate("/");
   };
 
@@ -33,8 +33,12 @@ export default function Header() {
       <div css={s.logoButton}>
         <SideBar />
         {/* 중앙 로고 */}
+        <div css={s.headerButton}>
+        <button onClick={handleNavigate} css={s.TEXT}>HOME</button>
+        </div>
 
-        <img src={require("./mainImg.png")} alt="icon" css={s.img}/>
+        <img src={require("./메인로고2-removebg-preview.png")} alt="icon" css={s.img}/>
+
 
       </div>
       <div css={s.logoButton}>
