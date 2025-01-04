@@ -7,6 +7,8 @@ import { MdLocalPostOffice } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import backVideo from "../../../public/video/backVideo.mp4";
+import { RiHealthBookFill } from "react-icons/ri";
+import { FaCalendarCheck } from "react-icons/fa";
 
 export default function Index() {
   const navigate = useNavigate();
@@ -36,20 +38,20 @@ export default function Index() {
             약품 검색
           </div>
           <div onClick={handleClickMypage} css={s.box}>
-            <BsFillPersonLinesFill
+            <FaCalendarCheck
               style={{ width: "100px", height: "100px" }}
             />
-            마이페이지
+            캘린더
           </div>
         </div>
-        <div css={s.rowBox}>
+        <div css={s.rowBox1}>
           <div onClick={handleClickBoard} css={s.box}>
             <FaClipboardList style={{ width: "100px", height: "100px" }} />
             게시판
           </div>
           <div onClick={handleClickMatching} css={s.box}>
-            <MdLocalPostOffice style={{ width: "100px", height: "100px" }} />
-            매칭 / 쪽지
+            <RiHealthBookFill style={{ width: "100px", height: "100px" }} />
+            헬스매거진
           </div>
         </div>
       </div>
