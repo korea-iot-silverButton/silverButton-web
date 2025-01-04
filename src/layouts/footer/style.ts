@@ -6,5 +6,10 @@ export const footerDiv = css`
   padding: 50px 250px;
   width: 100%;
   height: 100%;
-  background-color: #ccc;
+  background-color: #3B414F;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7); 
 `;

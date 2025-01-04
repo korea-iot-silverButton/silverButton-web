@@ -19,7 +19,7 @@ export default function SideBar() {
 
   return (
   <>
-    {/* 햄버거 버튼 */}
+  
     <button css={s.hamburgerStyles} onClick={toggleSide}>
         ☰
       </button>
@@ -27,6 +27,7 @@ export default function SideBar() {
       <div css={s.sidebarStyles(isOpen)}>
         <h1 onClick={() => handleNavigate("/")} css={s.sideName}>
           SILVER NEEDS
+        
         </h1>
         <Button variant="text" style={{ fontSize: "20px" }} onClick={() => handleNavigate("/auth")}>
           로그인
