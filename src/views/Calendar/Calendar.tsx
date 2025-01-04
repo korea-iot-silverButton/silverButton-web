@@ -3,7 +3,6 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import koLocale from "@fullcalendar/core/locales/ko";
 import interactionPlugin from "@fullcalendar/interaction";
-import Header from "../../layouts/header/Header";
 import "../../styles/Calendar.css";
 import { EventClickArg } from "@fullcalendar/core";
 import axios from "axios";
@@ -292,7 +291,6 @@ const CalendarComponent: React.FC = () => {
 
   return (
     <>
-      <Header />
       <div id="calendar-container">
         <FullCalendar
           ref={calendarRef}
