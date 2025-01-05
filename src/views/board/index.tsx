@@ -5,7 +5,6 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import style from "./board.module.css";
 
-
 interface Post {
   id: number;
   title: string;
@@ -14,7 +13,7 @@ interface Post {
   createdAt: string;
   likes: number;
   views: number;
-  imgeUrl?: string;
+  imageUrl?: string;
 }
 
 export default function Board() {
@@ -31,6 +30,7 @@ export default function Board() {
       console.warn("Invalid page number:", page);
       return;
     }
+console.log("POST", posts);
 
     console.log("검색어");
 
@@ -47,33 +47,29 @@ export default function Board() {
         console.log("검색어", searchQuery);
         if (searchType === "title") {
           params["keyword"] = searchQuery.trim(); // 제목으로 검색
-          console.log("키워드", params.keyword);
-          console.log("키워드 param", params);
           url = "http://localhost:4040/api/v1/board/search/title"; // 제목 검색 API
-          console.log("url : ", url);
         } else if (searchType === "author") {
           params["name"] = searchQuery.trim(); // 작성자로 검색
-          console.log("params : ", params);
           url = "http://localhost:4040/api/v1/board/search/name"; // 작성자 검색 API
-          console.log("url : ", url);
         }
       }
 
-        // 요청 전 파라미터, URL, 헤더 확인
-        console.log("Request URL:", url);
-        console.log("Request Params:", params);
-  
-        const headers = cookies.token
-          ? { Authorization: `Bearer ${cookies.token}` }
-          : {}; // Authorization 헤더 포함
+      // 요청 전 파라미터, URL, 헤더 확인
+      console.log("Request URL:", url);
+      console.log("Request Params:", params);
 
-       const response = await axios.get(url, {
+      const headers = cookies.token
+        ? { Authorization: `Bearer ${cookies.token}` }
+        : {}; // Authorization 헤더 포함
+
+      const response = await axios.get(url, {
         params,
         headers, // 헤더에 토큰 추가
       });
 
       const data = response.data.data;
 
+  console.log("dataImgae",data.images)
       console.log("API Response:", response.data.data); // 응답 데이터 확인
 
       if (data && data.content) {
@@ -87,6 +83,7 @@ export default function Board() {
 
         console.log("전체 데이터:", data); // data 값 전체 출력
         console.log("게시글 목록:", data.content); // data.content 값 출력
+        console.log("게시글 :", data.content.content); // data.content 값 출력
         console.log("전체 페이지 수:", data.totalPages); // data.totalPages 값 출력
       } else {
         setPosts([]); // 검색 결과가 없으면 빈 배열로 설정
@@ -147,7 +144,6 @@ export default function Board() {
     return firstLine.length > 15 ? `${firstLine.slice(0, 15)}...` : firstLine;
   };
 
- 
   const handleCreatePostClick = () => {
     // 로그인 여부 확인
     if (!cookies.token) {
@@ -156,6 +152,14 @@ export default function Board() {
     } else {
       navigate("/board/create"); // 게시글 작성 페이지로 이동
     }
+  };
+
+  // 텍스트에서 이미지를 분리하는 함수
+  const extractTextWithoutImages = (htmlContent: string) => {
+    const doc = new DOMParser().parseFromString(htmlContent, "text/html");
+    // 이미지 태그를 제외한 텍스트만 반환
+    const textContent = doc.body.textContent || "";
+    return textContent;
   };
 
   // 전체 게시글 조회 (검색 조건 초기화)
@@ -170,8 +174,8 @@ export default function Board() {
     <div>
       <h2>게시판 목록</h2>
 
-     {/* 게시글 작성 버튼 */}
-     <p onClick={handleCreatePostClick} className={style["board-link"]}>
+      {/* 게시글 작성 버튼 */}
+      <p onClick={handleCreatePostClick} className={style["board-link"]}>
         게시글 작성
       </p>
 
@@ -208,7 +212,7 @@ export default function Board() {
         ) : (
           <table className={style["board-table"]}>
             <tbody>
-              {posts.map((post, index) => (
+              {posts.map((post) => (
                 <React.Fragment key={post.id}>
                   <tr
                     onClick={() => handlePostClick(post.id)} // <tr>에 클릭 이벤트 추가
@@ -216,15 +220,15 @@ export default function Board() {
                   >
                     <td colSpan={2}>{post.title}</td>
                     <th>{post.username || "작성자 없음"}</th>
+                   
                     <td rowSpan={3}>
-                      {post.imgeUrl && (
+                      {post.imageUrl && (
                         <img
-                          src={post.imgeUrl}
+                          src={post.imageUrl}
                           alt="게시글 이미지"
-                          className="post-image"
                           style={{
-                            width: "50px",
-                            height: "50px",
+                            width: "100px",
+                            height: "100px",
                           }}
                         />
                       )}
@@ -234,7 +238,12 @@ export default function Board() {
                     onClick={() => handlePostClick(post.id)} // <tr>에 클릭 이벤트 추가
                     style={{ cursor: "pointer" }} // 포인터 커서 스타일 추가
                   >
-                    <td colSpan={3} dangerouslySetInnerHTML={{ __html: post.content }}></td>
+                   <td
+                      colSpan={3}
+                      dangerouslySetInnerHTML={{
+                        __html: post.content,
+                      }}
+                    />
                   </tr>
 
                   <tr>
