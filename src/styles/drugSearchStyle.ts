@@ -3,11 +3,12 @@ import { css, Global } from "@emotion/react";
 import exp from "constants";
 
 export const contSt = css`
-  width: 75%;
+  width: 79%;
   height: 100%; 
   display: flex;
   justify-content: center; 
   align-items: center; 
+  background-color: rgb(233,231,251);
   overflow: hidden;
 `;
 
@@ -16,8 +17,10 @@ export const contSt = css`
 export const conttSt = css`
   width: 100%;
   height: 100%;
-  border-radius: 10px;
-  background-color: #ece6cc;
+  background: rgb(233,231,251);
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow-y: scroll;
   overflow-x: hidden;
   ::-webkit-scrollbar {
@@ -65,8 +68,10 @@ export const inputSt = css`
   }
 `;
 
+
+
 export const shapeSt = css`
-  width: 90%;
+  width: 100%;
   height: 20%;
   display: flex;
   align-items: center; 
@@ -508,6 +513,9 @@ export const medicineName = css`
   border-radius: 10px;
   margin-left: 2%;
   margin-top: 1%;
+  font-size: 15px;
+  font-weight: bold;
+  color: #333;
   cursor: pointer;
 `;
 export const medicineName1 = css`
@@ -532,37 +540,49 @@ export const medicneDeatail = css`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: row;
   margin-left: 2%;
   margin-top: 0.5%;
   cursor: pointer;
+  font-size: 14px;
+  color: #666;
 `;
 
 export const medicineAll = css`
   width: 100%;
   height: 100%;
+  gap: 5px;
   margin-bottom: 1%;
 `;
 
 export const listCt = css`
   width: 90%;
   height: 25%;
-  border: 2px solid black;
-  border-radius: 5px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-left: 5%;
+  &:hover {
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+    }
 `;
 
 export const medicinePr = css`
   width: 13%;
   height: 80%;
   border: 2px solid black;
-  border-radius: 5px;
+  background-color: #eee;
+  border-radius: 8px;
   margin-left:2%;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 12px;
+    color: #aaa;
   cursor: pointer;
 `;
 
@@ -574,59 +594,89 @@ export const detailName = css`
   align-items: center;
   justify-content: center;
   border-radius: 5px;
-  background-color: beige;
+  background-color: #ffffff;
+  border-radius: 8px;
+  
 `;
 
 export const detailCont = css`
   width: 100%;
   height: 10%;
   display: flex;
-  align-items: center;
   justify-content: center;
-  margin-top: 1%;
+  align-items: center;
+  background-color: #fafafa;
+  border-radius: 8px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+  gap: 15px;
 `;
 
 export const detailBox = css`
 width: 30%;
 height: 70%;
-  border: 2px solid black;
+  border: 2px solid #ddd;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 5px;
   margin-left: 10%;
-  background-color: beige;
+  background-color: #ffffff;
+  border-radius: 8px;
+ 
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
   
+
 `;
 
 export const detailBoxCont = css`
   width: 100%;
-height: 30%;
+  height: 30%;
   display: flex;
   justify-content: center;
   align-items: center;
+  align-items: flex-start;
+    
 `;
 
 export const detailPr = css`
   width: 15%;
   height: 70%;
-  border: 2px solid black;
+  border: 2px solid #ddd;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 5px;
-  background-color: beige;
+  margin-left: 10%;
+  background-color: #ffffff;
+  border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+  
 `;
 
 export const detailInfo = css`
   width: 100%;
   height: 40%;
-  border: 2px solid black;
+  border: 2px solid #ddd;
   border-radius: 5px;
   margin-top: 1%;
   display: flex;
   flex-direction: column;
-  background-color: beige;
+  align-items: center;
+
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #ffffff;
+  border-radius: 8px;
+  &:hover {
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+    }
   
 `;
 
@@ -638,5 +688,34 @@ export const infoBox = css`
   align-items: center;
   flex-direction: column;
   margin-left: 5%;
-  margin-bottom: 1%;
+  margin-top: 10%;
+`;
+
+export const medicineInfo = css`
+box-sizing: border-box;
+  width: 90%;
+  height: 90%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+`;
+
+export const medicineRow = css`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+
+
+export const saveButton = css`
+  font-size: 14px;
+  cursor: pointer;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin-top: 0.7%;
 `;

@@ -9,6 +9,8 @@ import { useEffect, useRef } from "react";
 import backVideo from "../../../public/video/backVideo.mp4";
 import { RiHealthBookFill } from "react-icons/ri";
 import { FaCalendarCheck } from "react-icons/fa";
+import { LuClipboardPenLine } from "react-icons/lu";
+import { RiHealthBookLine } from "react-icons/ri";
 
 export default function Index() {
   const navigate = useNavigate();
@@ -46,11 +48,11 @@ export default function Index() {
         </div>
         <div css={s.rowBox1}>
           <div onClick={handleClickBoard} css={s.box}>
-            <FaClipboardList style={{ width: "100px", height: "100px" }} />
+            <LuClipboardPenLine style={{ width: "100px", height: "100px" }} />
             게시판
           </div>
           <div onClick={handleClickMatching} css={s.box}>
-            <RiHealthBookFill style={{ width: "100px", height: "100px" }} />
+            <RiHealthBookLine style={{ width: "100px", height: "100px" }} />
             헬스매거진
           </div>
         </div>

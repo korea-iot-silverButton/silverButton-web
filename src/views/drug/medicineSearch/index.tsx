@@ -31,7 +31,7 @@ export default function Index() {
 
     try {
       const response = await axios.get(
-        "https://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList?serviceKey=jptKXkEhoWS2pwVQ34adwBGaLMbSQxl8jipaqrcP3oFbUD%2BVSG73q0mvxhSxJ46NK3v%2BsGLTPy0bH0oTQmuSdQ%3D%3D&pageNo=1&numOfRows=10&type=json&itemName=활명수"
+        "https://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList?serviceKey=jptKXkEhoWS2pwVQ34adwBGaLMbSQxl8jipaqrcP3oFbUD%2BVSG73q0mvxhSxJ46NK3v%2BsGLTPy0bH0oTQmuSdQ%3D%3D&pageNo=1&numOfRows=10&type=json&itemName=미인활명수&entpName=동화약품&efcyQesitm=식욕부진"
       );
       setData(response.data);
 
@@ -91,7 +91,7 @@ export default function Index() {
             {error && <p>Error: {error}</p>}
             {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
           </div>
-
+          
           <div css={s.shapeSt}>
             <div css={s.medicineAll}>
               <div css={s.medicineName1}>약품 모양 선택</div>
