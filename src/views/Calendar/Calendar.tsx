@@ -35,7 +35,7 @@ const Modal: React.FC<ModalProps> = ({
 }) => {
   const [eventTitle, setEventTitle] = useState<string>(eventToEdit ? eventToEdit.title : "");
   const [selectedEventId, setSelectedEventId] = useState<string | null>(eventToEdit?.id || null);
-
+  
   useEffect(() => {
     if (eventToEdit) {
       setEventTitle(eventToEdit.title);
