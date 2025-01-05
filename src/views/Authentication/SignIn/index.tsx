@@ -1,17 +1,10 @@
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  TextField,
-  Typography,
-} from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Button, Card, CardActions, CardContent, TextField, Typography } from "@mui/material";
 import axios from "axios";
-import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import useAuthStore from "../../../stores/auth.store";
-import "./Signin.css";
+import useAuthStore from "../../../stores/auth.store";  // 수정된 store 가져오기
+
 interface Credentials {
   userId: string;
   password: string;
@@ -30,21 +23,25 @@ export default function SignIn() {
     password: "",
     nickname: "",
   });
-
   const [error, setError] = useState<string>("");
   const [, setCookies] = useCookies(["token"]);
-  const { login } = useAuthStore();
+  const { login } = useAuthStore();  // 수정된 store에서 login 함수 사용
   const navigate = useNavigate();
+
+  // 컴포넌트가 처음 렌더링될 때 token을 쿠키에서 확인
+  useEffect(() => {
+    const token = document.cookie.split(";").find((cookie) => cookie.trim().startsWith("token="));
+    if (token) {
+      alert("이미 로그인된 상태입니다.");
+      navigate("/");  // 이미 로그인되어 있으면 바로 /calendar로 이동
+    }
+  }, [navigate]);
 
   const SignInSuccessResponse = (data: SignInResponseDto) => {
     if (data) {
       const { token, exprTime, user } = data;
       setToken(token, exprTime);
-      login({
-        id: user.id,
-        name: user.userId,
-        nickname: user.nickname,
-      });
+      login(user, token);  // 사용자 정보와 토큰을 store에 저장
       navigate("/calendar");
     } else {
       setError("로그인 실패: 인증 정보를 확인해주세요.");
@@ -53,10 +50,7 @@ export default function SignIn() {
 
   const setToken = (token: string, exprTime: number) => {
     const expires = new Date(Date.now() + exprTime);
-    setCookies("token", token, {
-      path: "/",
-      expires,
-    });
+    setCookies("token", token, { path: "/", expires });
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

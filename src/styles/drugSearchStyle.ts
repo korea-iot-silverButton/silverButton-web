@@ -3,29 +3,28 @@ import { css, Global } from "@emotion/react";
 import exp from "constants";
 
 export const contSt = css`
-  width: 100%;
-  height: 100vh; 
+  width: 75%;
+  height: 100%; 
   display: flex;
   justify-content: center; 
   align-items: center; 
+  overflow: hidden;
 `;
 
-export const ListContainer = css`
-  width: 100%;
-  height: 100vh; 
-  display: flex;
-  justify-content: center; 
-  align-items: center; 
-`;
+
 
 export const conttSt = css`
-  width: 90%;
-  height: 90%;
+  width: 100%;
+  height: 100%;
   border-radius: 10px;
   background-color: #ece6cc;
   overflow-y: scroll;
   overflow-x: hidden;
-  
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+  -ms-overflow-style: none; 
 `;
 
 export const ListtContainer = css`
@@ -69,7 +68,6 @@ export const inputSt = css`
 export const shapeSt = css`
   width: 90%;
   height: 20%;
-  border: 2px solid black;
   display: flex;
   align-items: center; 
   justify-content: center; 
@@ -77,8 +75,7 @@ export const shapeSt = css`
   margin: 0 auto;
   margin-top: 20px;
   border-radius: 10px;
-  background-color: wheat;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  // box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 `;
 

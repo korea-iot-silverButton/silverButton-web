@@ -1,0 +1,16 @@
+import { css } from "@emotion/react";
+
+export const footerDiv = css`
+  box-sizing: border-box;
+  margin: 0;
+  padding: 50px 250px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(233,231,251,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7); 
+  border-radius: 15px 15px 0 0;
+`;

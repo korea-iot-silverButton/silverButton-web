@@ -1,5 +1,5 @@
 import React from 'react'
-import DrugSearchResultList from '../../../Components/drug/DrugSearchResultList'
+import DrugSearchResultList from '../../../components/drug/DrugSearchResultList'
 
 export default function Index() {
   return (

@@ -35,7 +35,7 @@ export default function Index() {
       );
       setData(response.data);
 
-      navigate("/medicineListPage", { state: { data: response.data } });
+      navigate("/medicine/list-page", { state: { data: response.data } });
     } catch (err) {
       const error = err as Error;
       console.error("Caught error:", error);

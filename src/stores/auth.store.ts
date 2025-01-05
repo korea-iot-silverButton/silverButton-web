@@ -1,36 +1,35 @@
-// zustand 파일명 권장
-// : 전역 상태관리할 데이터명.store.ts
-// user.store.ts
-
 import { create } from "zustand";
 
-// * interface *//
-// # 인증 상태에 저장할 사용자 interface 정의
-interface User{
+// 사용자 정보를 담을 interface 정의
+interface User {
     id: number;
-    name: string;
+    userId: string;
     nickname: string;
+    name?: string;
 }
-// # 인증 상태의 interface 정의 //
-interface AuthStateType{
-    // 상태 필드 정의
-    isAuthenticated: boolean; // 인증 여부를 나타냄
-    user: {id: number; name: string; nickname: string} | null; // 사용자 정보를 담은 객체 또는 null
 
-    // 상태 업데이트 함수
-    login: (user: User)=> void;
-    logout: ()=> void;
+// 인증 상태의 interface 정의
+interface AuthStateType {
+  // 상태 필드 정의
+  isAuthenticated: boolean; // 인증 여부
+  user: User | null; // 사용자 정보
+  token: string | null; // 인증 토큰
+
+  // 상태 업데이트 함수
+  login: (user: User, token: string) => void; // 로그인 시 사용자 정보와 토큰 설정
+  logout: () => void; // 로그아웃 시 상태 초기화
 }
 
 // 저장소 생성 함수
-const useAuthStore= create<AuthStateType>((set)=>({
-    // 상태 필드 초기화
-    isAuthenticated: false,
-    user: null,
+const useAuthStore = create<AuthStateType>((set) => ({
+  // 상태 필드 초기화
+  isAuthenticated: false,
+  user: null,
+  token: null,
 
-    // 상태 업데이트 함수
-    login: (user)=> set({isAuthenticated: true, user}),
-    logout: ()=> set({isAuthenticated: false, user: null})
+  // 상태 업데이트 함수
+  login: (user, token) => set({ isAuthenticated: true, user, token }),
+  logout: () => set({ isAuthenticated: false, user: null, token: null }), // 로그아웃 시 상태 초기화
 }));
 
 export default useAuthStore;

@@ -11,7 +11,7 @@ export default function DrugSearchResultList() {
   const navigate = useNavigate();
 
   const handleNavigate = () => {
-    navigate("/medicineDetailPage"); 
+    navigate("/medicine/detail-page"); 
   };
 
   return (
