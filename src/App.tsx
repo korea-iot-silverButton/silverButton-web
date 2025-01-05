@@ -28,6 +28,7 @@ import Footer from "./layouts/footer/Footer";
 import HeaderLayout from "./layouts/headerLayout/HeaderLayout";
 import FooterLayout from "./layouts/footerLayout/FooterLayout";
 import MainLayout from "./layouts/mainLayout/MainLayout";
+import SignUp from "./views/authentication/signUp";
 
 export default function App() {
   return (
@@ -56,6 +57,7 @@ export default function App() {
 
           {/* 회원가입 / 로그인 기능 */}
           <Route path="/auth" element={<Authentication />} />
+          <Route path="/auth/signup" element={<SignUp />} />
           <Route path="/PasswordReset" element={<PasswordReset />} />
 
           {/* 게시판 - 로그인 필요 X */}
