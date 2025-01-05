@@ -6,21 +6,21 @@ import MedicineSearch from "./views/drug/medicineSearch";
 import MedicineSearchList from "./views/drug/medicineListPage";
 import MedicineDetailPage from "./views/drug/medicineDetailPage";
 
-import Authentication from "./views/authentication";
-import PasswordReset from "./views/authentication"
+import Authentication from "./views/Authentication";
+import PasswordReset from "./views/Authentication"
 
 import Board from "./views/board";
 import CreateBoard from "./views/board/CreateBoard";
 import BoardDetail from "./views/board/BoardDetail";
 import EditBoard from "./views/board/EditBoard";
 
-import MyPage from "./views/authentication/myPage";
-import Resign from "./views/authentication/resign";
-import Calendar from "./views/calendar/Calendar";
+import MyPage from "./views/Authentication/myPage";
+import Resign from "./views/Authentication/ReSign";
+import Calendar from "./views/Calendar/Calendar"
 
-import Matching from "./views/matching/CaregiverMatching";
-import MatchingManage from "./views/matching/MatchingManage";
-import CaregiverDetail from "./views/matching/CaregiverDetail";
+import Matching from "./views/Matching/CaregiverMatching"
+import MatchingManage from "./views/Matching/MatchingManage";
+import CaregiverDetail from "./views/Matching/CaregiverDetail"
 import RootLayout from "./layouts/rootLayout/RootLayout";
 import Header from "./layouts/header/Header";
 import Footer from "./layouts/footer/Footer";

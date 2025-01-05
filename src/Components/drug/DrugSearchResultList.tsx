@@ -4,7 +4,6 @@ import * as s from "../../styles/drugSearchStyle";
 import { useLocation, useNavigate } from 'react-router-dom'; 
 import DrugSearchDetailPage from './DrugSearchDetailPage';
 
-
 export default function DrugSearchResultList() {
   const location = useLocation(); 
   const { data } = location.state || {}; 
