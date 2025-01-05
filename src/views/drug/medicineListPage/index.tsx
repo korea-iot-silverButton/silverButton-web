@@ -3,6 +3,6 @@ import DrugSearchResultList from '../../../Components/drug/DrugSearchResultList'
 
 export default function Index() {
   return (
-    <div><DrugSearchResultList/></div>
+    <DrugSearchResultList/>
   )
 }
