@@ -24,7 +24,7 @@ export default function Index() {
   };
 
   const handleClickMypage = () => {
-    navigate("/my-page");
+    navigate("/my-page/calendar");
   };
 
   const handleClickMatching = () => {
