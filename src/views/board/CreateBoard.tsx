@@ -12,10 +12,11 @@ export default function CreatePost() {
   const quillRef = useRef<HTMLDivElement>(null);
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
+  const quillInstance = useRef<Quill | null>(null); // Quill 인스턴스를 저장할 ref 추가
 
   useEffect(() => {
     if (quillRef.current) {
-      const quill = new Quill(quillRef.current, {
+      quillInstance.current = new Quill(quillRef.current, {
         theme: "snow",
         placeholder: "내용을 입력하세요...",
         modules: {
@@ -26,8 +27,9 @@ export default function CreatePost() {
           ],
         },
       });
+
       // 이미지 업로드 처리
-      const toolbar = quill.getModule("toolbar") as any; // `any`로 타입 지정
+      const toolbar = quillInstance.current.getModule("toolbar") as any; // `any`로 타입 지정
       const imageButton = toolbar.container.querySelector("[title='Image']");
 
       if (imageButton) {
@@ -59,9 +61,9 @@ export default function CreatePost() {
                 const uploadedImageUrl = response.data.url; // 서버에서 반환된 이미지 URL
                 setImageUrl(uploadedImageUrl); // 이미지 URL 상태 업데이트
                 // 에디터에 이미지 삽입
-                const range = quill.getSelection();
+                const range = quillInstance.current?.getSelection();
                 if (range && range.index !== null) {
-                  quill.insertEmbed(range.index, "image", uploadedImageUrl);
+                  quillInstance.current?.insertEmbed(range.index, "image", uploadedImageUrl);
                 }
               } catch (error) {
                 console.error("이미지 업로드 실패", error);
@@ -72,9 +74,10 @@ export default function CreatePost() {
           input.click();
         });
       }
-       // Quill 에디터의 텍스트 내용을 상태로 저장
-      quill.on("text-change", () => {
-        setContent(quill.root.innerHTML);
+
+      // Quill 에디터의 텍스트 내용을 상태로 저장
+      quillInstance.current.on("text-change", () => {
+        setContent(quillInstance.current?.root.innerHTML || "");
       });
     }
   }, [cookies.token]);
@@ -88,8 +91,6 @@ export default function CreatePost() {
     }
 
     const tempAuthor = "임시작성자"; // 임시 작성자 설정
-    // const quillInstance = (quillRef.current as any)?.quillInstance as Quill;
-    // const content = quillInstance?.root.innerHTML; // HTML 형식으로 내용 가져오기
 
     // 이미지 URL을 content에 포함시켜 전송
     const requestBody = {
