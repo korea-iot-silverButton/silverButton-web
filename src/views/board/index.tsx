@@ -4,6 +4,7 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import style from "./board.module.css";
+import { Quill } from "react-quill";
 
 interface Post {
   id: number;
@@ -30,14 +31,14 @@ export default function Board() {
       console.warn("Invalid page number:", page);
       return;
     }
-console.log("POST", posts);
+    console.log("POST", posts);
 
     console.log("검색어");
 
     try {
       const params: any = {
         page: page - 1,
-        size: 10,
+        size: 5,
         sort: "createdAt,DESC",
       };
       let url = "http://localhost:4040/api/v1/board/all"; // 기본 전체 게시글 조회 URL
@@ -69,7 +70,7 @@ console.log("POST", posts);
 
       const data = response.data.data;
 
-  console.log("dataImgae",data.images)
+      console.log("dataImgae", data.images);
       console.log("API Response:", response.data.data); // 응답 데이터 확인
 
       if (data && data.content) {
@@ -154,14 +155,19 @@ console.log("POST", posts);
     }
   };
 
-  // 텍스트에서 이미지를 분리하는 함수
   const extractTextWithoutImages = (htmlContent: string) => {
     const doc = new DOMParser().parseFromString(htmlContent, "text/html");
-    // 이미지 태그를 제외한 텍스트만 반환
-    const textContent = doc.body.textContent || "";
-    return textContent;
+    return doc.body.textContent || "";
   };
 
+  const extractImages = (htmlContent: string) => {
+    const doc = new DOMParser().parseFromString(htmlContent, "text/html");
+    const images = doc.querySelectorAll("img");
+    return Array.from(images).map((img) => img.src);
+  };
+
+
+  
   // 전체 게시글 조회 (검색 조건 초기화)
   const handleBoardClick = () => {
     setSearchQuery(""); // 검색어 초기화
@@ -212,51 +218,56 @@ console.log("POST", posts);
         ) : (
           <table className={style["board-table"]}>
             <tbody>
-              {posts.map((post) => (
-                <React.Fragment key={post.id}>
-                  <tr
-                    onClick={() => handlePostClick(post.id)} // <tr>에 클릭 이벤트 추가
-                    style={{ cursor: "pointer" }} // 포인터 커서 스타일 추가
-                  >
-                    <td colSpan={2}>{post.title}</td>
-                    <th>{post.username || "작성자 없음"}</th>
-                   
-                    <td rowSpan={3}>
-                      {post.imageUrl && (
-                        <img
-                          src={post.imageUrl}
-                          alt="게시글 이미지"
-                          style={{
-                            width: "100px",
-                            height: "100px",
-                          }}
-                        />
-                      )}
-                    </td>
-                  </tr>
-                  <tr
-                    onClick={() => handlePostClick(post.id)} // <tr>에 클릭 이벤트 추가
-                    style={{ cursor: "pointer" }} // 포인터 커서 스타일 추가
-                  >
-                   <td
-                      colSpan={3}
-                      dangerouslySetInnerHTML={{
-                        __html: post.content,
-                      }}
-                    />
-                  </tr>
+              {posts.map((post) => {
+                const textContent = extractTextWithoutImages(post.content);
+                const imageUrls = extractImages(post.content);
 
-                  <tr>
-                    <td>{post.likes}</td>
-                    <td>{post.views}</td>
-                    <td>
-                      {post.createdAt
-                        ? new Date(post.createdAt).toLocaleString()
-                        : "작성일 없음"}
-                    </td>
-                  </tr>
-                </React.Fragment>
-              ))}
+                return (
+                  <React.Fragment key={post.id}>
+                    <tr
+                      onClick={() => handlePostClick(post.id)} // <tr>에 클릭 이벤트 추가
+                      style={{ cursor: "pointer" }} // 포인터 커서 스타일 추가
+                    >
+                      <td colSpan={2}>{post.title}</td>
+                      <th>{post.username || "작성자 없음"}</th>
+                      <td rowSpan={3}>
+                        {imageUrls.length > 0 && (
+                          <img
+                            src={imageUrls[0]} // 첫 번째 이미지를 미리보기로 표시
+                            alt="게시글 이미지"
+                            style={{
+                              width: "100px",
+                              height: "100px",
+                              objectFit: "cover",
+                            }}
+                          />
+                        )}
+                      </td>
+                    </tr>
+                    <tr
+                      onClick={() => handlePostClick(post.id)} // <tr>에 클릭 이벤트 추가
+                      style={{ cursor: "pointer" }} // 포인터 커서 스타일 추가
+                    >
+                      <td
+                        colSpan={3}
+                        dangerouslySetInnerHTML={{
+                          __html: textContent, // 텍스트만 표시
+                        }}
+                      />
+                    </tr>
+
+                    <tr>
+                      <td>{post.likes}</td>
+                      <td>{post.views}</td>
+                      <td>
+                        {post.createdAt
+                          ? new Date(post.createdAt).toLocaleString()
+                          : "작성일 없음"}
+                      </td>
+                    </tr>
+                  </React.Fragment>
+                );
+              })}
             </tbody>
           </table>
         )}
