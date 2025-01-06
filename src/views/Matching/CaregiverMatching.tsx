@@ -36,7 +36,7 @@ const CaregiverMatching: React.FC = () => {
 
   return (
     <div>
-      <h1>Caregiver Listing</h1>
+      <h1>리스트</h1>
       <div css={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         {caregivers.map((caregiver) => (
           <div key={caregiver.id} css={{ display: 'flex', alignItems: 'center', gap: '10px' }}>

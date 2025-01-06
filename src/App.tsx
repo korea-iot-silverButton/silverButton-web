@@ -28,7 +28,7 @@ import Footer from "./layouts/footer/Footer";
 import HeaderLayout from "./layouts/headerLayout/HeaderLayout";
 import FooterLayout from "./layouts/footerLayout/FooterLayout";
 import MainLayout from "./layouts/mainLayout/MainLayout";
-import SignUp from "./views/authentication/signUp";
+import SignUp from "./views/Authentication/SignUp";
 
 export default function App() {
   return (
@@ -88,7 +88,7 @@ export default function App() {
             }
           />
 
-          {/* 매칭 */}
+          {/* 메시지 */}
           {/* 
         <Route path="/message" element={<Message />} />
         <Route path="/message/:id" element={<MessageDetail />} />
