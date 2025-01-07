@@ -39,14 +39,12 @@ export default function Header() {
 
   return (
     <div css={s.headerContianer}>
+      <div css={s.headerAll}>
+      <div css={s.headerDt}>
       <div css={s.logoButton}>
         <SideBar />
         {/* 중앙 로고 */}
-        <div css={s.headerButton}>
-          <button onClick={handleNavigate} css={s.TEXT}>
-            HOME
-          </button>
-        </div>
+        
 
         <img
           src={require("./메인로고2-removebg-preview.png")}
@@ -54,14 +52,12 @@ export default function Header() {
           css={s.img}
         />
       </div>
+      </div>
       <Box>
       {/* Light 버튼과 로그인/회원가입 - 상단 배경색 */}
       <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ paddingLeft: 50, paddingRight: 50,  p: 0.5 }}>
-        <Box display="flex" alignItems="center">
-          {/* Light 버튼 */}
-          
-        </Box>
 
+      <div css={s.headerDt}>
         <Box display="flex" alignItems="center">
           {/* 로그인/회원가입 상태 */}
           {isAuthenticated ? (
@@ -87,18 +83,18 @@ export default function Header() {
               </Link>
             </>
           )}
+          <div css={s.headerButton}>
+          <button onClick={handleNavigate} css={s.button}>
+            HOME
+          </button>
+        </div>
         </Box>
+      </div>
       </Box>
       </Box>
+      </div>
 
-      {/* <div css={s.logoButton}>
-        <div onClick={handleLoginClick} css={s.button}>
-          로그인
-        </div>
-        <div onClick={handleLoginClick} css={s.button}>
-          회원가입
-        </div>
-      </div> */}
+      
     </div>
   );
 }

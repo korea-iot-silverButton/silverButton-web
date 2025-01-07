@@ -17,12 +17,3 @@ export const fullDiv = css`
   -ms-overflow-style: none; 
 `;
 
-export const videoBackground = css`
-  position: fixed; /* 화면 전체를 덮도록 고정 */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* 화면에 맞게 잘림 없이 동영상 표시 */
-  z-index: -1; /* 콘텐츠(children) 뒤에 위치 */
-`;

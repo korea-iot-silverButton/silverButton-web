@@ -33,6 +33,12 @@ export default function Index() {
 
   return (
     <div css={s.main}>
+      <div css={s.video}>
+        <video css={s.videoBackground} autoPlay loop muted>
+          <source src="/video/backVideo.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
       <div css={s.boxContainer}>
         <div css={s.rowBox}>
           <div onClick={handleClickMedicine} css={s.box}>
@@ -40,13 +46,9 @@ export default function Index() {
             약품 검색
           </div>
           <div onClick={handleClickMypage} css={s.box}>
-            <FaCalendarCheck
-              style={{ width: "100px", height: "100px" }}
-            />
+            <FaCalendarCheck style={{ width: "100px", height: "100px" }} />
             캘린더
           </div>
-        </div>
-        <div css={s.rowBox1}>
           <div onClick={handleClickBoard} css={s.box}>
             <LuClipboardPenLine style={{ width: "100px", height: "100px" }} />
             게시판
