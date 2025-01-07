@@ -11,6 +11,8 @@ import { RiHealthBookFill } from "react-icons/ri";
 import { FaCalendarCheck } from "react-icons/fa";
 import { LuClipboardPenLine } from "react-icons/lu";
 import { RiHealthBookLine } from "react-icons/ri";
+import { RiCalendarTodoLine } from "react-icons/ri";
+import { FcTodoList } from "react-icons/fc";
 
 export default function Index() {
   const navigate = useNavigate();
@@ -46,8 +48,8 @@ export default function Index() {
             약품 검색
           </div>
           <div onClick={handleClickMypage} css={s.box}>
-            <FaCalendarCheck style={{ width: "100px", height: "100px" }} />
-            캘린더
+            <RiCalendarTodoLine style={{ width: "100px", height: "100px" }} />
+            할 일 목록
           </div>
           <div onClick={handleClickBoard} css={s.box}>
             <LuClipboardPenLine style={{ width: "100px", height: "100px" }} />
