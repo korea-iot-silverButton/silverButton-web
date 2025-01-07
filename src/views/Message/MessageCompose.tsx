@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 
 interface MessageComposeProps {
@@ -8,10 +9,18 @@ const MessageCompose: React.FC<MessageComposeProps> = ({ onCancel }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  const handleSend = () => {
-    // API 로직 추가
-    alert(`쪽지가 전송되었습니다.\n수신인: ${recipient}\n제목: ${title}`);
-    onCancel();
+  const handleSend = async () => {
+    try {
+      const response = await axios.post("/api/v1/messages", {
+        recipient,
+        title,
+        content,
+      });
+      alert("쪽지가 성공적으로 전송되었습니다.");
+      onCancel();
+    } catch (error) {
+      alert("쪽지 전송 중 오류가 발생했습니다.");
+    }
   };
 
   return (

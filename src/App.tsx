@@ -6,8 +6,8 @@ import MedicineSearch from "./views/drug/medicineSearch";
 import MedicineSearchList from "./views/drug/medicineListPage";
 import MedicineDetailPage from "./views/drug/medicineDetailPage";
 
-import Authentication from "./views/Authentication";
-import PasswordReset from "./views/Authentication"
+import Authentication from "./views/authentication";
+import PasswordReset from "./views/authentication"
 
 import Board from "./views/board";
 import CreateBoard from "./views/board/CreateBoard";
@@ -18,9 +18,9 @@ import MyPage from "./views/authentication/myPage/index";
 import Resign from "./views/authentication/resign";
 import Calendar from "./views/calendar/Calendar";
 
-import Matching from "./views/Matching/CaregiverMatching"
-import MatchingManage from "./views/Matching/MatchingManage";
-import CaregiverDetail from "./views/Matching/CaregiverDetail"
+import Matching from "./views/matching/CaregiverMatching"
+import MatchingManage from "./views/matching/MatchingManage";
+import CaregiverDetail from "./views/matching/CaregiverDetail"
 import RootLayout from "./layouts/rootLayout/RootLayout";
 import Header from "./layouts/header/Header";
 import Footer from "./layouts/footer/Footer";
@@ -28,9 +28,9 @@ import Footer from "./layouts/footer/Footer";
 import HeaderLayout from "./layouts/headerLayout/HeaderLayout";
 import FooterLayout from "./layouts/footerLayout/FooterLayout";
 import MainLayout from "./layouts/mainLayout/MainLayout";
-import SignUp from "./views/Authentication/SignUp";
-import MessageBox from "./views/Message/MessageBox";
-import MessageDetails from "./views/Message/MessageDetails";
+import SignUp from "./views/authentication/signUp";
+import MessageBox from "./views/message/MessageBox";
+import MessageDetails from "./views/message/MessageDetails";
 
 export default function App() {
   return (
@@ -97,7 +97,7 @@ export default function App() {
         <Route path="/message/compose" element={<MessageCompose />} />
         <Route path="/message/sent" element={<MessageSent />} />
         <Route path="/message/receive" element={<MessageReceive />} />  */}
-       
+        
 
           <Route
             path="/matching/*"

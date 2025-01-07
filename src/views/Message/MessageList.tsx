@@ -7,6 +7,7 @@ interface Message {
   title: string;
   sender: string;
   date: string;
+  content: string;
   isRead: boolean;
 }
 
