@@ -45,18 +45,18 @@ export default function CreatePost() {
               const formData = new FormData();
               formData.append("image", file);
 
-              // Cloudinary 서버로 이미지 업로드
-              try {
-                const response = await axios.post(
-                  "http://localhost:4040/api/v1/images/upload", // Cloudinary 업로드 API URL
-                  formData,
-                  {
-                    headers: {
-                      "Content-Type": "multipart/form-data",
-                      Authorization: `Bearer ${cookies.token}`,
-                    },
-                  }
-                );
+                  // 백엔드의 ProfileImgService API로 이미지 업로드
+                  try {
+                    const response = await axios.post(
+                      "http://localhost:4040/api/v1/profile-img/upload", // ProfileImgService 이미지 업로드 API URL
+                      formData,
+                      {
+                        headers: {
+                          "Content-Type": "multipart/form-data",
+                          Authorization: `Bearer ${cookies.token}`,
+                        },
+                      }
+                    );
 
                 const uploadedImageUrl = response.data.url; // 서버에서 반환된 이미지 URL
                 setImageUrl(uploadedImageUrl); // 이미지 URL 상태 업데이트
@@ -91,13 +91,14 @@ export default function CreatePost() {
     }
 
     const tempAuthor = "임시작성자"; // 임시 작성자 설정
+    const finalImageUrl = imageUrl || "http://localhost:4040/BasicImage.png"; // 기본 이미지 URL
 
     // 이미지 URL을 content에 포함시켜 전송
     const requestBody = {
       title,
       content,
       author: tempAuthor,
-      imageUrl, // 이미지 URL 포함
+      imageUrl: finalImageUrl, // 이미지 URL 포함
     };
 
     try {

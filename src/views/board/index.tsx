@@ -4,6 +4,7 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import style from "./board.module.css";
+import BasicImage from "../../views/board/BasicImage.png";
 import { Quill } from "react-quill";
 
 interface Post {
@@ -130,6 +131,7 @@ export default function Board() {
   // 페이지 클릭 핸들러
   const handlePageClick = (page: number) => {
     setCurrentPage(page);
+    fetchPosts(page); // 페이지 변경 시 게시글 다시 불러오기
   };
 
   const handlePreGroupClick = () => {
@@ -140,11 +142,7 @@ export default function Board() {
     setCurrentPage((prev) => Math.min(prev + 10, totalPages));
   };
 
-  const getSummary = (content: string) => {
-    const firstLine = content.split("\n")[0].trim();
-    return firstLine.length > 15 ? `${firstLine.slice(0, 15)}...` : firstLine;
-  };
-
+  
   const handleCreatePostClick = () => {
     // 로그인 여부 확인
     if (!cookies.token) {
@@ -155,19 +153,35 @@ export default function Board() {
     }
   };
 
-  const extractTextWithoutImages = (htmlContent: string) => {
+  const removeImagesFromHtml = (htmlContent: string): string => {
     const doc = new DOMParser().parseFromString(htmlContent, "text/html");
-    return doc.body.textContent || "";
+
+    // 이미지 태그만 제거
+    const images = doc.querySelectorAll("img");
+    images.forEach((img) => img.remove());
+
+    // 수정된 HTML 반환
+    return doc.body.innerHTML;
   };
 
+
+  const getSummary = (content: string) => {
+    // HTML 태그 제거 후 텍스트만 추출
+    const textContent = removeImagesFromHtml(content);
+  
+    // 첫 번째 문장만 추출 (문장 끝은 . 또는 ? 또는 !로 간주)
+    const firstSentence = textContent.split(/[.!?]/)[0];
+  
+    // 15자까지만 잘라서 반환
+    return firstSentence.length > 15 ? `${firstSentence.slice(0, 15)}...` : firstSentence;
+  };
+  
   const extractImages = (htmlContent: string) => {
     const doc = new DOMParser().parseFromString(htmlContent, "text/html");
     const images = doc.querySelectorAll("img");
     return Array.from(images).map((img) => img.src);
   };
 
-
-  
   // 전체 게시글 조회 (검색 조건 초기화)
   const handleBoardClick = () => {
     setSearchQuery(""); // 검색어 초기화
@@ -219,8 +233,9 @@ export default function Board() {
           <table className={style["board-table"]}>
             <tbody>
               {posts.map((post) => {
-                const textContent = extractTextWithoutImages(post.content);
+                const contentSummary = getSummary(post.content);
                 const imageUrls = extractImages(post.content);
+                
 
                 return (
                   <React.Fragment key={post.id}>
@@ -231,17 +246,15 @@ export default function Board() {
                       <td colSpan={2}>{post.title}</td>
                       <th>{post.username || "작성자 없음"}</th>
                       <td rowSpan={3}>
-                        {imageUrls.length > 0 && (
-                          <img
-                            src={imageUrls[0]} // 첫 번째 이미지를 미리보기로 표시
-                            alt="게시글 이미지"
-                            style={{
-                              width: "100px",
-                              height: "100px",
-                              objectFit: "cover",
-                            }}
-                          />
-                        )}
+                        <img
+                          src={
+                            imageUrls.length > 0 && imageUrls[0]
+                              ? imageUrls[0]
+                              : BasicImage
+                          }
+                          alt="게시글 이미지"
+                          style={{ width: "100px", height: "100px" }}
+                        />
                       </td>
                     </tr>
                     <tr
@@ -251,7 +264,7 @@ export default function Board() {
                       <td
                         colSpan={3}
                         dangerouslySetInnerHTML={{
-                          __html: textContent, // 텍스트만 표시
+                          __html: contentSummary,
                         }}
                       />
                     </tr>

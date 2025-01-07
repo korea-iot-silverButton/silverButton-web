@@ -11,7 +11,7 @@ interface Board {
   createdAt: string;
   likes: number;
   views: number;
-  imgeUrl?: string;
+  imageUrl?: string;
   likeId?: number; // likeId 추가
   liked: boolean; // 좋아요 상태 추가
 }
@@ -161,7 +161,7 @@ export default function BoardDetail() {
         alert("게시글 삭제에 실패했습니다.");
       }
     }
-  };
+  }; 
 
   // 나가기 버튼 클릭 시
   const handleExit = () => {
@@ -172,42 +172,49 @@ export default function BoardDetail() {
   if (!board) return <p>게시글이 없습니다.</p>;
 
   return (
-    <div>
-      <h2>{board.title}</h2>
-      <p>{board.content}</p>
-      <p>작성자: {board.username}</p>
-      <p>작성일: {new Date(board.createdAt).toLocaleString()}</p>
-      <p>조회수: {board.views}</p>
-      <p>
-  좋아요: {board?.likes}{" "}
-  <span
-    style={{
-      cursor: "pointer",
-      fontSize: "24px",
-      color: board?.liked ? "red" : "black", // liked 상태에 따라 색상 변경
-    }}
-    onClick={handleLike}
-  >
-    {board?.liked ? "♥" : "♡"}
-  </span>
-</p>
+    <div className={style.boardDetail}>
+      {/* 게시글 정보 */}
+      <div className={style.infoBox}>
+        <h3>{board.title}</h3>
+        <p>작성자: {board.username}</p>
+        <p>작성일: {new Date(board.createdAt).toLocaleString()}</p>
+      </div>
 
+      {/* 내용 + 이미지 */}
+      <div className={style.contentBox}>
+        <div dangerouslySetInnerHTML={{ __html: board.content }} />
+        {board.imageUrl && (
+          <img
+            src={board.imageUrl.startsWith("http") ? board.imageUrl : `http://localhost:4040/${board.imageUrl}`}
+            alt="게시글 이미지"
+            className={style.image}
+          />
+        )}
+      </div>
 
-      {board.imgeUrl && (
-        <img
-          src={board.imgeUrl}
-          alt="게시글 이미지"
-          style={{ width: "200px", height: "200px" }}
-        />
-      )}
+      {/* 좋아요, 조회수 */}
+      <div className={style.statsBox}>
+        <p>
+          좋아요: {board.likes}{" "}
+          <span
+            style={{
+              cursor: "pointer",
+              fontSize: "24px",
+              color: board.liked ? "red" : "black",
+            }}
+            onClick={handleLike}
+          >
+            {board.liked ? "♥" : "♡"}
+          </span>
+        </p>
+        <p>조회수: {board.views}</p>
+      </div>
 
-           {/* 수정/삭제 버튼을 작성자만 볼 수 있도록 */}
-           {currentUserId === board?.id && (
-        <div>
-          <button onClick={handleEdit}>게시글 수정</button>
-          <button onClick={handleDelete}>게시글 삭제</button>
-        </div>
-      )}
+      {/* 수정/삭제 버튼 */}
+      <div className={style.actionBox}>
+        <button onClick={handleEdit}>수정하기</button>
+        <button onClick={handleDelete}>삭제하기</button>
+      </div>
 
       {/* 댓글 기능 */}
       <div style={{ marginTop: "30px" }}>
@@ -241,5 +248,6 @@ export default function BoardDetail() {
         </div>
       </div>
     </div>
+    
   );
 }
