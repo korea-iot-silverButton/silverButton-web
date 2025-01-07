@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import homeImg from "./homeImgage.jpg"
 
 export const main = css`
-position: relative;
+  position: relative;
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -10,13 +10,50 @@ position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 0 150px;
+  `;
+
+export const video = css`
+position: relative;
+  width: 100%;
+  height: 100%;
+`;
+
+  export const videoBackground = css`
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    z-index: 1; 
+  `;
   
+
+export const boxContainer = css`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7) */
+`;
+
+export const rowBox = css`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  justify-content: space-between;
+  padding: 50px 50px;
 `;
 
 export const box = css`
-  width: 70%; 
-  height: 50%; 
-  background: rgba(249,249,249,0.7); 
+  height: 70%; 
+  width: 20%;
+  background:#e9e7fb ; 
   border: 1px solid #ddd;
   border-radius: 15px;
   display: flex;
@@ -28,7 +65,7 @@ export const box = css`
   cursor: pointer;
 
   &:hover {
-    background: #e9e7fb; 
+    background: rgba(249,249,249); 
     transform: translateY(-5px);
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); 
   }
@@ -48,44 +85,5 @@ export const box = css`
   }
 `;
 
-export const rowBox = css`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-  padding-left:130px;
-`;
 
-export const rowBox1 = css`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-  padding-right:130px;
-`;
 
-export const boxContainer = css`
-  width: 90%;
-  height: 90%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  
-`;
-
-export const videoBackground = css`
-  position: fixed; /* 화면 전체를 덮도록 고정 */
-  top: 0;
-  left: 0;
-  width: 100%; /* 뷰포트 너비 */
-  height: 100%; /* 뷰포트 높이 */
-  object-fit: cover; /* 화면 비율 유지하며 잘림 없이 표시 */
-  z-index: -1; /* 콘텐츠(children) 뒤로 배치 */
-`;
