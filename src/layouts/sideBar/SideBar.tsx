@@ -3,6 +3,10 @@ import * as s from "./style";
 import { Box, Button } from '@mui/material';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { FaBars } from "react-icons/fa";
+import { TbArrowBarRight } from "react-icons/tb";
+import { FaBarcode } from "react-icons/fa";
+import { HiBars3 } from "react-icons/hi2";
 
 export default function SideBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +25,7 @@ export default function SideBar() {
   <>
   
     <button css={s.hamburgerStyles} onClick={toggleSide}>
-        ☰
+    <TbArrowBarRight />
       </button>
 
       <div css={s.sidebarStyles(isOpen)}>

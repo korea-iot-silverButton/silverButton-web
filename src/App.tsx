@@ -14,7 +14,7 @@ import CreateBoard from "./views/board/CreateBoard";
 import BoardDetail from "./views/board/BoardDetail";
 import EditBoard from "./views/board/EditBoard";
 
-import MyPage from "./views/authentication/myPage";
+import MyPage from "./views/authentication/myPage/index";
 import Resign from "./views/authentication/resign";
 import Calendar from "./views/calendar/Calendar";
 

@@ -6,11 +6,11 @@ export const footerDiv = css`
   padding: 50px 250px;
   width: 100%;
   height: 100%;
-  background-color: rgba(233,231,251,0.7);
+  background-color: rgba(217,215,261);
   display: flex;
   align-items: center;
   justify-content: space-between;
   color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7); 
-  border-radius: 15px 15px 0 0;
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);  */
+  /* border-radius: 15px 15px 0 0; */
 `;
