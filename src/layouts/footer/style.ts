@@ -3,10 +3,10 @@ import { css } from "@emotion/react";
 export const footerDiv = css`
   box-sizing: border-box;
   margin: 0;
-  padding: 50px 250px;
+  padding: 0 50px;
   width: 100%;
   height: 100%;
-  background-color: rgba(217,215,261);
+  background-color: #934A5F;
   display: flex;
   align-items: center;
   justify-content: space-between;

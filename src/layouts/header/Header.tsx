@@ -81,13 +81,13 @@ export default function Header() {
                   회원가입
                 </Typography>
               </Link>
-            </>
-          )}
-          <div css={s.headerButton}>
           <button onClick={handleNavigate} css={s.button}>
             HOME
           </button>
-        </div>
+            </>
+          )}
+          {/* <div css={s.headerButton}> */}
+        {/* </div> */}
         </Box>
       </div>
       </Box>

@@ -7,6 +7,7 @@ import { FaBars } from "react-icons/fa";
 import { TbArrowBarRight } from "react-icons/tb";
 import { FaBarcode } from "react-icons/fa";
 import { HiBars3 } from "react-icons/hi2";
+import { BsLayoutTextSidebar } from "react-icons/bs";
 
 export default function SideBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,7 +26,7 @@ export default function SideBar() {
   <>
   
     <button css={s.hamburgerStyles} onClick={toggleSide}>
-    <TbArrowBarRight />
+    <BsLayoutTextSidebar />
       </button>
 
       <div css={s.sidebarStyles(isOpen)}>
