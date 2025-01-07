@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Pagination from "../../Components/Pagination";
+import Pagination from "../../components/Pagination";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
