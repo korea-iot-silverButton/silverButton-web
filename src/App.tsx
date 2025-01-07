@@ -14,13 +14,13 @@ import CreateBoard from "./views/board/CreateBoard";
 import BoardDetail from "./views/board/BoardDetail";
 import EditBoard from "./views/board/EditBoard";
 
-import MyPage from "./views/authentication/myPage";
-import Resign from "./views/authentication/ReSign";
-import Calendar from "./views/Calendar/Calendar";
+import MyPage from "./views/authentication/myPage/index";
+import Resign from "./views/authentication/resign";
+import Calendar from "./views/calendar/Calendar";
 
-import Matching from "./views/Matching/CaregiverMatching";
-import MatchingManage from "./views/Matching/MatchingManage";
-import CaregiverDetail from "./views/Matching/CaregiverDetail";
+import Matching from "./views/matching/CaregiverMatching";
+import MatchingManage from "./views/matching/MatchingManage";
+import CaregiverDetail from "./views/matching/CaregiverDetail";
 import RootLayout from "./layouts/rootLayout/RootLayout";
 import Header from "./layouts/header/Header";
 import Footer from "./layouts/footer/Footer";
@@ -28,7 +28,7 @@ import Footer from "./layouts/footer/Footer";
 import HeaderLayout from "./layouts/headerLayout/HeaderLayout";
 import FooterLayout from "./layouts/footerLayout/FooterLayout";
 import MainLayout from "./layouts/mainLayout/MainLayout";
-import SignUp from "./views/authentication/SignUp";
+import SignUp from "./views/authentication/signUp";
 
 export default function App() {
   return (

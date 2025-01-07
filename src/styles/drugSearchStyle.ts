@@ -3,7 +3,7 @@ import { css, Global } from "@emotion/react";
 import exp from "constants";
 
 export const contSt = css`
-  width: 79%;
+  width: 83.5%;
   height: 100%; 
   display: flex;
   justify-content: center; 
