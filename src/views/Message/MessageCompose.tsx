@@ -3,14 +3,13 @@ import React, { useState } from "react";
 interface MessageComposeProps {
   onCancel: () => void;
 }
-
 const MessageCompose: React.FC<MessageComposeProps> = ({ onCancel }) => {
   const [recipient, setRecipient] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
   const handleSend = () => {
-    // API 로직 추가가
+    // API 로직 추가
     alert(`쪽지가 전송되었습니다.\n수신인: ${recipient}\n제목: ${title}`);
     onCancel();
   };

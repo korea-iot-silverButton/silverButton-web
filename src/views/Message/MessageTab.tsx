@@ -14,7 +14,7 @@ interface MessageTabProps {
 const TABS: Tab[] = [
   { key: 'received', label: '수신함' },
   { key: 'sent', label: '발신함' },
-  { key: 'all', label: '전체쪽지지' },
+  { key: 'all', label: '전체쪽지' },
 ];
 
 const MessageTab: React.FC<MessageTabProps> = ({ currentTab, setCurrentTab }) => {

@@ -29,6 +29,8 @@ import HeaderLayout from "./layouts/headerLayout/HeaderLayout";
 import FooterLayout from "./layouts/footerLayout/FooterLayout";
 import MainLayout from "./layouts/mainLayout/MainLayout";
 import SignUp from "./views/Authentication/SignUp";
+import MessageBox from "./views/Message/MessageBox";
+import MessageDetails from "./views/Message/MessageDetails";
 
 export default function App() {
   return (
@@ -89,13 +91,13 @@ export default function App() {
           />
 
           {/* 메시지 */}
-          {/* 
-        <Route path="/message" element={<Message />} />
-        <Route path="/message/:id" element={<MessageDetail />} />
+          
+        <Route path="/message" element={<MessageBox />} />
+        {/* <Route path="/message/:id" element={<MessageDetails />} />
         <Route path="/message/compose" element={<MessageCompose />} />
         <Route path="/message/sent" element={<MessageSent />} />
-        <Route path="/message/receive" element={<MessageReceive />} /> 
-        */}
+        <Route path="/message/receive" element={<MessageReceive />} />  */}
+       
 
           <Route
             path="/matching/*"

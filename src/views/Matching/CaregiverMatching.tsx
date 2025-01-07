@@ -56,23 +56,23 @@ const CaregiverMatching: React.FC = () => {
       {selectedCaregiver && (
         <div css={s.caregiver_details}>
           <h2>{selectedCaregiver.name}</h2>
-          <p>Age: {selectedCaregiver.age}</p>
-          <p>Experience: {selectedCaregiver.experience}</p>
-          <p>Specialty: {selectedCaregiver.specialty}</p>
+          <p>나이: {selectedCaregiver.age}</p>
+          <p>경력: {selectedCaregiver.experience}</p>
+          <p>전문 분야: {selectedCaregiver.specialty}</p>
           <div css={s.action_buttons}>
             <button
               css={s.action_button}
               onMouseOver={(e) => e.currentTarget.classList.add(s.action_button_hover.styles)}
               onMouseOut={(e) => e.currentTarget.classList.remove(s.action_button_hover.styles)}
             >
-              Match
+              매칭
             </button>
             <button
               css={s.action_button}
               onMouseOver={(e) => e.currentTarget.classList.add(s.action_button_hover.styles)}
               onMouseOut={(e) => e.currentTarget.classList.remove(s.action_button_hover.styles)}
             >
-              Send Message
+              쪽지보내기
             </button>
           </div>
         </div>
