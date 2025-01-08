@@ -31,6 +31,9 @@ import HeaderLayout from "./layouts/headerLayout/HeaderLayout";
 import FooterLayout from "./layouts/footerLayout/FooterLayout";
 import MainLayout from "./layouts/mainLayout/MainLayout";
 
+import HealthMagazineList from "./views/healthMagazine/healthMagazineList"
+import HealthMagazineDetail from "./views/healthMagazine/healthMagazineDetail"
+
 
 export default function App() {
   return (
@@ -44,6 +47,11 @@ export default function App() {
           {/* AUTH 인증없는 페이지 - 토큰 필요없는 페이지 */}
 
           <Route path="/" element={<Home />} />
+
+          <Route path="/health-magazine" element={<HealthMagazineList/>}/>
+          <Route path="/health-magazine/detail" element={<HealthMagazineDetail/>}/>
+
+          
 
           {/* 약품 검색기능 */}
           <Route
@@ -110,6 +118,9 @@ export default function App() {
             }
           />
         </Routes>
+
+
+
       </MainLayout>
       
       <FooterLayout>
