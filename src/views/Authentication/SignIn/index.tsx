@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Button, Card, CardActions, CardContent, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  TextField,
+  Typography,
+} from "@mui/material";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import useAuthStore from "../../../stores/auth.store";  // 수정된 store 가져오기
+import useAuthStore from "../../../stores/auth.store"; // 수정된 store 가져오기
 
 interface Credentials {
   userId: string;
@@ -19,7 +26,11 @@ interface ElderCredentials {
 
 interface SignInResponseDto {
   token: string;
+<<<<<<< HEAD
+  user: { id: number; userId: string; nickname: string; role: string; };
+=======
   user: { id: number; userId: string; nickname: string; phone: string; profileImg: string; };
+>>>>>>> develop
   exprTime: number;
 }
 
@@ -37,13 +48,15 @@ export default function SignIn() {
 
   const [error, setError] = useState<string>("");
   const [, setCookies] = useCookies(["token"]);
-  const { login } = useAuthStore();  // 수정된 store에서 login 함수 사용
+  const { login } = useAuthStore(); // 수정된 store에서 login 함수 사용
   const navigate = useNavigate();
   const [isElder, setIsElder] = useState(false);
 
   // 컴포넌트가 처음 렌더링될 때 token을 쿠키에서 확인
   useEffect(() => {
-    const token = document.cookie.split(";").find((cookie) => cookie.trim().startsWith("token="));
+    const token = document.cookie
+      .split(";")
+      .find((cookie) => cookie.trim().startsWith("token="));
     if (token) {
       alert("이미 로그인된 상태입니다.");
       navigate("/");
@@ -54,7 +67,7 @@ export default function SignIn() {
     if (data) {
       const { token, exprTime, user } = data;
       setToken(token, exprTime);
-      login(user, token);  // 사용자 정보와 토큰을 store에 저장
+      login(user, token); // 사용자 정보와 토큰을 store에 저장
       navigate("/");
     } else {
       setError("로그인 실패: 인증 정보를 확인해주세요.");
@@ -216,10 +229,24 @@ export default function SignIn() {
         </CardContent>
 
         <CardActions>
-          <Button onClick={handleSignIn} fullWidth variant="contained" color="primary">
+          <Button
+            onClick={handleSignIn}
+            fullWidth
+            variant="contained"
+            color="primary"
+          >
             로그인
           </Button>
         </CardActions>
+
+        <div className="kakao-login-container">
+          <img
+            src="/images/kakao-login.png"
+            alt="카카오 로그인"
+            className="kakao-login-icon"
+            style={{ width: "400px", height: "auto" }} // 원하는 크기 적용
+          />
+        </div>
       </Card>
     </div>
   );
