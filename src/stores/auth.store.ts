@@ -6,6 +6,7 @@ interface User {
     userId: string;
     nickname: string;
     name?: string;
+    role: string;
 }
 
 // 인증 상태의 interface 정의
