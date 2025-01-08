@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./views/home";
+import "./App.css";
 
 import MedicineSearch from "./views/drug/medicineSearch";
 import MedicineSearchList from "./views/drug/medicineListPage";
@@ -8,6 +9,7 @@ import MedicineDetailPage from "./views/drug/medicineDetailPage";
 
 import Authentication from "./views/authentication";
 import PasswordReset from "./views/authentication"
+import SignUp from "./views/authentication/signUp";
 
 import Board from "./views/board";
 import CreateBoard from "./views/board/CreateBoard";
@@ -28,7 +30,10 @@ import Footer from "./layouts/footer/Footer";
 import HeaderLayout from "./layouts/headerLayout/HeaderLayout";
 import FooterLayout from "./layouts/footerLayout/FooterLayout";
 import MainLayout from "./layouts/mainLayout/MainLayout";
-import SignUp from "./views/authentication/signUp";
+
+import HealthMagazineList from "./views/healthMagazine/healthMagazineList"
+import HealthMagazineDetail from "./views/healthMagazine/healthMagazineDetail"
+
 
 export default function App() {
   return (
@@ -42,6 +47,11 @@ export default function App() {
           {/* AUTH 인증없는 페이지 - 토큰 필요없는 페이지 */}
 
           <Route path="/" element={<Home />} />
+
+          <Route path="/health-magazine" element={<HealthMagazineList/>}/>
+          <Route path="/health-magazine/detail" element={<HealthMagazineDetail/>}/>
+
+          
 
           {/* 약품 검색기능 */}
           <Route
@@ -108,6 +118,9 @@ export default function App() {
             }
           />
         </Routes>
+
+
+
       </MainLayout>
       
       <FooterLayout>
