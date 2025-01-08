@@ -9,7 +9,6 @@ import MedicineDetailPage from "./views/drug/medicineDetailPage";
 
 import Authentication from "./views/authentication";
 import PasswordReset from "./views/authentication"
-import SignUp from "./views/authentication/signUp";
 
 import Board from "./views/board";
 import CreateBoard from "./views/board/CreateBoard";

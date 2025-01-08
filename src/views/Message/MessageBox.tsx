@@ -1,10 +1,12 @@
+/** @jsxImportSource @emotion/react */
+import * as s from "./style";
 import { useEffect, useState } from "react";
 import { MESSAGE_PATH } from "../../constants";
 import axios, { AxiosError } from "axios";
 import { MAIN_URL } from "../../apis";
-import * as s from "./style";
 import MessageList from "./MessageList";
 import MessageDetails from "./MessageDetails";
+import MessageCompose from "./MessageCompose";
 
 interface Message {
   id: number;
@@ -24,6 +26,8 @@ export default function MessageBox() {
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isComposing, setIsComposing] = useState(false);
+
 
 
   const fetchMessages = async () => {
@@ -54,7 +58,9 @@ export default function MessageBox() {
     <div css={s.container}>
       <div css={s.messageBox}>
         <h2 css={s.header}>쪽지함</h2>
-        {selectedMessage ? (
+        {isComposing ? (
+          <MessageCompose onCancel={() => setIsComposing(false)} />
+        ) : selectedMessage ? (
           <MessageDetails
             message={selectedMessage}
             onBack={() => setSelectedMessage(null)}
@@ -69,10 +75,13 @@ export default function MessageBox() {
                   data-active={currentTab === tab}
                   onClick={() => setCurrentTab(tab)}
                 >
-                  {tab === "received" ? "수신함" : tab === "sent" ? "발신함" : "전체쪽지"}
+                  {tab === "received" ? "수신함" : tab === "sent" ? "발신함" : "전체"}
                 </button>
               ))}
             </div>
+            <button css={s.createButton} onClick={() => setIsComposing(true)}>
+              쪽지 작성
+            </button>
             {error && <p css={s.errorMessage}>{error}</p>}
             {isLoading ? (
               <p css={s.loadingMessage}>로딩 중...</p>
@@ -93,7 +102,7 @@ export default function MessageBox() {
                     <button
                       key={index}
                       onClick={() => setCurrentPage(index)}
-                      style={{ fontWeight: currentPage === index ? 'bold' : 'normal' }}
+                      style={{ fontWeight: currentPage === index ? "bold" : "normal" }}
                     >
                       {index + 1}
                     </button>
