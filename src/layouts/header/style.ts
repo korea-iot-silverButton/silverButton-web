@@ -8,11 +8,6 @@ export const headerContianer = css`
   padding: 0 50px;
 `;
 
-export const headerNaviWrap = css`
-  width: 100%;
-  height: 75px;
-`;
-
 export const headerButton = css`
   border: none;
   width: 100px;
@@ -32,7 +27,7 @@ export const headerButton = css`
     transform: translateY(1px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   }
-  background: linear-gradient(to right bottom, #9381FF, #6EE7B7);
+  background: linear-gradient(to right bottom, #9381ff, #6ee7b7);
 `;
 
 //* headerToolWrap
@@ -55,7 +50,7 @@ export const headerLogoImg = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 150px;
+  width: 200px;
   height: 100%;
 `;
 
@@ -70,3 +65,56 @@ export const headerToolKit = css`
 `;
 
 //* headerNaviWrap
+export const headerNaviWrap = css`
+  width: 100%;
+  height: 75px;
+  display: flex;
+  align-items: center;
+`;
+
+export const headerHamburger = css`
+  position: fixed;
+  margin-left: 15px;
+`;
+
+export const headerNaviButtons = css`
+  width: 100%;
+  margin: 0 100px;
+  display: flex;
+  justify-content: center;
+`;
+
+export const haderNaviButton = css`
+  padding: 8px 20px;
+  background: transparent;
+  border: 1px solid rgba(147, 129, 255, 0.5);
+  border-radius: 15px;
+  width: 100%;
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(147, 129, 255, 0.1);
+    transform: translateY(-5px);
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+`;
+
+export const naviIcon = css`
+  font-size: 25px;
+  font-weight: bold;
+  margin-right: 5px;
+  margin-top: 3px;
+`;
+
+export const naviTitle = css`
+  font-size: 20px;
+  font-weight: 500;
+`;

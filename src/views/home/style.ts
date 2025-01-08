@@ -1,5 +1,4 @@
 import { css } from "@emotion/react";
-import homeImg from "./homeImgage.jpg"
 
 export const main = css`
   position: relative;
@@ -49,41 +48,3 @@ export const rowBox = css`
   justify-content: space-between;
   padding: 50px 50px;
 `;
-
-export const box = css`
-  height: 70%; 
-  width: 20%;
-  background: #79ABFF ; 
-  border: 1px solid #ddd;
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column; 
-  align-items: center; 
-  justify-content: center; 
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); 
-  transition: all 0.3s ease;
-  cursor: pointer;
-
-  &:hover {
-    background: #57648C; 
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); 
-  }
-
-
-  &:active {
-    transform: translateY(1px); 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-  }
-
-
-  & > span {
-    margin-top: 12px; 
-    font-size: 18px; 
-    font-weight: bold;
-    color: #555;
-  }
-`;
-
-
-
