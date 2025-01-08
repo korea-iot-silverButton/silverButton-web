@@ -1,82 +1,160 @@
-/* 전체 화면 중앙 배치 */
+/* 전체 페이지 스타일 */
 .delete-account-container {
   display: flex;
-  justify-content: center;  
-  align-items: center;      
-  height: 100vh;           
-  background-color: #f4f4f4;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f2f2f2;
 }
 
 /* 탈퇴 박스 스타일 */
 .delete-account-box {
-  background-color: white;
+  background-color: #fff;
   padding: 30px;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   text-align: center;
-  width: 100%;
-  max-width: 500px;         
-  margin: 0 20px;            
-  box-sizing: border-box;   
+  width: 400px;
 }
 
-h2 {
+/* 제목 스타일 */
+.delete-account-box h2 {
   font-size: 24px;
+  color: #333;
   margin-bottom: 20px;
 }
 
-p {
+/* 설명 텍스트 */
+.delete-account-box p {
   font-size: 16px;
-  margin-bottom: 20px;
+  color: #555;
+  margin-bottom: 30px;
 }
 
-/* 탈퇴 버튼 스타일 */
+/* 탈퇴 버튼 기본 스타일 */
 .delete-button {
-  background-color: #f44336;
+  background-color: #e60000;
   color: white;
-  padding: 12px 20px;
+  padding: 15px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
   transition: background-color 0.3s;
 }
 
+/* 버튼 hover 효과 */
 .delete-button:hover {
-  background-color: #e53935;
+  background-color: #cc0000;
 }
 
-/* 탈퇴 확인 박스 스타일 */
+/* 확인창 스타일 */
 .confirmation-box {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 20px;
 }
 
-.confirmation-box button {
-  padding: 10px 20px;
-  margin: 10px;
-  font-size: 16px;
+/* 확인 버튼 스타일 */
+.confirm-button {
+  background-color: #e60000;
+  color: white;
+  padding: 15px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.confirm-button {
-  background-color: #f44336;
-  color: white;
-  border: none;
-}
-
+/* 취소 버튼 스타일 */
 .cancel-button {
-  background-color: #9e9e9e;
-  color: white;
+  background-color: #ddd;
+  color: #333;
+  padding: 15px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
   border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
+/* 버튼 hover 효과 */
 .confirm-button:hover {
-  background-color: #e53935;
+  background-color: #cc0000;
 }
 
 .cancel-button:hover {
-  background-color: #757575;
+  background-color: #bbb;
+}
+
+/* 비밀번호 입력 모달 스타일 */
+.password-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* 모달 콘텐츠 스타일 */
+.password-modal-content {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 300px;
+}
+
+/* 비밀번호 입력창 스타일 */
+.password-modal-content input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* 모달 버튼 스타일 */
+.confirm-password-button, .cancel-password-button {
+  padding: 12px 25px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* 확인 버튼 스타일 */
+.confirm-password-button {
+  background-color: #e60000;
+  color: white;
+}
+
+.confirm-password-button:hover {
+  background-color: #cc0000;
+}
+
+/* 취소 버튼 스타일 */
+.cancel-password-button {
+  background-color: #bbb;
+  color: #333;
+}
+
+.cancel-password-button:hover {
+  background-color: #888;
 }

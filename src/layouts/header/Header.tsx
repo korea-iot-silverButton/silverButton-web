@@ -1,17 +1,21 @@
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
-import React, { useState, useEffect } from "react";
-import { Box, Button, Typography } from "@mui/material";
+
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import useAuthStore from "../../stores/auth.store";
 import SideBar from "../sideBar/SideBar";
-import mainImg from "./mainImg.png";
 
-export default function Header() {
-  // * state * //
+import { AiOutlineMedicineBox } from "react-icons/ai";
+import { LuClipboardPenLine } from "react-icons/lu";
+import { RiHealthBookLine } from "react-icons/ri";
+import { RiCalendarTodoLine } from "react-icons/ri";
+
+function HeaderToolWrap() {
   const { isAuthenticated, user, logout } = useAuthStore();
   const [cookies, setCookies] = useCookies(["token"]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!cookies.token) {
@@ -19,82 +23,90 @@ export default function Header() {
     }
   }, [cookies.token, logout]);
 
-
-  // Event handler for logout
   const handleLogOutClick = () => {
     setCookies("token", "", { expires: new Date() });
     logout();
     alert("로그아웃 되었습니다.");
   };
 
+  return (
+    <div css={s.headerToolWrap}>
+      <div css={s.headerLogo}>
+        <img src="/logo.png" alt="icon" css={s.headerLogoImg} />
+      </div>
+
+      <div css={s.headerToolKit}>
+        {isAuthenticated ? (
+          <>
+            <div>{user && <>{user.nickname}님 안녕하세요</>}</div>
+            <button onClick={handleLogOutClick} css={s.headerButton}>
+              로그아웃
+            </button>
+          </>
+        ) : (
+          <>
+            <Link to={"/auth"} style={{ textDecoration: "none" }}>
+              <button css={s.headerButton}>로그인</button>
+            </Link>
+            <Link to={"/auth/signup"} style={{ textDecoration: "none" }}>
+              <button css={s.headerButton}>회원가입</button>
+            </Link>
+            <Link to={"/"} style={{ textDecoration: "none" }}>
+              <button css={s.headerButton}>홈 화면</button>
+            </Link>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function HeaderNaviWrap() {
   const navigate = useNavigate();
 
-  const handleLoginClick = () => {
-    navigate("/auth");
-  };
-
-  const handleNavigate = () => {
-    navigate("/");
+  const navigateTo = (path: string) => {
+    navigate(path);
   };
 
   return (
-    <div css={s.headerContianer}>
-      <div css={s.headerAll}>
-      <div css={s.headerDt}>
-      <div css={s.logoButton}>
+    <div css={s.headerNaviWrap}>
+      <div css={s.headerHamburger}>
         <SideBar />
-        {/* 중앙 로고 */}
-        
-
-        <img
-          src={require("./메인로고2-removebg-preview.png")}
-          alt="icon"
-          css={s.img}
-        />
-      </div>
-      </div>
-      <Box>
-      {/* Light 버튼과 로그인/회원가입 - 상단 배경색 */}
-      <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ paddingLeft: 50, paddingRight: 50,  p: 0.5 }}>
-
-      <div css={s.headerDt}>
-        <Box display="flex" alignItems="center">
-          {/* 로그인/회원가입 상태 */}
-          {isAuthenticated ? (
-            <>
-              <Typography variant="subtitle1" m={2}>
-                {user && <>{user.nickname}님 안녕하세요</>}
-              </Typography>
-              <Button variant="text" onClick={handleLogOutClick}>
-                로그아웃
-              </Button>
-            </>
-          ) : (
-            <>
-              <Link to={"/auth"} style={{ textDecoration: "none",  }}>
-                <Typography variant="subtitle1" m={2} css={s.button}>
-                  로그인
-                </Typography>
-              </Link>
-              <Link to={"/auth/signup"} style={{ textDecoration: "none", }}>
-                <Typography variant="subtitle1" m={2} css={s.button}>
-                  회원가입
-                </Typography>
-              </Link>
-          <button onClick={handleNavigate} css={s.button}>
-            HOME
-          </button>
-            </>
-          )}
-          {/* <div css={s.headerButton}> */}
-        {/* </div> */}
-        </Box>
-      </div>
-      </Box>
-      </Box>
       </div>
 
-      
+      <div css={s.headerNaviButtons}>
+        <div
+          css={s.haderNaviButton}
+          onClick={() => navigateTo("/medicine/search")}
+        >
+          <AiOutlineMedicineBox css={s.naviIcon}/>
+          <div css={s.naviTitle}>약품 검색</div>
+        </div>
+        <div
+          css={s.haderNaviButton}
+          onClick={() => navigateTo("/my-page/calendar")}
+        >
+          <RiCalendarTodoLine css={s.naviIcon}/>
+          <div css={s.naviTitle}>할 일 목록</div>
+        </div>
+        <div css={s.haderNaviButton} onClick={() => navigateTo("/board")}>
+          <LuClipboardPenLine css={s.naviIcon}/>
+          <div css={s.naviTitle}>게시판</div>
+        </div>
+        <div css={s.haderNaviButton} onClick={() => navigateTo("/matching")}>
+          <RiHealthBookLine css={s.naviIcon}/>
+          <div css={s.naviTitle}>헬스매거진</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function Header() {
+  return (
+    <div css={s.headerContianer}>
+      <HeaderToolWrap />
+      <HeaderNaviWrap />
     </div>
   );
 }

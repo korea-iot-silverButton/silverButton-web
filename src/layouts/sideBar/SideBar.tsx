@@ -1,13 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
-import { Box, Button } from '@mui/material';
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import { FaBars } from "react-icons/fa";
-import { TbArrowBarRight } from "react-icons/tb";
-import { FaBarcode } from "react-icons/fa";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { HiBars3 } from "react-icons/hi2";
-import { BsLayoutTextSidebar } from "react-icons/bs";
 
 export default function SideBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,48 +18,63 @@ export default function SideBar() {
   };
 
   return (
-  <>
-  
-    <button css={s.hamburgerStyles} onClick={toggleSide}>
-    <BsLayoutTextSidebar />
+    <div>
+      <button css={s.hamburgerStyles} onClick={toggleSide}>
+        <HiBars3 />
       </button>
 
       <div css={s.sidebarStyles(isOpen)}>
-        <h1 onClick={() => handleNavigate("/")} css={s.sideName}>
-          SILVER NEEDS
-        
-        </h1>
-        <Button variant="text" style={{ fontSize: "20px" }} onClick={() => handleNavigate("/auth")}>
-          로그인
-        </Button>
-        <hr />
-        <Button variant="text" style={{ fontSize: "20px" }} onClick={() => handleNavigate("/my-page")}>
-          마이 페이지
-        </Button>
-        <hr />
-        <Button variant="text" style={{ fontSize: "20px" }} onClick={() => handleNavigate("/medicine/search")}>
-          약품 검색
-        </Button>
-        <hr />
-        <Button variant="text" style={{ fontSize: "20px" }} onClick={() => handleNavigate("/board")}>
-          게시판
-        </Button>
-        <hr />
-        <Button variant="text" style={{ fontSize: "20px" }} onClick={() => handleNavigate("/matching")}>
-          매칭
-        </Button>
-        <hr />
-        <Button variant="text" style={{ fontSize: "20px" }} onClick={() => handleNavigate("/message")}>
-          메세지
-        </Button>
-        <hr />
-        <Button variant="text" style={{ fontSize: "20px" }} onClick={() => handleNavigate("/my-page/calendar")}>
-          캘린더
-        </Button>
-        <button css={s.closeButtonStyles} onClick={toggleSide}>
-          닫기
-        </button>
+        <div css={s.sidebarTitle} onClick={() => handleNavigate("/")}>
+          <div css={s.sideTitle}>SILVER</div>
+          <div css={s.sideTitle}>NEEDS</div>
+        </div>
+        <div css={s.sidebarButtons}>
+          <button css={s.sidebarButton} onClick={() => handleNavigate("/auth")}>
+            로그인
+          </button>
+          <button
+            css={s.sidebarButton}
+            onClick={() => handleNavigate("/my-page")}
+          >
+            마이 페이지
+          </button>
+          <button
+            css={s.sidebarButton}
+            onClick={() => handleNavigate("/medicine/search")}
+          >
+            약품 검색
+          </button>
+          <button
+            css={s.sidebarButton}
+            onClick={() => handleNavigate("/board")}
+          >
+            게시판
+          </button>
+          <button
+            css={s.sidebarButton}
+            onClick={() => handleNavigate("/matching")}
+          >
+            매칭
+          </button>
+          <button
+            css={s.sidebarButton}
+            onClick={() => handleNavigate("/message")}
+          >
+            메세지
+          </button>
+          <button
+            css={s.sidebarButton}
+            onClick={() => handleNavigate("/my-page/calendar")}
+          >
+            캘린더
+          </button>
+        </div>
+        <div css={s.sidebarCloseButtonContainer}>
+          <button css={s.sidebarCloseButton} onClick={toggleSide}>
+            닫기
+          </button>
+        </div>
       </div>
-  </>
-  )
+    </div>
+  );
 }

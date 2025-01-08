@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./views/home";
+import "./App.css";
 
 import MedicineSearch from "./views/drug/medicineSearch";
 import MedicineSearchList from "./views/drug/medicineListPage";
@@ -8,6 +9,7 @@ import MedicineDetailPage from "./views/drug/medicineDetailPage";
 
 import Authentication from "./views/authentication";
 import PasswordReset from "./views/authentication"
+import SignUp from "./views/authentication/signUp";
 
 import Board from "./views/board";
 import CreateBoard from "./views/board/CreateBoard";
@@ -28,7 +30,7 @@ import Footer from "./layouts/footer/Footer";
 import HeaderLayout from "./layouts/headerLayout/HeaderLayout";
 import FooterLayout from "./layouts/footerLayout/FooterLayout";
 import MainLayout from "./layouts/mainLayout/MainLayout";
-import SignUp from "./views/authentication/SignUp";
+
 
 export default function App() {
   return (
