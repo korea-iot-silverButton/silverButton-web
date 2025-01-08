@@ -93,7 +93,7 @@ function HeaderNaviWrap() {
           <LuClipboardPenLine css={s.naviIcon}/>
           <div css={s.naviTitle}>게시판</div>
         </div>
-        <div css={s.haderNaviButton} onClick={() => navigateTo("/matching")}>
+        <div css={s.haderNaviButton} onClick={() => navigateTo("/health-magazine")}>
           <RiHealthBookLine css={s.naviIcon}/>
           <div css={s.naviTitle}>헬스매거진</div>
         </div>
