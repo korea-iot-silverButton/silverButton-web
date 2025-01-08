@@ -30,7 +30,6 @@ import Footer from "./layouts/footer/Footer";
 import HeaderLayout from "./layouts/headerLayout/HeaderLayout";
 import FooterLayout from "./layouts/footerLayout/FooterLayout";
 import MainLayout from "./layouts/mainLayout/MainLayout";
-import SignUp from "./views/authentication/signUp";
 import MessageBox from "./views/message/MessageBox";
 import MessageDetails from "./views/message/MessageDetails";
 
