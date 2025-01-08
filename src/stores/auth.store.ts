@@ -7,6 +7,8 @@ interface User {
     nickname: string;
     name?: string;
     role: string;
+    phone: string;
+    profileImg: string;
 }
 
 // 인증 상태의 interface 정의
