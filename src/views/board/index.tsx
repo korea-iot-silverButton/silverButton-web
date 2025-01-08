@@ -39,7 +39,7 @@ export default function Board() {
     try {
       const params: any = {
         page: page - 1,
-        size: 5,
+        size: 10,
         sort: "createdAt,DESC",
       };
       let url = "http://localhost:4040/api/v1/board/all"; // 기본 전체 게시글 조회 URL
@@ -142,7 +142,6 @@ export default function Board() {
     setCurrentPage((prev) => Math.min(prev + 10, totalPages));
   };
 
-  
   const handleCreatePostClick = () => {
     // 로그인 여부 확인
     if (!cookies.token) {
@@ -164,22 +163,32 @@ export default function Board() {
     return doc.body.innerHTML;
   };
 
-
   const getSummary = (content: string) => {
     // HTML 태그 제거 후 텍스트만 추출
     const textContent = removeImagesFromHtml(content);
-  
+
     // 첫 번째 문장만 추출 (문장 끝은 . 또는 ? 또는 !로 간주)
     const firstSentence = textContent.split(/[.!?]/)[0];
-  
+
     // 15자까지만 잘라서 반환
-    return firstSentence.length > 15 ? `${firstSentence.slice(0, 15)}...` : firstSentence;
+    return firstSentence.length > 15
+      ? `${firstSentence.slice(0, 15)}`
+      : firstSentence;
   };
-  
+
   const extractImages = (htmlContent: string) => {
-    const doc = new DOMParser().parseFromString(htmlContent, "text/html");
-    const images = doc.querySelectorAll("img");
-    return Array.from(images).map((img) => img.src);
+    if (!htmlContent) return [];
+
+    try {
+      const doc = new DOMParser().parseFromString(htmlContent, "text/html");
+      const images = doc.querySelectorAll("img");
+      return Array.from(images)
+        .map((img) => img.src)
+        .filter(Boolean);
+    } catch (error) {
+      console.error("Failed to parse HTML content:", error);
+      return [];
+    }
   };
 
   // 전체 게시글 조회 (검색 조건 초기화)
@@ -191,108 +200,104 @@ export default function Board() {
   };
 
   return (
-    <div>
-      <h2>게시판 목록</h2>
+    <div className={style["container"]}>
+      <div className={style["content-box"]}>
+        <div className={style["header-container"]}>
+          <div className={style["search-container"]}>
+            <select
+              value={searchType}
+              onChange={(e) => setSearchType(e.target.value)}
+              className={style["search-select"]}
+            >
+              <option value="title">제목</option>
+              <option value="author">작성자</option>
+            </select>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="검색어를 입력하세요"
+              className={style["search-input"]}
+            />
+            <button onClick={handleSearch} className={style["search-button"]}>
+              검색
+            </button>
+            <div className={style["button-container"]}>
+              <p
+                onClick={handleCreatePostClick}
+                className={style["board-link"]}
+              >
+                ✏️
+              </p>
+              <p onClick={handleBoardClick} className={style["board-link"]}>
+                📝
+              </p>
+            </div>
+          </div>
+        </div>
 
-      {/* 게시글 작성 버튼 */}
-      <p onClick={handleCreatePostClick} className={style["board-link"]}>
-        게시글 작성
-      </p>
-
-      {/* '게시판' 클릭으로 전체 게시글 조회 */}
-      <p onClick={handleBoardClick} className={style["board-link"]}>
-        게시판
-      </p>
-
-      {/* 검색 UI */}
-      <div className={style["search-container"]}>
-        <select
-          value={searchType}
-          onChange={(e) => setSearchType(e.target.value)}
-          className={style["search-select"]}
-        >
-          <option value="title">제목</option>
-          <option value="author">작성자</option>
-        </select>
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="검색어를 입력하세요"
-          className={style["search-input"]}
-        />
-        <button onClick={handleSearch} className={style["search-button"]}>
-          검색
-        </button>
-      </div>
-
-      <div>
-        {posts.length === 0 ? (
-          <p>게시글이 없습니다.</p> // 검색 결과가 없으면 안내 메시지 표시
-        ) : (
-          <table className={style["board-table"]}>
-            <tbody>
+        <div>
+          {posts.length === 0 ? (
+            <p>게시글이 없습니다.</p>
+          ) : (
+            <div className={style["board-container"]}>
               {posts.map((post) => {
                 const contentSummary = getSummary(post.content);
                 const imageUrls = extractImages(post.content);
-                
+                console.log("img : ",imageUrls);
 
                 return (
-                  <React.Fragment key={post.id}>
-                    <tr
-                      onClick={() => handlePostClick(post.id)} // <tr>에 클릭 이벤트 추가
-                      style={{ cursor: "pointer" }} // 포인터 커서 스타일 추가
-                    >
-                      <td colSpan={2}>{post.title}</td>
-                      <th>{post.username || "작성자 없음"}</th>
-                      <td rowSpan={3}>
-                        <img
-                          src={
-                            imageUrls.length > 0 && imageUrls[0]
-                              ? imageUrls[0]
-                              : BasicImage
-                          }
-                          alt="게시글 이미지"
-                          style={{ width: "100px", height: "100px" }}
-                        />
-                      </td>
-                    </tr>
-                    <tr
-                      onClick={() => handlePostClick(post.id)} // <tr>에 클릭 이벤트 추가
-                      style={{ cursor: "pointer" }} // 포인터 커서 스타일 추가
-                    >
-                      <td
-                        colSpan={3}
-                        dangerouslySetInnerHTML={{
-                          __html: contentSummary,
+                  <div
+                    key={post.id}
+                    className={style["board-item"]}
+                    onClick={() => handlePostClick(post.id)}
+                  >
+                    <div className={style["board-item-content"]}>
+                      <div className={style["board-header"]}>
+                        <h3 className={style["board-title"]}>{post.title}</h3>
+                      </div>
+                      <div
+                        className={style["board-content"]}
+                        dangerouslySetInnerHTML={{ __html: contentSummary }}
+                      />
+                      <div className={style["board-footer"]}>
+                        <span className={style["username"]}>
+                          {post.username || "작성자 없음"}
+                        </span>
+                        <span className={style["created-at"]}>
+                          {new Date(post.createdAt).toLocaleString()}
+                        </span>
+                        <span className={style["likes"]}>👍 {post.likes}</span>
+                        <span className={style["views"]}>👁️ {post.views}</span>
+                      </div>
+                    </div>
+                    <div className={style["board-item-image"]}>
+                      <img
+                        src={imageUrls.length > 0 ? imageUrls[0] : BasicImage}
+                        alt="게시글 이미지"
+                        style={{
+                          width: "100%",
+                          height: "150px",        
+                          borderRadius: "4px",    
+                          marginRight: "50px"     
                         }}
                       />
-                    </tr>
-
-                    <tr>
-                      <td>{post.likes}</td>
-                      <td>{post.views}</td>
-                      <td>
-                        {post.createdAt
-                          ? new Date(post.createdAt).toLocaleString()
-                          : "작성일 없음"}
-                      </td>
-                    </tr>
-                  </React.Fragment>
+                    </div>
+                  </div>
                 );
               })}
-            </tbody>
-          </table>
-        )}
-      </div>
+            </div>
+          )}
+        </div>
 
-      <Pagination
-        totalPages={totalPages}
-        currentPage={currentPage}
-        handlePageClick={handlePageClick}
-        handlePreGroupClick={handlePreGroupClick}
-        handleNextGroupClick={handleNextGroupClick}
-      />
+        <Pagination
+          totalPages={totalPages}
+          currentPage={currentPage}
+          handlePageClick={handlePageClick}
+          handlePreGroupClick={handlePreGroupClick}
+          handleNextGroupClick={handleNextGroupClick}
+        />
+      </div>
     </div>
   );
 }

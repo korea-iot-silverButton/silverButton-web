@@ -8,6 +8,7 @@ interface Board {
   title: string;
   content: string;
   username: string; // 작성자 이름 포함
+  writerId: number; // 작성자 ID 추가
   createdAt: string;
   likes: number;
   views: number;
@@ -38,9 +39,10 @@ export default function BoardDetail() {
     const fetchBoard = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4040/api/v1/board/${id}?userId=1`
+          `http://localhost:4040/api/v1/board/${id}?userId=${currentUserId}`
         );
         setBoard(response.data.data);
+        console.log("Writer ID:", response.data.data.writerId);
       } catch (error) {
         console.error("Failed to fetch Board:", error);
         alert("게시글을 불러오는 데 실패했습니다.");
@@ -50,7 +52,11 @@ export default function BoardDetail() {
     };
 
     if (id) fetchBoard();
-  }, [id]);
+  }, [id, currentUserId]);
+
+  useEffect(() => {
+    console.log("currentUserId:", currentUserId); // currentUserId 확인
+  }, [currentUserId]);
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -67,6 +73,12 @@ export default function BoardDetail() {
     if (id) fetchComments();
   }, [id]);
 
+  // 상태 변경 후 콘솔 로그
+  useEffect(() => {
+    console.log("currentUserId:", currentUserId);
+    console.log("boardId:", board?.id);
+  }, [currentUserId, board]);
+
   const handleAddComment = async () => {
     if (!newComment.trim()) {
       alert("댓글 내용을 입력해주세요.");
@@ -76,7 +88,7 @@ export default function BoardDetail() {
     const commentData = {
       content: newComment,
       boardId: id, // 게시글 ID
-      writerId: 1, // 작성자 ID (테스트용 ID)
+      writerId: currentUserId,
     };
 
     try {
@@ -94,7 +106,7 @@ export default function BoardDetail() {
   const handleDeleteComment = async (commentId: number) => {
     try {
       await axios.delete(
-        `http://localhost:4040/api/v1/board/comment/${commentId}`
+        `http://localhost:4040/api/v1/board/comment/${commentId}?userId=${currentUserId}`
       );
       setComments(comments.filter((comment) => comment.id !== commentId));
     } catch (error) {
@@ -104,65 +116,72 @@ export default function BoardDetail() {
 
   // 좋아요 처리 함수
   const handleLike = async () => {
-    // const userId = 1; // 테스트용 사용자 ID
-    const likeData = { boardId: id, currentUserId, liked: !board?.liked }; // liked 상태도 전달
-  
+    const likeData = {
+      boardId: id,
+      userId: currentUserId,
+      liked: !board?.liked,
+    }; // liked 상태도 전달
+
     try {
       let response;
-  
+
       // 좋아요 추가 또는 취소
-      response = await axios.post(`http://localhost:4040/api/v1/board/boardlike/toggle`, likeData);
-  
+      response = await axios.post(
+        `http://localhost:4040/api/v1/board/boardlike/toggle`,
+        likeData
+      );
+
       // 서버 응답에 따라 상태 업데이트
       setBoard((prevBoard) => ({
         ...prevBoard!,
-        liked: !prevBoard?.liked,  // liked 상태 토글
+        liked: !prevBoard?.liked, // liked 상태 토글
         likes: prevBoard?.liked ? prevBoard!.likes - 1 : prevBoard!.likes + 1, // 좋아요 수 증가 또는 감소
       }));
-  
+
       console.log("응답 데이터:", response.data); // 응답 데이터 확인
     } catch (error) {
       console.error("좋아요 처리 실패:", error);
     }
   };
-  
-  
 
-  // 게시글 수정 버튼 클릭 
+  // 게시글 수정 버튼 클릭
   const handleEdit = () => {
-    if (currentUserId !== board?.id) {
-      alert("수정하려면 로그인해야 합니다.");
+    if (currentUserId === null) {
+      alert("로그인이 필요합니다.");
+      navigate("/login");
       return;
     }
-    navigate(`/board/${id}/edit`); // 게시글 수정 페이지로 이동
+
+    if (currentUserId !== board?.writerId) {
+      // 작성자 ID와 비교
+      alert("수정하려면 작성자여야 합니다.");
+      return;
+    }
+
+    navigate(`/board/${id}/edit`);
   };
 
-  // // 게시글 삭제 버튼 클릭 시
+  // 게시글 삭제 버튼 클릭 시
   const handleDelete = async () => {
-    if (currentUserId !== board?.id) {
+    if (currentUserId !== board?.writerId) {
+      // 작성자 ID와 비교
       alert("삭제 권한이 없습니다.");
       return;
     }
-    if (!id) {
-      console.error("ID is missing, cannot delete Board.");
-      return;
-    }
+
     if (window.confirm("게시글을 삭제하시겠습니까?")) {
       try {
-        console.log(`Deleting Board with ID: ${id}`);
-        const response = await axios.delete(
-          `http://localhost:4040/api/v1/board/delete/${id}`
+        await axios.delete(
+          `http://localhost:4040/api/v1/board/delete/${id}?userId=${currentUserId}`
         );
-        console.log("Delete response:", response);
         alert("게시글이 삭제되었습니다.");
-        navigate("/board"); // 게시글 메인 페이지로 이동
+        navigate("/board");
       } catch (error) {
         console.error("Failed to delete Board:", error);
         alert("게시글 삭제에 실패했습니다.");
       }
     }
-  }; 
-
+  };
   // 나가기 버튼 클릭 시
   const handleExit = () => {
     navigate("/board"); // 게시판 메인 페이지로 이동
@@ -185,7 +204,11 @@ export default function BoardDetail() {
         <div dangerouslySetInnerHTML={{ __html: board.content }} />
         {board.imageUrl && (
           <img
-            src={board.imageUrl.startsWith("http") ? board.imageUrl : `http://localhost:4040/${board.imageUrl}`}
+            src={
+              board.imageUrl.startsWith("http")
+                ? board.imageUrl
+                : `http://localhost:4040/${board.imageUrl}`
+            }
             alt="게시글 이미지"
             className={style.image}
           />
@@ -212,8 +235,12 @@ export default function BoardDetail() {
 
       {/* 수정/삭제 버튼 */}
       <div className={style.actionBox}>
-        <button onClick={handleEdit}>수정하기</button>
-        <button onClick={handleDelete}>삭제하기</button>
+        {currentUserId === board?.writerId && (
+          <>
+            <button onClick={handleEdit}>수정하기</button>
+            <button onClick={handleDelete}>삭제하기</button>
+          </>
+        )}
       </div>
 
       {/* 댓글 기능 */}
@@ -248,6 +275,5 @@ export default function BoardDetail() {
         </div>
       </div>
     </div>
-    
   );
 }
