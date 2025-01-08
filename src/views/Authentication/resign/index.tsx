@@ -1,21 +1,36 @@
 import React, { useState } from 'react';
-
-import './ReSign.css'; 
+import './ReSign.css';
 
 const ReSign = () => {
-  const [isConfirming, setIsConfirming] = useState(false); // 탈퇴 확인을 위한 상태 관리
+  const [isConfirming, setIsConfirming] = useState(false); // 탈퇴 확인 상태
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false); // 비밀번호 입력 모달 상태
+  const [password, setPassword] = useState(''); // 입력된 비밀번호 상태
 
   const handleDelete = () => {
-    setIsConfirming(true); // 탈퇴 확인창 표시
+    setIsPasswordModalOpen(true); // 비밀번호 입력 모달 열기
   };
 
-  const handleConfirmDelete = () => {
-    alert('회원탈퇴가 완료되었습니다.');
-    setIsConfirming(false);
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value); // 비밀번호 입력값 업데이트
+  };
+
+  const handleConfirmPassword = () => {
+    if (password === 'correct-password') {
+      alert('회원탈퇴가 완료되었습니다.');
+      setIsConfirming(true);
+    } else {
+      alert('비밀번호가 올바르지 않습니다.');
+    }
+    setIsPasswordModalOpen(false);
+    setPassword(''); // 비밀번호 초기화
+  };
+
+  const handleCancelPassword = () => {
+    setIsPasswordModalOpen(false); // 비밀번호 입력 모달 닫기
   };
 
   const handleCancelDelete = () => {
-    setIsConfirming(false); // 취소 버튼 클릭 시 확인창 닫기
+    setIsConfirming(false); // 탈퇴 확인 취소
   };
 
   return (
@@ -32,7 +47,7 @@ const ReSign = () => {
         ) : (
           <div className="confirmation-box">
             <p>정말 탈퇴하시겠습니까?</p>
-            <button className="confirm-button" onClick={handleConfirmDelete}>
+            <button className="confirm-button" onClick={handleConfirmPassword}>
               탈퇴
             </button>
             <button className="cancel-button" onClick={handleCancelDelete}>
@@ -41,9 +56,29 @@ const ReSign = () => {
           </div>
         )}
       </div>
+
+      {/* 비밀번호 입력 모달 */}
+      {isPasswordModalOpen && (
+        <div className="password-modal">
+          <div className="password-modal-content">
+            <h3>비밀번호를 입력하세요</h3>
+            <input
+              type="password"
+              placeholder="비밀번호"
+              value={password}
+              onChange={handlePasswordChange}
+            />
+            <button className="confirm-password-button" onClick={handleConfirmPassword}>
+              확인
+            </button>
+            <button className="cancel-password-button" onClick={handleCancelPassword}>
+              취소
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default ReSign;
-
