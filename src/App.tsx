@@ -8,8 +8,8 @@ import MedicineSearchList from "./views/drug/medicineListPage";
 import MedicineDetailPage from "./views/drug/medicineDetailPage";
 
 import Authentication from "./views/authentication";
-import PasswordReset from "./views/authentication"
 import SignUp from "./views/authentication/signUp";
+import PasswordReset from "./views/passwordReset";
 
 import Board from "./views/board";
 import CreateBoard from "./views/board/CreateBoard";
@@ -60,7 +60,7 @@ export default function App() {
           {/* 회원가입 / 로그인 기능 */}
           <Route path="/auth" element={<Authentication />} />
           <Route path="/auth/signup" element={<SignUp />} />
-          <Route path="/PasswordReset" element={<PasswordReset />} />
+          <Route path="/passwordReset" element={<PasswordReset />} />
 
           {/* 게시판 - 로그인 필요 X */}
 
