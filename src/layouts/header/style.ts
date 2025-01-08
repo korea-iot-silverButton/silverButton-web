@@ -50,29 +50,7 @@ export const logoButton = css`
   gap: 50px;
 `;
 
-export const TEXT = css`
-  background: linear-gradient(135deg, #6d5dfc, #c054fc);
-  color: white;
-  border: none;
-  border-radius: 30px; /* 둥근 모서리 */
-  padding: 4px 12px; /* 위아래 패딩 줄임 */
-  font-size: 18px; /* 폰트 크기 */
-  font-weight: bold;
-  height: 36px; /* 버튼 고정 높이 설정 */
-  cursor: pointer;
-  transition: all 0.3s ease;
 
-  &:hover {
-    background: linear-gradient(135deg, #c054fc, #6d5dfc);
-    box-shadow: 0 4px 8px rgba(109, 93, 252, 0.4); /* 호버 시 그림자 */
-    transform: translateY(-2px); /* 살짝 위로 이동 */
-  }
-
-  &:active {
-    transform: translateY(1px); /* 클릭 시 눌림 효과 */
-    box-shadow: 0 2px 5px rgba(109, 93, 252, 0.2);
-  }
-`;
 
 export const headerButton = css`
   display: flex;
