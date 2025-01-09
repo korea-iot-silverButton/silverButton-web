@@ -17,7 +17,7 @@ import BoardDetail from "./views/board/BoardDetail";
 import EditBoard from "./views/board/EditBoard";
 
 import MyPage from "./views/authentication/myPage/index";
-import Resign from "./views/authentication/reSign";
+import Resign from "./views/authentication/resign";
 import Calendar from "./views/calendar/Calendar";
 
 import Matching from "./views/matching/CaregiverMatching"
