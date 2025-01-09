@@ -26,7 +26,7 @@ interface ElderCredentials {
 
 interface SignInResponseDto {
   token: string;
-  user: { id: number; userId: string; nickname: string; role: string; };
+  user: { id: number; userId: string; nickname: string; role: string; phone: string; profileImg: string};
   exprTime: number;
 }
 
@@ -152,14 +152,14 @@ export default function SignIn() {
               onClick={() => setIsElder(false)}
               className="signin-tab"
             >
-              일반 로그인
+              일반 & 요양사 로그인
             </Button>
             <Button
               variant={isElder ? "contained" : "outlined"}
               onClick={() => setIsElder(true)}
               className="signin-tab"
             >
-              간편 로그인
+              노인 로그인
             </Button>
           </div>
 
