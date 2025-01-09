@@ -26,7 +26,11 @@ interface ElderCredentials {
 
 interface SignInResponseDto {
   token: string;
+<<<<<<< HEAD
   user: { id: number; userId: string; nickname: string; role: string; phone: string; profileImg: string};
+=======
+  user: { id: number; userId: string; nickname: string; role: string; phone:string; profileImg:string; };
+>>>>>>> develop
   exprTime: number;
 }
 
