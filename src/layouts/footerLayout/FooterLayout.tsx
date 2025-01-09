@@ -7,5 +7,5 @@ interface FooterLayoutProps {
 }
 
 export default function HeaderLayout({ children }: FooterLayoutProps) {
-  return <div css={s.footer}>{children}</div>;
+  return <div css={s.footerLayout}>{children}</div>;
 }
