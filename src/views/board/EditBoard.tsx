@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import Quill from "quill";
+import "quill/dist/quill.snow.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
@@ -8,6 +10,8 @@ export default function EditPost() {
   const [post, setPost] = useState({ title: "", content: "" , imgeUrl: ""});
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
+  const quillRef = useRef<HTMLDivElement>(null);
+  const quillInstance = useRef<Quill | null>(null); // Quill 인스턴스를 저장할 ref
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -21,6 +25,26 @@ export default function EditPost() {
           }
         );
         setPost(response.data.data);
+
+          // Quill 인스턴스를 초기화
+          if (quillRef.current) {
+            quillInstance.current = new Quill(quillRef.current, {
+              theme: "snow",
+              placeholder: "내용을 수정하세요...",
+              modules: {
+                toolbar: [
+                  ["bold", "italic", "underline", "strike"], // 텍스트 스타일
+                  [{ list: "ordered" }, { list: "bullet" }], // 리스트
+                  ["link", "image"], // 링크 및 이미지
+                ],
+              },
+            });
+
+
+
+            // 기존 게시글 내용 설정
+            quillInstance.current.root.innerHTML = response.data.data.content;
+          }
       } catch (error) {
         console.error("Failed to fetch post:", error);
         alert("게시글을 불러오는 데 실패했습니다.");
@@ -31,6 +55,7 @@ export default function EditPost() {
       fetchPost();
     }
   }, [id, cookies.token]);
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,11 +95,10 @@ export default function EditPost() {
           value={post.title}
           onChange={(e) => setPost({ ...post, title: e.target.value })}
         />
-        <textarea
-          placeholder="내용"
-          value={post.content}
-          onChange={(e) => setPost({ ...post, content: e.target.value })}
-        />
+        <div
+          ref={quillRef}
+          style={{ height: "300px", margin: "16px 0" }}
+        ></div>
         <input
           type="text"
           placeholder="이미지 URL (선택)"

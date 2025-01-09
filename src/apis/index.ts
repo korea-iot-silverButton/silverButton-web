@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Task } from "../types";
 
-export const MAIN_URL = `http://localhost:8080/api/v1`;
+export const MAIN_URL = `http://localhost:4040/api/v1`;
 
 const TASK_API_URL = `${MAIN_URL}/todos`;
 
