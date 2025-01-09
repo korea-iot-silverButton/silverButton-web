@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import './ReSign.css';
 
-<<<<<<< HEAD
-const ReSign = () => {
-=======
 const Resign = () => {
->>>>>>> develop
   const [isConfirming, setIsConfirming] = useState(false); // 탈퇴 확인 상태
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false); // 비밀번호 입력 모달 상태
   const [password, setPassword] = useState(''); // 입력된 비밀번호 상태
@@ -85,8 +81,4 @@ const Resign = () => {
   );
 };
 
-<<<<<<< HEAD
-export default ReSign;
-=======
 export default Resign;
->>>>>>> develop
