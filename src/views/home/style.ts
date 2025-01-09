@@ -29,22 +29,10 @@ position: relative;
   `;
   
 
-export const boxContainer = css`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  background-color: transparent;
-  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7) */
+export const homeContentContainer = css`
+
 `;
 
-export const rowBox = css`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  /* justify-content: center; */
-  justify-content: space-between;
-  padding: 50px 50px;
+export const healthMegazineTop5 = css`
+
 `;
