@@ -4,7 +4,8 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import style from "./board.module.css";
-import LikeButton from "../../components/LikeButton";
+import BasicImage from "../../views/board/BasicImage.png";
+import { Quill } from "react-quill";
 
 interface Post {
   id: number;
@@ -14,9 +15,7 @@ interface Post {
   createdAt: string;
   likes: number;
   views: number;
-  imgeUrl?: string;
-  likeId?: number;  // likeId 추가
-  liked: boolean;   // 좋아요 상태 추가
+  imageUrl?: string;
 }
 
 export default function Board() {
@@ -33,6 +32,7 @@ export default function Board() {
       console.warn("Invalid page number:", page);
       return;
     }
+    console.log("POST", posts);
 
     console.log("검색어");
 
@@ -49,32 +49,29 @@ export default function Board() {
         console.log("검색어", searchQuery);
         if (searchType === "title") {
           params["keyword"] = searchQuery.trim(); // 제목으로 검색
-          console.log("키워드", params.keyword);
-          console.log("키워드 param", params);
           url = "http://localhost:4040/api/v1/board/search/title"; // 제목 검색 API
-          console.log("url : ", url);
         } else if (searchType === "author") {
           params["name"] = searchQuery.trim(); // 작성자로 검색
-          console.log("params : ", params);
           url = "http://localhost:4040/api/v1/board/search/name"; // 작성자 검색 API
-          console.log("url : ", url);
         }
       }
 
       // 요청 전 파라미터, URL, 헤더 확인
       console.log("Request URL:", url);
       console.log("Request Params:", params);
-      console.log(
-        "Authorization Header:",
-        cookies.token ? `Bearer ${cookies.token}` : "No Token"
-      );
+
+      const headers = cookies.token
+        ? { Authorization: `Bearer ${cookies.token}` }
+        : {}; // Authorization 헤더 포함
 
       const response = await axios.get(url, {
         params,
+        headers, // 헤더에 토큰 추가
       });
 
       const data = response.data.data;
 
+      console.log("dataImgae", data.images);
       console.log("API Response:", response.data.data); // 응답 데이터 확인
 
       if (data && data.content) {
@@ -88,6 +85,7 @@ export default function Board() {
 
         console.log("전체 데이터:", data); // data 값 전체 출력
         console.log("게시글 목록:", data.content); // data.content 값 출력
+        console.log("게시글 :", data.content.content); // data.content 값 출력
         console.log("전체 페이지 수:", data.totalPages); // data.totalPages 값 출력
       } else {
         setPosts([]); // 검색 결과가 없으면 빈 배열로 설정
@@ -133,6 +131,7 @@ export default function Board() {
   // 페이지 클릭 핸들러
   const handlePageClick = (page: number) => {
     setCurrentPage(page);
+    fetchPosts(page); // 페이지 변경 시 게시글 다시 불러오기
   };
 
   const handlePreGroupClick = () => {
@@ -143,44 +142,52 @@ export default function Board() {
     setCurrentPage((prev) => Math.min(prev + 10, totalPages));
   };
 
-  const getSummary = (content: string) => {
-    const firstLine = content.split("\n")[0].trim();
-    return firstLine.length > 15 ? `${firstLine.slice(0, 15)}...` : firstLine;
+  const handleCreatePostClick = () => {
+    // 로그인 여부 확인
+    if (!cookies.token) {
+      alert("로그인 후 게시글을 작성할 수 있습니다.");
+      navigate("/auth"); // 로그인 페이지로 이동
+    } else {
+      navigate("/board/create"); // 게시글 작성 페이지로 이동
+    }
   };
 
-  const handleLikeToggle  = async (postId: number, liked: boolean ) => {
-    const postIndex = posts.findIndex((post) => post.id === postId);
-    if (postIndex === -1) return;
+  const removeImagesFromHtml = (htmlContent: string): string => {
+    const doc = new DOMParser().parseFromString(htmlContent, "text/html");
 
-    const post = posts[postIndex];
+    // 이미지 태그만 제거
+    const images = doc.querySelectorAll("img");
+    images.forEach((img) => img.remove());
+
+    // 수정된 HTML 반환
+    return doc.body.innerHTML;
+  };
+
+  const getSummary = (content: string) => {
+    // HTML 태그 제거 후 텍스트만 추출
+    const textContent = removeImagesFromHtml(content);
+
+    // 첫 번째 문장만 추출 (문장 끝은 . 또는 ? 또는 !로 간주)
+    const firstSentence = textContent.split(/[.!?]/)[0];
+
+    // 15자까지만 잘라서 반환
+    return firstSentence.length > 15
+      ? `${firstSentence.slice(0, 15)}`
+      : firstSentence;
+  };
+
+  const extractImages = (htmlContent: string) => {
+    if (!htmlContent) return [];
+
     try {
-      let url = `http://localhost:4040/api/v1/board/boardlike/${
-        liked ? "delete/" + post.likeId : "insert"
-      }`;
-
-      // 좋아요 추가/삭제 요청
-      const response = await axios.post(
-        url,
-        {boardId: postId  },
-        {
-          headers: {
-            // Authorization: cookies.token ? `Bearer ${cookies.token}` : "",
-          },
-        }
-      );
-
-      // 좋아요 상태와 수 업데이트
-      const updatedPosts = [...posts];
-      updatedPosts[postIndex] = {
-        ...post,
-        liked: !liked,
-        likes: response.data.data.likes,
-        likeId: !liked ? response.data.data.likeId : undefined,
-      };
-
-      setPosts(updatedPosts);
+      const doc = new DOMParser().parseFromString(htmlContent, "text/html");
+      const images = doc.querySelectorAll("img");
+      return Array.from(images)
+        .map((img) => img.src)
+        .filter(Boolean);
     } catch (error) {
-      console.error("Failed to toggle like", error);
+      console.error("Failed to parse HTML content:", error);
+      return [];
     }
   };
 
@@ -193,116 +200,104 @@ export default function Board() {
   };
 
   return (
-    <div>
-      <h2>게시판 목록</h2>
+    <div className={style["container"]}>
+      <div className={style["content-box"]}>
+        <div className={style["header-container"]}>
+          <div className={style["search-container"]}>
+            <select
+              value={searchType}
+              onChange={(e) => setSearchType(e.target.value)}
+              className={style["search-select"]}
+            >
+              <option value="title">제목</option>
+              <option value="author">작성자</option>
+            </select>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="검색어를 입력하세요"
+              className={style["search-input"]}
+            />
+            <button onClick={handleSearch} className={style["search-button"]}>
+              검색
+            </button>
+            <div className={style["button-container"]}>
+              <p
+                onClick={handleCreatePostClick}
+                className={style["board-link"]}
+              >
+                ✏️
+              </p>
+              <p onClick={handleBoardClick} className={style["board-link"]}>
+                📝
+              </p>
+            </div>
+          </div>
+        </div>
 
-      {/*} {cookies.token && (
-   <p onClick={() => navigate("/board/create")} className={style["board-link"]}>
-     게시글 작성
-   </p>
- )}  */}
+        <div>
+          {posts.length === 0 ? (
+            <p>게시글이 없습니다.</p>
+          ) : (
+            <div className={style["board-container"]}>
+              {posts.map((post) => {
+                const contentSummary = getSummary(post.content);
+                const imageUrls = extractImages(post.content);
+                console.log("img : ",imageUrls);
 
-      {/* 현재 테스트용: 바로 게시글 작성 페이지로 이동 */}
-      <p
-        onClick={() => navigate("/board/create")}
-        className={style["board-link"]}
-      >
-        게시글 작성
-      </p>
-
-      {/* '게시판' 클릭으로 전체 게시글 조회 */}
-      <p onClick={handleBoardClick} className={style["board-link"]}>
-        게시판
-      </p>
-
-      {/* 검색 UI */}
-      <div className={style["search-container"]}>
-        <select
-          value={searchType}
-          onChange={(e) => setSearchType(e.target.value)}
-          className={style["search-select"]}
-        >
-          <option value="title">제목</option>
-          <option value="author">작성자</option>
-        </select>
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="검색어를 입력하세요"
-          className={style["search-input"]}
-        />
-        <button onClick={handleSearch} className={style["search-button"]}>
-          검색
-        </button>
-      </div>
-
-      <div>
-        {posts.length === 0 ? (
-          <p>게시글이 없습니다.</p> // 검색 결과가 없으면 안내 메시지 표시
-        ) : (
-          <table className={style["board-table"]}>
-            <tbody>
-              {posts.map((post, index) => (
-                <React.Fragment key={post.id}>
-                  <tr
-                    onClick={() => handlePostClick(post.id)} // <tr>에 클릭 이벤트 추가
-                    style={{ cursor: "pointer" }} // 포인터 커서 스타일 추가
+                return (
+                  <div
+                    key={post.id}
+                    className={style["board-item"]}
+                    onClick={() => handlePostClick(post.id)}
                   >
-                    <td colSpan={2}>{post.title}</td>
-                    <th>{post.username || "작성자 없음"}</th>
-                    <td rowSpan={3}>
-                      {post.imgeUrl && (
-                        <img
-                          src={post.imgeUrl}
-                          alt="게시글 이미지"
-                          className="post-image"
-                          style={{
-                            width: "50px",
-                            height: "50px",
-                          }}
-                        />
-                      )}
-                    </td>
-                  </tr>
-                  <tr
-                    onClick={() => handlePostClick(post.id)} // <tr>에 클릭 이벤트 추가
-                    style={{ cursor: "pointer" }} // 포인터 커서 스타일 추가
-                  >
-                    <td colSpan={3}>{getSummary(post.content)}</td>
-                  </tr>
-
-                  <tr>
-                  <td>
-                  <LikeButton
-                        postId={post.id}       //게시글의 ID
-                        likes={post.likes}   // 좋아요 수수   
-                        liked={post.liked}    // 좋아요의 상태      
-                        likeId={post.likeId}   // 좋아요의 ID
-                        onLikeToggle={handleLikeToggle}
+                    <div className={style["board-item-content"]}>
+                      <div className={style["board-header"]}>
+                        <h3 className={style["board-title"]}>{post.title}</h3>
+                      </div>
+                      <div
+                        className={style["board-content"]}
+                        dangerouslySetInnerHTML={{ __html: contentSummary }}
                       />
-                    </td>
-                    <td>{post.views}</td>
-                    <td>
-                      {post.createdAt
-                        ? new Date(post.createdAt).toLocaleString()
-                        : "작성일 없음"}
-                    </td>
-                  </tr>
-                </React.Fragment>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
+                      <div className={style["board-footer"]}>
+                        <span className={style["username"]}>
+                          {post.username || "작성자 없음"}
+                        </span>
+                        <span className={style["created-at"]}>
+                          {new Date(post.createdAt).toLocaleString()}
+                        </span>
+                        <span className={style["likes"]}>👍 {post.likes}</span>
+                        <span className={style["views"]}>👁️ {post.views}</span>
+                      </div>
+                    </div>
+                    <div className={style["board-item-image"]}>
+                      <img
+                        src={imageUrls.length > 0 ? imageUrls[0] : BasicImage}
+                        alt="게시글 이미지"
+                        style={{
+                          width: "100%",
+                          height: "150px",        
+                          borderRadius: "4px",    
+                          marginRight: "50px"     
+                        }}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
 
-      <Pagination
-        totalPages={totalPages}
-        currentPage={currentPage}
-        handlePageClick={handlePageClick}
-        handlePreGroupClick={handlePreGroupClick}
-        handleNextGroupClick={handleNextGroupClick}
-      />
+        <Pagination
+          totalPages={totalPages}
+          currentPage={currentPage}
+          handlePageClick={handlePageClick}
+          handlePreGroupClick={handlePreGroupClick}
+          handleNextGroupClick={handleNextGroupClick}
+        />
+      </div>
     </div>
   );
 }

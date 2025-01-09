@@ -74,3 +74,9 @@
   margin-top: 15px;
   text-align: center;
 }
+
+.kakao-login-container {
+  text-align: center;      /* 수평 중앙 정렬 */
+  vertical-align: middle;  /* 수직 중앙 정렬 */
+  height: 100vh;           /* 부모의 높이를 화면 전체로 설정 */
+}

@@ -1,72 +1,178 @@
-/* Board.module.css */
-/* 수정 페이지 스타일 */
-/* 공통 스타일 */
+/* 메인 컨테이너 설정 */
 .container {
-  width: 50%;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  max-height: 80vh; /* 화면의 80%까지 높이를 제한 */
-  overflow-y: auto; /* 세로 스크롤을 허용 */
-}
-
-
-.container h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.container input,
-.container textarea {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   width: 100%;
-  padding: 12px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
+  height: 220vh; /* 전체 화면 높이 */
+  box-sizing: border-box;
+  padding-top: 100px; /* 헤더 높이를 고려한 여백 */
+  position: relative;
 }
 
-.container input:focus,
-.container textarea:focus {
-  border-color: #007bff;
-  outline: none;
+/* 게시글 목록을 감싸는 박스 */
+.content-box {
+  background-color: #ffffff; /* 하얀색 바탕 */
+  padding: 30px;
+  width: 100%; /* footer와 동일한 너비 */
+  max-width: 84%; /* 최대 너비를 설정해 크기 제한 */
+  border-radius: 8px; /* 둥근 모서리 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 박스에 그림자 추가 */
+  box-sizing: border-box;
+  margin: 0 auto; /* 중앙 정렬 */
+  position: relative;
+  top: 30%; /* 상단에서 30% 위치 */
+  display: flex;
+  flex-direction: column; /* 검색과 목록을 세로 정렬 */
+  gap: 5px; /* 검색과 게시글 목록 간격 */
 }
 
-/* 버튼 그룹 */
-.button-group {
+/* 상단 헤더 부분 (검색, 작성, 전체 게시판) */
+.header-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 5px;
+  flex-wrap: wrap; /* 작은 화면에서도 검색과 버튼 배치를 조정 */
 }
 
-.submit-button,
-.exit-button {
-  padding: 10px 20px;
-  border: none;
+
+
+/* 검색 UI 스타일 */
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%; /* 검색 영역을 전체 너비로 */
+  max-width: 100%; /* 최대 너비 제한 */
+  margin-bottom: 10px;
+}
+
+.search-select,
+.search-input,
+.search-button {
+  padding: 8px;
+  border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 16px;
+}
+
+.search-input {
+  flex-grow: 1; /* 입력창이 가능한 공간을 채움 */
+}
+
+.search-button {
+  background-color: #007bff;
+  color: white;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
-.submit-button {
-  background-color: #28a745;
-  color: white;
+.search-button:hover {
+  background-color: #0056b3;
 }
 
-.submit-button:hover {
-  background-color: #218838;
+/* 버튼들 (작성, 전체 게시판) */
+.button-container {
+  display: flex;
+  align-items: center;
+  margin-left: 30px;
+  margin-right: 20px;
+
+  gap: 50px;
 }
 
-.exit-button {
-  background-color: #6c757d;
-  color: white;
+
+.board-link {
+  cursor: pointer;
+  font-size: 30px; /* 아이콘 크기 키우기 */
+  text-decoration: none; /* 파란색 밑줄 제거 */
+  color: inherit; /* 기본 텍스트 색상 */
 }
 
-.exit-button:hover {
-  background-color: #5a6268;
+
+.board-link:hover {
+  color: inherit;
+  /* 링크에 대한 기본 색상 유지 */
+}
+
+
+/* 게시글 목록 컨테이너 */
+.board-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* 게시글 간 간격 */
+  width: 100%; /* 목록이 전체 너비를 차지하도록 */
+}
+
+/* 게시글 항목 */
+.board-item {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: row; /* 1번과 2번 박스를 나누기 위해 row로 설정 */
+  gap: 10px; /* 간격 설정 */
+  transition: transform 0.2s;
+}
+
+.board-item:hover {
+  transform: translateY(-2px); /* 마우스 오버 시 위로 살짝 이동 */
+}
+
+/* 게시글 내용 (1번 박스) */
+.board-item-content {
+  flex: 9; /* 9 비율 */
+  display: flex;
+  flex-direction: column; /* 제목, 내용, 푸터 세로 정렬 */
+  gap: 10px; /* 각 항목 간격 */
+  padding-left: 20px;
+}
+
+/* 게시글 이미지 (2번 박스) */
+.board-item-image {
+  flex: 1; /* 1 비율 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 게시글 헤더 */
+.board-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.board-title {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* 게시글 내용 */
+.board-content {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+/* 게시글 푸터 */
+.board-footer {
+  display: flex;
+  font-size: 12px;
+  color: #888;
+}
+
+.username {
+  font-weight: bold;
+}
+
+.created-at,
+.likes,
+.views {
+  margin-left: 10px;
 }
 
 /* 게시글 상세 페이지 스타일 */
@@ -119,83 +225,6 @@
   background-color: #218838;
 }
 
-.search-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.search-select,
-.search-input,
-.search-button {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.search-input {
-  flex-grow: 1;
-}
-
-.search-button {
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.search-button:hover {
-  background-color: #0056b3;
-}
-/* 각 게시글을 감싸는 테이블 스타일 */
-.board-table {
-  width: 100%;
-  margin-bottom: 20px; /* 테이블 간 간격 */
-  border-collapse: separate;
-  border-spacing: 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-  border-radius: 8px; /* 모서리 둥글게 */
-  overflow: hidden; /* 둥근 모서리를 유지 */
-}
-
-.board-table th, .board-table td {
-  padding: 12px;
-  border: 1px solid #e2e8f0;
-  text-align: center;
-}
-
-.board-table tr {
-  background-color: #ffffff;
-}
-
-.board-table tbody tr + tr {
-  margin-top: 10px; /* 다른 게시글 사이 간격 */
-  border-spacing: 0; /* 게시글 내부는 붙어 있게 */
-}
-
-
-.board-table th {
-  background-color: #f8fafc;
-  font-weight: bold;
-}
-
-.board-table td {
-  background-color: #ffffff;
-}
-
-.board-table tr:nth-child(even) td {
-  background-color: #f9fafb;
-}
-
-
- 
-.post-image {
-  object-fit: cover;
-  border-radius: 4px;
-}
-
-/* 검색 UI 스타일 */
 .search-container {
   display: flex;
   align-items: center;
