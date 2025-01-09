@@ -5,7 +5,7 @@ export const headerContianer = css`
   flex-direction: column;
   width: 100%;
   height: 100%;
-  padding: 0 50px;
+  padding: 5px 50px;
 `;
 
 export const headerButton = css`
@@ -52,6 +52,7 @@ export const headerLogoImg = css`
   justify-content: center;
   width: 200px;
   height: 100%;
+  cursor: pointer;
 `;
 
 export const headerToolKit = css`
@@ -75,6 +76,7 @@ export const headerNaviWrap = css`
 export const headerHamburger = css`
   position: fixed;
   margin-left: 15px;
+  color: rgba(147, 129, 255, 0.8);
 `;
 
 export const headerNaviButtons = css`
@@ -115,13 +117,6 @@ export const naviIcon = css`
 `;
 
 export const naviTitle = css`
-  font-size: 20px;
+  font-size: 1em;
   font-weight: 500;
-`;
-
-export const roleImage = css`
-  width: 2em;   
-  height: 2em;   
-  margin-right: 8px;
-  vertical-align: middle; 
 `;

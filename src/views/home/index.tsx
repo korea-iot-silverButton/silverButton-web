@@ -3,7 +3,6 @@ import * as s from "./style";
 import { useNavigate } from "react-router-dom";
 
 export default function Index() {
-  const navigate = useNavigate();
 
   return (
     <div css={s.main}>
@@ -13,9 +12,13 @@ export default function Index() {
           Your browser does not support the video tag.
         </video>
       </div>
-      <div css={s.boxContainer}>
-        <div css={s.rowBox}>
+      <div css={s.homeContentContainer}>
+        <div css={s.healthMegazineTop5}>
           
+        </div>
+        {/* sns 간편 로그인 */}
+        <div>
+
         </div>
       </div>
     </div>

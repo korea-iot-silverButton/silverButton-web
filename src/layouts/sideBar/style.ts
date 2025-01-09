@@ -53,6 +53,7 @@ export const sidebarButton = css`
   font-size: 18px;
   font-weight: bold;
   color: rgba(162, 143, 199);
+  cursor: pointer;
 `;
 
 export const sidebarCloseButtonContainer = css`
