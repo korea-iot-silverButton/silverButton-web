@@ -118,3 +118,10 @@ export const naviTitle = css`
   font-size: 20px;
   font-weight: 500;
 `;
+
+export const roleImage = css`
+  width: 2em;   
+  height: 2em;   
+  margin-right: 8px;
+  vertical-align: middle; 
+`;

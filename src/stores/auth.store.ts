@@ -6,6 +6,7 @@ interface User {
     userId: string;
     nickname: string;
     name?: string;
+    role: string;
     phone: string;
     profileImg: string;
 }

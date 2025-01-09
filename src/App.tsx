@@ -20,9 +20,9 @@ import MyPage from "./views/authentication/myPage/index";
 import Resign from "./views/authentication/reSign";
 import Calendar from "./views/calendar/Calendar";
 
-import Matching from "./views/matching/CaregiverMatching";
+import Matching from "./views/matching/CaregiverMatching"
 import MatchingManage from "./views/matching/MatchingManage";
-import CaregiverDetail from "./views/matching/CaregiverDetail";
+import CaregiverDetail from "./views/matching/CaregiverDetail"
 import RootLayout from "./layouts/rootLayout/RootLayout";
 import Header from "./layouts/header/Header";
 import Footer from "./layouts/footer/Footer";
@@ -30,6 +30,8 @@ import Footer from "./layouts/footer/Footer";
 import HeaderLayout from "./layouts/headerLayout/HeaderLayout";
 import FooterLayout from "./layouts/footerLayout/FooterLayout";
 import MainLayout from "./layouts/mainLayout/MainLayout";
+import MessageBox from "./views/message/MessageBox";
+import MessageDetails from "./views/message/MessageDetails";
 
 import HealthMagazineList from "./views/healthMagazine/healthMagazineList"
 import HealthMagazineDetail from "./views/healthMagazine/healthMagazineDetail"
@@ -98,14 +100,14 @@ export default function App() {
             }
           />
 
-          {/* 매칭 */}
-          {/* 
-        <Route path="/message" element={<Message />} />
-        <Route path="/message/:id" element={<MessageDetail />} />
+          {/* 메시지 */}
+          
+        <Route path="/message" element={<MessageBox />} />
+        {/* <Route path="/message/:id" element={<MessageDetails />} />
         <Route path="/message/compose" element={<MessageCompose />} />
         <Route path="/message/sent" element={<MessageSent />} />
-        <Route path="/message/receive" element={<MessageReceive />} /> 
-        */}
+        <Route path="/message/receive" element={<MessageReceive />} />  */}
+        
 
           <Route
             path="/matching/*"
