@@ -1,5 +1,5 @@
 import React from 'react'
-import DrugSearchDetailPage from '../../../components/drug/DrugSearchDetailPage'
+import DrugSearchDetailPage from "../../../Components/drug/DrugSearchDetailPage"
 
 export default function Index() {
   return (
