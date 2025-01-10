@@ -11,6 +11,7 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../../stores/auth.store"; // 수정된 store 가져오기
+import "./Signin.css";
 
 interface Credentials {
   userId: string;
@@ -26,7 +27,14 @@ interface ElderCredentials {
 
 interface SignInResponseDto {
   token: string;
-  user: { id: number; userId: string; nickname: string; role: string; phone:string; profileImg:string; };
+  user: {
+    id: number;
+    userId: string;
+    nickname: string;
+    role: string;
+    phone: string;
+    profileImg: string;
+  };
   exprTime: number;
 }
 
@@ -104,7 +112,7 @@ export default function SignIn() {
       }
     } else {
       if (!userId || !password) {
-        setError("아이디, 비밀번호, 닉네임을 모두 입력해주세요.");
+        setError("아이디, 비밀번호을 모두 입력해주세요.");
         return;
       }
     }
@@ -143,24 +151,23 @@ export default function SignIn() {
     <div className="signin-container">
       <Card className="signin-card">
         <CardContent>
-          <Typography variant="h5" className="signin-title">
+          {/* <Typography variant="h5" className="signin-title">
             로그인
-          </Typography>
+          </Typography> */}
           <div className="signin-tabs">
-            <Button
-              variant={isElder ? "outlined" : "contained"}
+            <div
               onClick={() => setIsElder(false)}
               className="signin-tab"
             >
-              일반 로그인
-            </Button>
-            <Button
-              variant={isElder ? "contained" : "outlined"}
+              일반 & 요양사 로그인
+            </div>
+
+            <div
               onClick={() => setIsElder(true)}
               className="signin-tab"
             >
-              간편 로그인
-            </Button>
+              노인 로그인
+            </div>
           </div>
 
           {/* 일반 로그인일 때 아이디 입력 필드 */}
@@ -230,20 +237,33 @@ export default function SignIn() {
             fullWidth
             variant="contained"
             color="primary"
+            className="a"
           >
             로그인
           </Button>
         </CardActions>
-
-        <div className="kakao-login-container">
-          <img
-            src="/images/kakao-login.png"
-            alt="카카오 로그인"
-            className="kakao-login-icon"
-            style={{ width: "400px", height: "auto" }} // 원하는 크기 적용
-          />
-        </div>
+        
+        <CardActions className="kakao">
+          <Button 
+            onClick={handleSignIn}
+            fullWidth
+            variant="contained"
+          >
+            카카오 로그인
+          </Button>
+        </CardActions>
+        <CardActions className="naver">
+          <Button 
+            onClick={handleSignIn}
+            fullWidth
+            variant="contained"
+          >
+            네이버 로그인
+          </Button>
+        </CardActions>
+        
       </Card>
+      
     </div>
   );
 }
