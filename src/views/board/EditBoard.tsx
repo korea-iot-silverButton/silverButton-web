@@ -17,7 +17,7 @@ export default function EditPost() {
     const fetchPost = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4040/api/v1/board/${id}`,
+          `http://localhost:4040/api/v1/board/view/${id}`,
           {
             headers: {
               Authorization: `Bearer ${cookies.token}`,
@@ -61,7 +61,7 @@ export default function EditPost() {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `http://localhost:4040/api/v1/board/${id}`,
+        `http://localhost:4040/api/v1/board/edit${id}`,
         {
           title: post.title,
           content: post.content,
