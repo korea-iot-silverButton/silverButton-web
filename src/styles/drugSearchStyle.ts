@@ -3,13 +3,13 @@ import { css, Global } from "@emotion/react";
 import exp from "constants";
 
 export const contSt = css`
-  width: 83.5%;
+  width: 100%;
   height: 100%; 
   display: flex;
   justify-content: center; 
   align-items: center; 
-  background-color: rgb(233,231,251);
   overflow: hidden;
+  padding:0 150px 20px 150px ;
 `;
 
 
@@ -23,6 +23,7 @@ export const conttSt = css`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow-y: scroll;
   overflow-x: hidden;
+  padding-top: 20px;
   ::-webkit-scrollbar {
     display: none;
   }
@@ -41,9 +42,8 @@ export const headerSt = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 1px solid black;
   width: 100%;
-  height: 3%;
+  font-weight: bold;
   font-size: 40px;
   color: purple;
 `;
@@ -54,7 +54,7 @@ export const nameSt = css`
   align-items: center; 
   width: 100%; 
   font-size: 25px;
-  margin-bottom: 1%;
+  padding-top: 15px;
 `;
 
 export const inputSt = css`
@@ -85,7 +85,7 @@ export const shapeSt = css`
 `;
 
 export const s1buttonSt = css`
-  width:100px;
+  width:130px;
   height:50px;
   color: white;
   position: relative;
@@ -110,7 +110,7 @@ export const s1buttonSt = css`
   }
 `;
 export const s2buttonSt = css`
-  width:100px;
+  width:130px;
   height:50px;
   color: white;
   position: relative;
@@ -142,7 +142,7 @@ export const buttonCT = css`
   gap: 10px; 
   transition: transform 0.3s ease, color 0.3s ease;
   margin-left: 3%;
-  margin-top: 1%;
+  margin-top: 5%;
 `;
 
 export const shapeLt = css`
@@ -462,9 +462,11 @@ export const Text = css`
 `;
 
 export const selectSt = css`
-  border: 2px solid blue; 
+  border: 1px solid blue; 
   background-color: rgba(0, 0, 255, 0.1);
-  border-radius: 10px;
+  border-radius: 5px;
+  width: auto;
+  height: auto;
   `;
 
 export const shapeTx = css`
@@ -481,14 +483,11 @@ export const shapeTx = css`
 `;
 
 export const arrowButtonSt = css`
-  margin-top: 8px;
   text-align: center;
   margin-right:5px;
   margin-left: 3px;
   button {
-    background: beige;
-    border: 1px solid wheat;
-    border: 3px solid black;
+    background: purple;
     border-radius: 4px;
     padding: 4px 8px;
     cursor: pointer;
@@ -498,14 +497,14 @@ export const arrowButtonSt = css`
     transition:  0.2s ease;
   }
   button:hover {
-    background: wheat;
+    background: yellowgreen;
   }
 `;
 
 
 export const medicineName = css`
-  width: 15%;
-  height: 10%;
+  width: 20%;
+
   border: 2px solid black;
   display: flex;
   align-items: center;
@@ -513,15 +512,14 @@ export const medicineName = css`
   border-radius: 10px;
   margin-left: 2%;
   margin-top: 1%;
-  font-size: 15px;
+  font-size: 20px;
   font-weight: bold;
   color: #333;
   cursor: pointer;
 `;
 export const medicineName1 = css`
   width: 15%;
-  height: 15%;
-  border: 2px solid black;
+  height: 25%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -529,12 +527,13 @@ export const medicineName1 = css`
   margin-left: 1%;
   margin-top: 1%;
   background-color: beige;
+  font-size: 20px;
   
 `;
 
 export const medicneDeatail = css`
   width: 95%;
-  height: 70%;
+  height: 77%;
   border: 2px solid black;
   border-radius: 10px;
   display: flex;
@@ -551,13 +550,11 @@ export const medicneDeatail = css`
 export const medicineAll = css`
   width: 100%;
   height: 100%;
-  gap: 5px;
-  margin-bottom: 1%;
 `;
 
 export const listCt = css`
   width: 90%;
-  height: 25%;
+  height: 30%;
   border: 2px solid #ddd;
   border-radius: 8px;
   background-color: #fff;
@@ -572,10 +569,10 @@ export const listCt = css`
 `;
 
 export const medicinePr = css`
-  width: 13%;
-  height: 80%;
+  width: 20%;
+  height: 90%;
   border: 2px solid black;
-  background-color: #eee;
+
   border-radius: 8px;
   margin-left:2%;
   display: flex;
@@ -588,14 +585,11 @@ export const medicinePr = css`
 
 export const detailName = css`
   width: 30%;
-  height: 70%;
-  border: 2px solid black;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 5px;
-  background-color: #ffffff;
-  border-radius: 8px;
   
 `;
 
@@ -616,7 +610,7 @@ export const detailCont = css`
 
 export const detailBox = css`
 width: 30%;
-height: 70%;
+height: 80%;
   border: 2px solid #ddd;
   display: flex;
   align-items: center;
@@ -639,12 +633,12 @@ export const detailBoxCont = css`
   justify-content: center;
   align-items: center;
   align-items: flex-start;
-    
+  margin-top: 5%;
 `;
 
 export const detailPr = css`
-  width: 15%;
-  height: 70%;
+  width: 20%;
+  height: 80%;
   border: 2px solid #ddd;
   display: flex;
   align-items: center;
@@ -666,8 +660,8 @@ export const detailInfo = css`
   margin-top: 1%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-
+  margin-bottom: 1%;
+  
   font-size: 16px;
   line-height: 1.6;
   color: #333;
@@ -688,7 +682,7 @@ export const infoBox = css`
   align-items: center;
   flex-direction: column;
   margin-left: 5%;
-  margin-top: 10%;
+  margin-top: 1%;
 `;
 
 export const medicineInfo = css`
@@ -705,17 +699,32 @@ box-sizing: border-box;
 export const medicineRow = css`
   display: flex;
   align-items: center;
-  gap: 10px;
 `;
 
 
 
 export const saveButton = css`
-  font-size: 14px;
+  font-size: 10px;
   cursor: pointer;
-  background-color: black;
+  background-color: #1E90FF;
   color: white;
   border: none;
   border-radius: 5px;
-  margin-top: 0.7%;
+  margin-left: 1%;
+  margin-top: 0.5%;
+`;
+
+export const searchResult = css`
+  margin-left: 5%;
+  font-size: 30px;
+`;
+
+export const contentTitle = css`
+  margin-left: 0.5%;
+  font-size: 25px;
+`;
+
+export const contentText = css`
+  margin-left: 0.5%;
+  font-size: 15px;
 `;

@@ -77,7 +77,7 @@ export default function Index() {
     <>
       <div css={s.contSt}>
         <div css={s.conttSt}>
-          <h1 css={s.headerSt}>실버니즈 약품 검색</h1>
+          <div css={s.headerSt}>실버니즈 약품 검색</div>
           <div css={s.nameSt}>
             약품 이름으로 검색
             <input
@@ -132,9 +132,7 @@ export default function Index() {
                   <div css={s.Text}>{color.name}</div>
                 </div>
               ))}
-            </div>
-            </div>
-            <div css={s.arrowButtonSt}>
+              <div css={s.arrowButtonSt}>
               {visibleColors < drugColor.length ? (
                 <button
                   onClick={handleShowMoreColors}
@@ -151,6 +149,9 @@ export default function Index() {
                 </button>
               )}
             </div>
+            </div>
+            </div>
+            
           </div>
 
           <div css={s.shapeSt}>
