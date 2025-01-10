@@ -63,8 +63,8 @@
 }
 
 /* 로그인 버튼 */
-.MuiButton-containedPrimary {
-  background-color: #2575fc;
+.a {
+  background: linear-gradient(to right bottom, #9381ff, #6ee7b7);
   color: #fff;
   padding: 10px;
   font-size: 16px;
@@ -76,19 +76,26 @@
   background-color: #1e63d1;
 }
 
-/* 카카오 로그인 컨테이너 */
-.kakao-login-container {
-  margin-top: 20px;
-  text-align: center;
+/* 카카오 버튼 스타일 */
+.kakao .MuiButton-containedPrimary {
+  background-color: #fee500; 
+  color: #000;
+  border: none;
 }
 
-/* 카카오 로그인 아이콘 */
-.kakao-login-icon {
-  cursor: pointer;
-  border-radius: 8px;
-  transition: transform 0.2s;
+.kakao .MuiButton-containedPrimary:hover {
+  background-color: #fdda00; 
+  transform: scale(1.05);
 }
 
-.kakao-login-icon:hover {
+/* 네이버 버튼 스타일 */
+.naver .MuiButton-containedPrimary {
+  background-color: #03c75a; 
+  color: #fff; 
+  border: none;
+}
+
+.naver .MuiButton-containedPrimary:hover {
+  background-color: #02b751; 
   transform: scale(1.05);
 }

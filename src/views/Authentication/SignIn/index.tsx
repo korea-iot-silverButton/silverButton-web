@@ -237,20 +237,31 @@ export default function SignIn() {
             fullWidth
             variant="contained"
             color="primary"
+            className="a"
           >
             로그인
           </Button>
         </CardActions>
-        <div className="kakao-login-container">
-          <img
-            src="/images/kakao-login.png"
-            alt="카카오 로그인"
-            className="kakao-login-icon"
-            style={{ width: "400px", height: "auto" }} // 원하는 크기 적용
-          />
-        </div>
-
-    
+        
+        <CardActions className="kakao">
+          <Button 
+            onClick={handleSignIn}
+            fullWidth
+            variant="contained"
+          >
+            카카오 로그인
+          </Button>
+        </CardActions>
+        <CardActions className="naver">
+          <Button 
+            onClick={handleSignIn}
+            fullWidth
+            variant="contained"
+          >
+            네이버 로그인
+          </Button>
+        </CardActions>
+        
       </Card>
       
     </div>

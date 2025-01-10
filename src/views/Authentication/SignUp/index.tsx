@@ -89,7 +89,6 @@ const SignUp: React.FC = () => {
     <div css={s.main}>
       <div css={s.boxContainer}>
         <div className="signup-container" css={s.signUpContainer}>
-          <h1>회원가입</h1>
           <form className="signup-form" onSubmit={handleSubmit}>
             <div className="tmi">
               <label htmlFor="username">이름</label>
