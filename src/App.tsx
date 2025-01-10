@@ -81,7 +81,7 @@ export default function App() {
                 <Route path="/" element={<Board />} />
                 <Route path="/:id" element={<BoardDetail />} />
                 <Route path="/create" element={<CreateBoard />} />
-                <Route path="/:id/edit" element={<EditBoard />} />
+                <Route path="/edit/:id" element={<EditBoard />} />
               </Routes>
             }
           />

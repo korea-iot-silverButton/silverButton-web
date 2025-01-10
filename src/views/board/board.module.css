@@ -4,27 +4,26 @@
   justify-content: center;
   align-items: flex-start;
   width: 100%;
-  height: 5vh; /* 전체 화면 높이 */
+  height: 5vh;
   box-sizing: border-box;
-  padding-top: 50px; /* 헤더 높이를 고려한 여백 */
+  padding-top: 10px;
   position: relative;
 }
 
 /* 게시글 목록을 감싸는 박스 */
 .content-box {
-  background-color: #ffffff; /* 하얀색 바탕 */
+  background-color: #ffffff;
   padding: 30px;
-  width: 100%; /* footer와 동일한 너비 */
-  max-width: 84%; /* 최대 너비를 설정해 크기 제한 */
-  border-radius: 8px; /* 둥근 모서리 */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 박스에 그림자 추가 */
+  width: 100%;
+  max-width: 84%;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
-  margin: 0 auto; /* 중앙 정렬 */
-  position: relative;
-  top: 30%; /* 상단에서 30% 위치 */
+  margin: 0 auto;
+  top: 30%;
   display: flex;
-  flex-direction: column; /* 검색과 목록을 세로 정렬 */
-  gap: 5px; /* 검색과 게시글 목록 간격 */
+  flex-direction: column;
+  gap: 5px;
 }
 
 /* 상단 헤더 부분 (검색, 작성, 전체 게시판) */
@@ -32,19 +31,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* margin-bottom: 5px; */
-  flex-wrap: wrap; /* 작은 화면에서도 검색과 버튼 배치를 조정 */
+  margin-bottom: 5px;
+  flex-wrap: wrap;
 }
-
-
 
 /* 검색 UI 스타일 */
 .search-container {
   display: flex;
   align-items: center;
-  gap:1px;
-  width: 100%; /* 검색 영역을 전체 너비로 */
-  max-width: 100%; /* 최대 너비 제한 */
+  gap: 10px;
+  width: 100%;
   margin-bottom: 10px;
 }
 
@@ -54,21 +50,23 @@
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  height: 40px;
 }
 
 .search-input {
-  flex-grow: 1; /* 입력창이 가능한 공간을 채움 */
+  flex-grow: 1;
 }
 
 .search-button {
-  background-color: #007bff;
+  background: linear-gradient(to right, #6ee7b7, #3b82f6);
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
+  width: 65px;
 }
 
 .search-button:hover {
-  background-color: #0056b3;
+  background: linear-gradient(to right, #4ade80, #2563eb);
 }
 
 /* 버튼들 (작성, 전체 게시판) */
@@ -77,31 +75,26 @@
   align-items: center;
   margin-left: 30px;
   margin-right: 20px;
-
   gap: 50px;
 }
 
-
 .board-link {
   cursor: pointer;
-  font-size: 30px; /* 아이콘 크기 키우기 */
-  text-decoration: none; /* 파란색 밑줄 제거 */
-  color: inherit; /* 기본 텍스트 색상 */
+  font-size: 30px;
+  text-decoration: none;
+  color: inherit;
 }
-
 
 .board-link:hover {
   color: inherit;
-  /* 링크에 대한 기본 색상 유지 */
 }
-
 
 /* 게시글 목록 컨테이너 */
 .board-container {
   display: flex;
   flex-direction: column;
-  gap: 10px; /* 게시글 간 간격 */
-  width: 100%; /* 목록이 전체 너비를 차지하도록 */
+  gap: 10px;
+  width: 100%;
 }
 
 /* 게시글 항목 */
@@ -111,27 +104,27 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
-  flex-direction: row; /* 1번과 2번 박스를 나누기 위해 row로 설정 */
-  gap: 10px; /* 간격 설정 */
+  flex-direction: row;
+  gap: 10px;
   transition: transform 0.2s;
 }
 
 .board-item:hover {
-  transform: translateY(-2px); /* 마우스 오버 시 위로 살짝 이동 */
+  transform: translateY(-2px);
 }
 
 /* 게시글 내용 (1번 박스) */
 .board-item-content {
-  flex: 9; /* 9 비율 */
+  flex: 9;
   display: flex;
-  flex-direction: column; /* 제목, 내용, 푸터 세로 정렬 */
-  gap: 10px; /* 각 항목 간격 */
+  flex-direction: column;
+  gap: 10px;
   padding-left: 20px;
 }
 
 /* 게시글 이미지 (2번 박스) */
 .board-item-image {
-  flex: 1; /* 1 비율 */
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -150,7 +143,6 @@
   font-size: 18px;
 }
 
-/* 게시글 내용 */
 .board-content {
   font-size: 14px;
   color: #555;
@@ -158,7 +150,6 @@
   line-height: 1.4;
 }
 
-/* 게시글 푸터 */
 .board-footer {
   display: flex;
   font-size: 12px;
@@ -173,84 +164,242 @@
 .likes,
 .views {
   margin-left: 10px;
+  
 }
 
 /* 게시글 상세 페이지 스타일 */
-.post-detail-container {
-  width: 50%;
-  margin: 0 auto;
+.mainBox {
+  width: 100%;
+  height: 100vh;
+  margin: 20px auto;
   padding: 20px;
   background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
-.post-detail-container h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.post-detail-container p {
-  font-size: 16px;
-  line-height: 1.6;
-  margin-bottom: 10px;
-}
-
-.post-detail-container .post-image {
+/* 상단 박스 (게시글 내용 및 댓글 기능) */
+.topBox {
+  display: flex;
+  gap: 20px;
   width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 4px;
-  margin-bottom: 20px;
 }
 
-.post-detail-container .button-group {
+/* 게시글 내용 박스 (1번 박스) */
+.postBox {
+  flex: 7;
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+  position: relative;
+}
+
+/* 댓글 박스 */
+.commentsBox {
+  flex: 3;
+  background-color: #f1f1f1;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 댓글 리스트와 댓글 입력창 컨테이너 */
+.commentListContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* 댓글 리스트와 댓글 입력창 사이의 간격 */
+  width: 100%;
+}
+
+/* 댓글 리스트 */
+.commentList {
+  height: 90%; /* 댓글 리스트가 8 비율 */
+  min-height: 500px; /* 댓글이 없을 때에도 크기 고정 */
+  max-height: 500px; /* 최대 높이 설정 */
+  overflow-y: auto; /* 댓글이 많을 경우 스크롤 가능 */
+}
+
+/* 스크롤 가능한 댓글 영역 */
+.scrollableComments {
+  max-height: 900px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollableComments::-webkit-scrollbar {
+  display: none;
+}
+
+/* 상단 박스 (제목과 작성자) */
+.headerBox {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  align-items: center;
+  width: 100%;
 }
 
-.post-detail-container .submit-button {
-  background-color: #28a745;
-  color: white;
+/* 게시글 내용 (중간) */
+.contentBox {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+  flex-grow: 1;
+  min-height: 3%;
+  max-height: 500px;
+  overflow-y: auto;
+  height: 100%;
 }
 
-.post-detail-container .exit-button {
-  background-color: #6c757d;
-  color: white;
+.contentBox::-webkit-scrollbar {
+  display: none;
 }
 
-.post-detail-container .submit-button:hover,
-.post-detail-container .exit-button:hover {
-  background-color: #218838;
+/* 게시글 하단 (좋아요, 조회수, 작성일) */
+.statsBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 96%;
+  margin-top: 10px;
+  height: 40px;
+  position: absolute;
+  bottom: 10px;
 }
 
-.search-container {
+.statsBox p {
+  margin: 0;
+}
+
+.statsBox span {
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 40px;
+}
+
+/* 생성일, 좋아요 부분 스타일 */
+.createdAt {
+  font-size: 14px;
+  color: #888;
+}
+
+.statsBox .likes {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 20px;
 }
 
-.search-select,
-.search-input,
-.search-button {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.statsBox .views {
+  margin-top: 10px;
 }
 
-.search-input {
-  flex-grow: 1;
+/* 댓글 박스 스타일 */
+.commentBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
 }
 
-.search-button {
-  background-color: #007bff;
+.commentBox p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.commentBox button {
+  font-size: 12px;
+  padding: 5px 10px;
   color: white;
+  background-color: #dc3545;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
-.search-button:hover {
-  background-color: #0056b3;
+.commentBox button:hover {
+  background-color: #a71d2a;
+}
+
+
+/* 댓글 입력창 */
+.commentInput {
+  /* 댓글 입력창이 2 비율 */
+  height: 30%px;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: none; /* 크기 조정 비활성화 */
+}
+
+
+.commentInput:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 4px rgba(59, 130, 246, 0.5);
+  outline: none;
+}
+
+/* 하단 박스 (수정, 삭제, 나가기 버튼) */
+.bottomBox {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  height: 8%;
+}
+
+/* 수정하기, 삭제하기, 나가기 버튼 */
+.actionButtonsBox {
+  flex: 7;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 0;
+}
+
+/* 댓글 작성하기 버튼 */
+.commentActionsBox {
+  flex: 3;
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 10px;
+}
+
+.actionButton,
+.exitButton,
+.submitButton {
+  padding: 10px 20px;
+  font-size: 14px;
+  color: white;
+  background: linear-gradient(to right, #6ee7b7, #3b82f6);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.actionButton:hover,
+.exitButton:hover,
+.submitButton:hover {
+  background: linear-gradient(to right, #4ade80, #2563eb);
+}
+
+.exitButton {
+  background-color: #f44336;
+}
+
+.exitButton:hover {
+  background-color: #d32f2f;
 }
