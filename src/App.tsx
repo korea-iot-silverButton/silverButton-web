@@ -16,7 +16,7 @@ import CreateBoard from "./views/board/CreateBoard";
 import BoardDetail from "./views/board/BoardDetail";
 import EditBoard from "./views/board/EditBoard";
 
-import MyPage from "./views/authentication/myPage/index";
+import MyPage from "./views/authentication/myPage";
 import Resign from "./views/authentication/resign";
 import Calendar from "./views/calendar/Calendar";
 
@@ -35,6 +35,7 @@ import MessageDetails from "./views/message/MessageDetails";
 
 import HealthMagazineList from "./views/healthMagazine/healthMagazineList"
 import HealthMagazineDetail from "./views/healthMagazine/healthMagazineDetail"
+import PasswordPage from "./views/authentication/passwordPage";
 
 
 export default function App() {
@@ -69,6 +70,7 @@ export default function App() {
 
           {/* 회원가입 / 로그인 기능 */}
           <Route path="/auth" element={<Authentication />} />
+          <Route path="/passwordpage" element={<PasswordPage />} />
           <Route path="/auth/signup" element={<SignUp />} />
           <Route path="/passwordReset" element={<PasswordReset />} />
 
@@ -93,7 +95,8 @@ export default function App() {
             path="/my-page/*"
             element={
               <Routes>
-                <Route path="/" element={<MyPage />} />
+                
+                <Route path="/mypage" element={<MyPage />} />
                 <Route path="/resign" element={<Resign />} />
                 <Route path="/calendar" element={<Calendar />} />
               </Routes>
