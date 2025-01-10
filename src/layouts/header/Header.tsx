@@ -24,10 +24,25 @@ function HeaderToolWrap() {
   }, [cookies.token, logout]);
 
   const handleLogOutClick = () => {
-    setCookies("token", "", { expires: new Date() });
+    setCookies("token", "", { expires: new Date(0), path: "/" });
     logout();
     alert("로그아웃 되었습니다.");
+    window.location.reload(); 
   };
+
+  const getRoleImage = (role: string) => {
+    switch (role) {
+      case "노인":
+        return "/images/noin.png";
+      case "요양사":
+        return "/images/yoyangsa.png";
+      case "보호자":
+        return "/images/chungnyun.png";
+      default:
+        return "/images/error.png";
+    }
+  };
+
 
   return (
     <div css={s.headerToolWrap}>
@@ -38,7 +53,16 @@ function HeaderToolWrap() {
       <div css={s.headerToolKit}>
         {isAuthenticated ? (
           <>
-            <div>{user && <>{user.nickname}님 안녕하세요</>}</div>
+            <div>{user && (
+                <>
+                  <img
+                    src={getRoleImage(user.role)} // role에 맞는 이미지 출력
+                    alt={user.role}
+                    css={s.roleImage} // CSS로 이미지 크기 조정
+                  />
+                  <span>{user.nickname}님 안녕하세요</span>
+                </>
+              )}</div>
             <button onClick={handleLogOutClick} css={s.headerButton}>
               로그아웃
             </button>
