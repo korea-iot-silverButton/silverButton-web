@@ -27,7 +27,7 @@ function HeaderToolWrap() {
     setCookies("token", "", { expires: new Date(0), path: "/" });
     logout();
     alert("로그아웃 되었습니다.");
-    window.location.reload(); 
+    navigate("/")
   };
 
   const getRoleImage = (role: string) => {

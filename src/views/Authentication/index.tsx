@@ -19,7 +19,6 @@ export default function Authentication() {
     else{
       setView('sign-in');
     }
-    // setView(view==='sign-in'?'sign-up':'sign-in');
   }
 
   return (

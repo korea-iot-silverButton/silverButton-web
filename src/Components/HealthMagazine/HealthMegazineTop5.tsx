@@ -2,7 +2,6 @@
 import axios from "axios";
 import * as s from "./style";
 import React, { useEffect, useState } from "react";
-import { response } from "express";
 import { useNavigate } from "react-router-dom";
 
 export interface HealthMagazine {
@@ -38,17 +37,15 @@ export default function HealthMagazineTop5() {
 
   return (
     <div>
-      {healthMagazines.map((magazine, index) => (
-        <ul>
-          <div key={magazine.id}>
-            <li css={s.listStyle}>
-              <div css={s.title} onClick={() => handleBoxClick(magazine.id)}>
-                <span css={s.titleText}>{index + 1}.</span> <span css={s.under}>{magazine.title}</span>
-              </div>
-            </li>
-          </div>
-        </ul>
-      ))}
+      <ul>
+        {healthMagazines.map((magazine, index) => (
+          <li key={magazine.id} css={s.listStyle}>
+            <div css={s.title} onClick={() => handleBoxClick(magazine.id)}>
+              <span css={s.titleText}>{index + 1}.</span> <span css={s.under}>{magazine.title}</span>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
