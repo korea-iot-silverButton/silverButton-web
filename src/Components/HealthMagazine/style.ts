@@ -29,35 +29,33 @@ export const title = css`
 `;
 
 export const titleText = css`
-  color: #1E90FF;
+  color: #1e90ff;
   margin-right: 5px;
   text-decoration: none;
 `;
 
 export const under = css`
-    &:hover {
+  &:hover {
     text-decoration: underline;
   }
 `;
 
 export const mainBox = css`
-  width: 30%; 
-  height: 360px;
+  width: 30%;
+  height: 290px;
   background-color: #f9f9f9;
   border-radius: 8px;
- 
-  overflow: hidden; 
+
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
- 
+
   margin-top: 30px;
   cursor: pointer;
 
   &:hover {
-    
-    
     text-decoration: underline;
   }
 `;
@@ -65,7 +63,7 @@ export const mainBox = css`
 export const imageBox = css`
   width: 100%;
   height: 250px;
-  background-color: #e0e0e0;
+  /* background-color: #e0e0e0; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -74,14 +72,13 @@ export const imageBox = css`
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover; 
+    object-fit: cover;
   }
 `;
 
 export const textBox = css`
   width: 100%;
   padding: 10px 15px;
-  background-color: white;
   text-align: center;
   font-size: 18px;
   font-weight: 600;
@@ -92,7 +89,7 @@ export const textBox = css`
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 20px;
-  margin-top: 25px;
+  margin-top: 15px;
 `;
 
 export const Listcontainer = css`
@@ -119,7 +116,7 @@ export const paginationContainer = css`
     border: none;
     border-radius: 5px;
     font-size: 18px;
-    
+
     &:hover {
       background-color: #4682b4;
     }
@@ -127,10 +124,11 @@ export const paginationContainer = css`
 `;
 
 export const itemsContainer = css`
+  width: 100%;
+  height: 85%;
   display: flex;
   flex-wrap: wrap;
-  gap: 40px; 
-  justify-content: center;
+  justify-content: space-around;
 `;
 
 export const detailContainer = css`
@@ -162,7 +160,7 @@ export const image = css`
 `;
 
 export const content = css`
-font-size: 25px;
+  font-size: 25px;
   width: 100%;
   height: auto;
 `;
