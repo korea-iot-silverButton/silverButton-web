@@ -1,57 +1,108 @@
 /** @jsxImportSource @emotion/react */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as s from "./style";
-import HealthMagazinePagination from "../../../components/HealthMagazine/HealthMagazinePagination";
+import axios from "axios";
+import HealthMagazineItemList from "../../../components/HealthMagazine/HealthMagazineItemList";
+
+export interface HealthMagazineItemType {
+  id: number;
+  thumbnailImageUrl: string;
+  title: string;
+}
 
 export default function Index() {
-  const pageList = [1, 2, 3, 4, 5];
-  const currentPage = 1;
+  const [healthMagazineItemList, setHealthMagazineItemList] = useState<
+  HealthMagazineItemType[]
+  >([]);
+
+  console.log(healthMagazineItemList);
+  const [sortOption, setSortOption] = useState("latest");
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
+  
+  const fetchHealthMagazineItemList = async (sort: string) => {
+    try {
+      const endpoint =
+        sort === "latest"
+          ? "http://localhost:4040/api/v1/health-magazine/latest"
+          : "http://localhost:4040/api/v1/health-magazine/desc";
+
+      const response = await axios.get(endpoint);
+      const data = response.data.data;
+      setHealthMagazineItemList(data);
+    } catch (e) {
+      console.log("Failed to fetch magazines data", e);
+    }
+  };
+
+  useEffect(() => {
+    fetchHealthMagazineItemList(sortOption);
+  }, [sortOption]);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = healthMagazineItemList.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+
+  
+  const totalPages = Math.ceil(healthMagazineItemList.length / itemsPerPage);
 
   const handlePageClick = (page: number) => {
-    console.log(`Page clicked: ${page}`);
+    setCurrentPage(page);
   };
 
-  const handlePreSectionClick = () => {
-    console.log("Previous section clicked");
-  };
-
-  const handleNextSectionClick = () => {
-    console.log("Next section clicked");
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortOption(e.target.value);
+    setCurrentPage(1);
   };
 
   return (
-    <div css={s.magazineContainer}>
-      <div css={s.magazineBox}>
+    <div css={s.contSt}>
+      <div css={s.conttSt}>
         <div css={s.magazineHeader}>
           실버니즈 헬스 매거진
-          <select css={s.selectBox}>
-            <option value="latest" css={s.option}>
-              최신순
-            </option>
-            <option value="popular" css={s.option}>
-              조회순
-            </option>
+          <select
+            onChange={handleSortChange}
+            value={sortOption}
+            css={s.selectBox}
+          >
+            <option value="latest">최신순</option>
+            <option value="popular">조회순</option>
           </select>
         </div>
-        <div css={s.Box}>
-          <div css={s.mainBox}>
-            <div css={s.magazinesContainer}>
-              <div css={s.contentBox}>
-                <div css={s.contentImg}>사진</div>
-                <div css={s.contentTitle}>기사제목</div>
-              </div>
-            </div>
-          </div>
-
-          <div css={s.paginationContainer}>
-            <HealthMagazinePagination
-              pageList={pageList}
-              currentPage={currentPage}
-              handlePageClick={handlePageClick}
-              handlePreSectionClick={handlePreSectionClick}
-              handleNextSectionClick={handleNextSectionClick}
-            />
-          </div>
+        <HealthMagazineItemList currentItems={currentItems} />
+        {/* 페이지네이션 */}
+        <div css={s.paginationContainer}>
+          <button
+            onClick={() => handlePageClick(currentPage - 1)}
+            css={s.arrowButton}
+            disabled={currentPage === 1}
+          >
+            &lt;
+          </button>
+          {[...Array(totalPages)].map((_, index) => (
+            <button
+              key={index}
+              onClick={() => handlePageClick(index + 1)}
+              css={[
+                s.paginationButton,
+                currentPage === index + 1 && s.paginationButtonActive,
+              ]}
+            >
+              {index + 1}
+            </button>
+          ))}
+          <button
+            onClick={() => handlePageClick(currentPage + 1)}
+            css={s.arrowButton}
+            disabled={currentPage === totalPages}
+          >
+            &gt;
+          </button>
         </div>
       </div>
     </div>

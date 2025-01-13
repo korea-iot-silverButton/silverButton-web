@@ -25,7 +25,7 @@ export default function Index() {
         <div css={s.healthMegazineTop5}>
           <div css={s.top5Box}>
             <div css={s.top5Title}>헬스매거진 TOP5</div>
-            <HealthMegazineTop5 />
+            <div css={s.magazineBox}><HealthMegazineTop5 /></div>
           </div>
         </div>
         {/* sns 간편 로그인 */}
