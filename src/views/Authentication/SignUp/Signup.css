@@ -125,6 +125,7 @@
   width: 80%;
   max-width: 500px;
   border-radius: 8px;
+  flex-direction: column;
 }
 
 .modal h2 {

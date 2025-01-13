@@ -54,7 +54,7 @@ const SignUp = () => {
     }
 
     try {
-      const response = await axios.post("/api/check-username", { userId: formData.userId });
+      const response = await axios.post("http://localhost:4040/api/v1/auth/check-duplicate-userid", { userId: formData.userId });
       if (response.data.exists) {
         setUserIdMessage("중복된 아이디입니다.");
         setIsUserIdChecked(false); // 중복된 아이디
@@ -81,7 +81,7 @@ const SignUp = () => {
     }
 
     try {
-      const response = await axios.post("/api/check-nickname", { nickname: formData.nickname });
+      const response = await axios.post("http://localhost:4040/api/v1/auth/check-duplicate-nickname", { nickname: formData.nickname });
       if (response.data.exists) {
         setNicknameMessage("중복된 닉네임입니다.");
         setIsNicknameChecked(false); // 중복된 닉네임
