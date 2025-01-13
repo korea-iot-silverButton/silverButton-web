@@ -38,7 +38,7 @@ export default function SideBar() {
           ) : (
             <button
               css={s.sidebarButton}
-              onClick={() => handleNavigate("/my-page")}
+              onClick={() => handleNavigate("/passwordPage")}
             >
               마이 페이지
             </button>

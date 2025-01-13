@@ -43,10 +43,14 @@ function HeaderToolWrap() {
     }
   };
 
+  const homeclick=()=>{
+    navigate("/");
+  }
+
 
   return (
     <div css={s.headerToolWrap}>
-      <div css={s.headerLogo}>
+      <div css={s.headerLogo} onClick={homeclick}>
         <img src="/logo.png" alt="icon" css={s.headerLogoImg} />
       </div>
 

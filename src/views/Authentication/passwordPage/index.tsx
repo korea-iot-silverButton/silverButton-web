@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./passwordPage.css";
 
 const PasswordPage = () => {
@@ -7,61 +8,65 @@ const PasswordPage = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // const handlePasswordSubmit = () => {
-  //   const validPassword = "admin123!"; // 임시 비밀번호 (서버 검증 필요)
-    
-  //   if (!password) {
-  //     setError("비밀번호를 입력하세요.");
-  //     return;
-  //   }
+  // 쿠키에서 토큰을 가져오는 함수
+  const getTokenFromCookies = () => {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.startsWith("token=")) {
+        return cookie.substring("token=".length, cookie.length);
+      }
+    }
+    return null;
+  };
 
-  //   if (password !== validPassword) {
-  //     setError("비밀번호가 올바르지 않습니다.");
-  //     return;
-  //   }
+  const token = getTokenFromCookies();
 
-  //   setError("");
-  //   alert("인증에 성공했습니다!");
-  //   navigate("/my-page/mypage"); // 마이페이지로 이동
-  // };
   const handlePasswordSubmit = async () => {
     if (!password) {
-      setError("💕🌟아니 뭔 개소리냐고💕❤🌈💕🌟아니뭔개소리냐고💕❤ 🌈💕🌟아니 뭔 개소리냐고💕❤ 🌈💕🌟아니 뭔 개소리냐고💕❤ 🌈💕🌟아니 뭔 개소리냐고💕❤ 🌈💕🌟아니 뭔 개소리냐고💕❤ 🌈💕🌟아니 뭔 개소리냐고💕❤ 🌈💕🌟아니 뭔 개소리냐고💕❤ 🌈💕🌟아니 뭔 개소리냐고💕❤ 🌈💕🌟아니 뭔 개소리냐고💕❤ 🌈💕🌟아니 뭔 개소리냐고💕❤ 🌈💕🌟아니 뭔 개소리냐고💕❤ 🌈💕🌟아니 뭔 개소리냐고💕❤ 🌈💕🌟아니 뭔 개소리냐고💕❤ 🌈💕🌟아니 뭔 개소리냐고💕❤ 🌈💕🌟");
+      setError("비밀번호가 틀렸습니다.");
       return;
     }
-  
+
+    console.log("입력된 비밀번호:", password);
     try {
-      // 비밀번호 검증 요청
-      const response = await fetch("/api/verify-password", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ password }), // 사용자가 입력한 비밀번호 전송
-      });
-  
-      const result = await response.json();
-  
-      if (result.success) {
-        // 검증 성공: 마이페이지로 이동
+      // 비밀번호 검증 API 요청 (axios 사용)
+      const response = await axios.post(
+        "http://localhost:4040/api/v1/manage/verify-password",
+        { currentPassword: password },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // 응답 처리
+      const result = response.data;
+      console.log("응답 결과:", result); 
+
+      if (result.result) {
+        // 비밀번호 검증 성공
         alert("비밀번호 인증 성공!");
         navigate("/my-page/mypage");
       } else {
-        // 검증 실패: 에러 메시지 표시
+        // 비밀번호 검증 실패
         setError("비밀번호가 일치하지 않습니다.");
       }
     } catch (error) {
-      setError("👮💛 𝔽ᑌ𝕔к 𝐘Ｏย 🍔🐨");
+      // 오류 처리
+      setError("오류가 발생하였습니다. 다시 시도해 주세요");
+      console.error("API 요청 중 오류 발생:", error);
     }
   };
 
   return (
     <div className="password-container">
       <div className="password-card">
-        <h1>❤️비밀번호 입력❤️</h1>
-        <p>🍀마이페이지에 접근하려면 비밀번호를 입력하세요🍀</p>
+        <h1>비밀번호 입력</h1>
+        <p>마이페이지에 접근하려면 비밀번호를 입력하세요</p>
         <div className="password-item">
-          {/* <label htmlFor="password">비밀번호</label> */}
           <input
             type="password"
             id="password"
@@ -72,7 +77,7 @@ const PasswordPage = () => {
           {error && <p className="error-message">{error}</p>}
         </div>
         <button className="password-submit-button" onClick={handlePasswordSubmit}>
-          ❤️확인❤️
+          확인
         </button>
       </div>
     </div>
