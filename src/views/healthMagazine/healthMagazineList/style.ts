@@ -2,31 +2,25 @@ import { css } from "@emotion/react";
 
 export const contSt = css`
   width: 100%;
-  height: 100%; 
+  height: 100%;
   display: flex;
-  justify-content: center; 
-  align-items: center; 
+  justify-content: center;
+  align-items: center;
   overflow: hidden;
-  padding:0 150px 20px 150px ;
+  padding: 20px 150px;
 `;
-
-
 
 export const conttSt = css`
   width: 100%;
   height: 100%;
-  background: rgb(233,231,251);
-  border: 1px solid #e0e0e0;
+  background: transparent;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  overflow-y: scroll;
-  overflow-x: hidden;
-  padding-top: 20px;
-  ::-webkit-scrollbar {
-    display: none;
-  }
-  scrollbar-width: none;
-  -ms-overflow-style: none; 
+  overflow: hidden;
+`;
+
+export const headerBox = css`
+  width: 100%;
+  height: 80px;
 `;
 
 export const magazineHeader = css`
@@ -37,61 +31,14 @@ export const magazineHeader = css`
   font-weight: bold;
 `;
 
+export const magazineTitle = css`
+  padding-bottom: 5px;
+  border-bottom: 3px solid #333;
+`;
 
-
-
-
-export const Box = css`
+export const HealthMagazineItemBox = css`
   width: 100%;
-  height: 720px;
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  background-color: yellowgreen;
-`;
-
-export const mainBox = css`
-  width: 100%;
-  height: 700px;
-  background-color: aliceblue;
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-`;
-
-export const contentBox = css`
-  width: 30%;
-  height: 90%;
-  background-color: blue;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  padding: 15px;
-`;
-
-export const contentImg = css`
-  width: 100%;
-  height: 75%;
-  background-color: purple;
-`;
-
-export const contentTitle = css`
-  width: 100%;
-  height: 20%;
-  background-color: green;
-  margin-top: 2%;
-`;
-
-export const content = css`
-  width: 100%;
-  height: 30%;
-  background-color: yellow;
-  margin-top: 2%;
-`;
-
-export const magazinesContainer = css`
-  width: 90%;
-  height: 370px;
+  height: 100%;
 `;
 
 export const paginationContainer = css`
@@ -99,7 +46,6 @@ export const paginationContainer = css`
   background-color: transparent;
   display: flex;
   justify-content: center;
-  margin-top: 70px;
 `;
 
 export const paginationButton = css`
@@ -141,11 +87,16 @@ export const arrowButton = css`
 `;
 
 export const selectBox = css`
+  margin-top: 5px;
+`;
+
+export const selectData = css`
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   width: 150px;
   font-size: 18px;
   padding: 10px;
+  margin: 0 25px;
   color: #333;
   background-color: red;
   border: 1px solid #ccc;

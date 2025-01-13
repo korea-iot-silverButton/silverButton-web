@@ -12,7 +12,7 @@ export interface HealthMagazineItemType {
 
 export default function Index() {
   const [healthMagazineItemList, setHealthMagazineItemList] = useState<
-  HealthMagazineItemType[]
+    HealthMagazineItemType[]
   >([]);
 
   console.log(healthMagazineItemList);
@@ -21,7 +21,6 @@ export default function Index() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-  
   const fetchHealthMagazineItemList = async (sort: string) => {
     try {
       const endpoint =
@@ -48,7 +47,6 @@ export default function Index() {
     indexOfLastItem
   );
 
-  
   const totalPages = Math.ceil(healthMagazineItemList.length / itemsPerPage);
 
   const handlePageClick = (page: number) => {
@@ -63,18 +61,24 @@ export default function Index() {
   return (
     <div css={s.contSt}>
       <div css={s.conttSt}>
+        <div css={s.headerBox}>
         <div css={s.magazineHeader}>
-          실버니즈 헬스 매거진
+          <span css={s.magazineTitle}>실버니즈 헬스 매거진</span>
+        </div>
+        <div css={s.selectBox}>
           <select
             onChange={handleSortChange}
             value={sortOption}
-            css={s.selectBox}
+            css={s.selectData}
           >
             <option value="latest">최신순</option>
             <option value="popular">조회순</option>
           </select>
         </div>
-        <HealthMagazineItemList currentItems={currentItems} />
+        </div>
+
+        <div css={s.HealthMagazineItemBox}>
+          <HealthMagazineItemList currentItems={currentItems} />
         {/* 페이지네이션 */}
         <div css={s.paginationContainer}>
           <button
@@ -104,6 +108,8 @@ export default function Index() {
             &gt;
           </button>
         </div>
+          </div>
+        
       </div>
     </div>
   );

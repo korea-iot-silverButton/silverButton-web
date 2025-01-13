@@ -21,7 +21,7 @@ const MyPage = () => {
   };
 
   const handleSaveMedicineClick = () => {
-    navigate("/saveMedicine"); // saveMedicine 페이지로 이동
+    navigate("my-page/save-medicine"); // saveMedicine 페이지로 이동
   };
 
   const handleMessageClick = () => {
