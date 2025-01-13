@@ -3,6 +3,7 @@ import axios from "axios";
 import * as s from "./style";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useCookies } from "react-cookie";
 // import { HealthDetail } from "../../../../components/HealthMagazine/HealthMagazineDetail";
 
 export interface SaveMedicine {
@@ -19,11 +20,19 @@ export interface SaveMedicine {
 
 export default function SaveMedicineList() {
   const [saveMedicine, setSaveMedicine] = useState<SaveMedicine[]>([]);
+  const [cookies] = useCookies(['token']);
 
   const fetchSaveMedicine = async () => {
     try {
+
+      const token = cookies.token;
+
       const response = await axios.get(
-        "http://localhost:4040/api/v1/medicine-schedule/"
+        "http://localhost:4040/api/v1/medicine-schedule/",{
+          headers:{
+            Authorization:`Bearer ${token}`,
+          }
+        }
       );
       const data = response.data.data;
       setSaveMedicine(data);
@@ -40,7 +49,7 @@ export default function SaveMedicineList() {
     <div css={s.contSt}>
       <div css={s.conttSt}>
         {saveMedicine.map((saveMedicine) => (
-          <>
+          <div>
           <div key={saveMedicine.id}></div>
             <div css={s.searchResult}>복용중인 약품 목록</div>
             <div css={s.listCt}>
@@ -54,7 +63,8 @@ export default function SaveMedicineList() {
                 </div>
               </div>
             </div>
-          </>
+          </div>
+          
         ))}
       </div>
     </div>

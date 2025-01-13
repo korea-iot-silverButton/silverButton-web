@@ -15,7 +15,7 @@ export const contSt = css`
 export const conttSt = css`
   width: 100%;
   height: 100%;
-  background: rgb(233,231,251);
+  background: transparent;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

@@ -57,6 +57,8 @@ export default function App() {
           <Route path="/health-magazine" element={<HealthMagazineList/>}/>
           <Route path="/health-magazine/:id" element={<HealthMagazineDetail/>}/>
 
+          
+
           {/* 약품 검색기능 */}
           <Route
             path="/medicine/*"
@@ -102,6 +104,7 @@ export default function App() {
                 <Route path="/resign" element={<Resign />} />
                 <Route path="/calendar" element={<Calendar />} />
                 <Route path="/save-medicine" element={<SaveMedicine />} />
+                
               </Routes>
             }
           />
