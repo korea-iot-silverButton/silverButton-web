@@ -7,7 +7,7 @@ import useAuthStore from "../../stores/auth.store";
 
 export default function SideBar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { isAuthenticated, user, logout } = useAuthStore();
+  const { isAuthenticated} = useAuthStore();
 
   const navigate = useNavigate();
 

@@ -1,7 +1,15 @@
+/** @jsxImportSource @emotion/react */
+import * as s from "./style";
 import React from 'react'
+import HealthMagazineDetail from "../../../components/HealthMagazine/HealthMagazineDetail";
 
 export default function Index() {
+  
   return (
-    <h1>헬스 매거진 상세 정보 페이지</h1>
+    <div css={s.contSt}>
+      <div css={s.conttSt}>
+        <HealthMagazineDetail />
+      </div>
+    </div>
   )
 }

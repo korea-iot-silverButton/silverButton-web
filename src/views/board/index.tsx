@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import style from "./board.module.css";
 import BasicImage from "../../views/board/BasicImage.png";
 import { Quill } from "react-quill";
+// import useAuthStore from "../../stores/auth.store";
 
 interface Post {
   id: number;
@@ -26,6 +27,7 @@ export default function Board() {
   const [searchType, setSearchType] = useState<string>("title"); // 제목 또는 작성자 검색
   const [searchQuery, setSearchQuery] = useState<string>(""); // 검색어
   const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate 사용
+  // const { user } = useAuthStore(); // 사용자 정보 가져오기
 
   const fetchPosts = async (page: number) => {
     if (page < 1 || (totalPages > 0 && page > totalPages)) {
@@ -70,10 +72,6 @@ export default function Board() {
       });
 
       const data = response.data.data;
-
-      console.log("dataImgae", data.images);
-      console.log("API Response:", response.data.data); // 응답 데이터 확인
-
       if (data && data.content) {
         const postsWithLikedStatus = data.content.map((post: Post) => ({
           ...post,
@@ -144,7 +142,7 @@ export default function Board() {
 
   const handleCreatePostClick = () => {
     // 로그인 여부 확인
-    if (!cookies.token) {
+    if ( !cookies) {
       alert("로그인 후 게시글을 작성할 수 있습니다.");
       navigate("/auth"); // 로그인 페이지로 이동
     } else {
@@ -235,7 +233,7 @@ export default function Board() {
             </div>
           </div>
         </div>
-
+ 
         <div>
           {posts.length === 0 ? (
             <p>게시글이 없습니다.</p>
