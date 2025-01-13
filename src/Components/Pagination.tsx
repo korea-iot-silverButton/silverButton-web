@@ -93,6 +93,8 @@ export default function Pagination({
    pageNumbers.push(i);
  }
 
+
+
   console.log("렌더링 중인 페이지 번호:", pageNumbers);
   return (
     <div css={paginationBoxStyle}>
