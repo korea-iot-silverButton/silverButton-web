@@ -188,6 +188,9 @@ export const generalLogin = css`
   }
 `;
 
+export const magazineBox = css`
+  margin-top: 16px;
+`;
 export const listStyle = css`
   white-space: nowrap;
   overflow: hidden;

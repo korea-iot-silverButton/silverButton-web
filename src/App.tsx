@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useParams } from "react-router-dom";
 import Home from "./views/home";
 import "./App.css";
 
@@ -19,6 +19,7 @@ import EditBoard from "./views/board/EditBoard";
 import MyPage from "./views/authentication/myPage";
 import Resign from "./views/authentication/resign";
 import Calendar from "./views/calendar/Calendar";
+import SaveMedicine from "./views/authentication/myPage/saveMedicine"
 
 import Matching from "./views/matching/CaregiverMatching"
 import MatchingManage from "./views/matching/MatchingManage";
@@ -31,7 +32,6 @@ import HeaderLayout from "./layouts/headerLayout/HeaderLayout";
 import FooterLayout from "./layouts/footerLayout/FooterLayout";
 import MainLayout from "./layouts/mainLayout/MainLayout";
 import MessageBox from "./views/message/MessageBox";
-import MessageDetails from "./views/message/MessageDetails";
 
 import HealthMagazineList from "./views/healthMagazine/healthMagazineList"
 import HealthMagazineDetail from "./views/healthMagazine/healthMagazineDetail"
@@ -39,6 +39,7 @@ import PasswordPage from "./views/authentication/passwordPage";
 
 
 export default function App() {
+
   return (
     <RootLayout>
       <HeaderLayout>
@@ -52,9 +53,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
 
           <Route path="/health-magazine" element={<HealthMagazineList/>}/>
-          <Route path="/health-magazine/detail" element={<HealthMagazineDetail/>}/>
-
-          
+          <Route path="/health-magazine/:id" element={<HealthMagazineDetail/>}/>
 
           {/* 약품 검색기능 */}
           <Route
@@ -83,7 +82,7 @@ export default function App() {
                 <Route path="/" element={<Board />} />
                 <Route path="/:id" element={<BoardDetail />} />
                 <Route path="/create" element={<CreateBoard />} />
-                <Route path="/:id/edit" element={<EditBoard />} />
+                <Route path="/edit/:id" element={<EditBoard />} />
               </Routes>
             }
           />
@@ -99,6 +98,7 @@ export default function App() {
                 <Route path="/mypage" element={<MyPage />} />
                 <Route path="/resign" element={<Resign />} />
                 <Route path="/calendar" element={<Calendar />} />
+                <Route path="/save-medicine" element={<SaveMedicine />} />
               </Routes>
             }
           />
