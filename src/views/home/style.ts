@@ -187,3 +187,7 @@ export const generalLogin = css`
     color: black;
   }
 `;
+
+export const magazineBox = css`
+  margin-top: 16px;
+`;
