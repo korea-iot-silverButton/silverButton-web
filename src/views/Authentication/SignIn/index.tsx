@@ -147,25 +147,28 @@ export default function SignIn() {
     }
   };
 
+  const handleFindId = () => {
+    navigate("/findId");
+  };
+
+  const handleFindPassword = () => {
+    navigate("/findPassword");
+  };
+
+  const handleSignUp = () => {
+    navigate("/signup");
+  };
+
   return (
     <div className="signin-container">
       <Card className="signin-card">
         <CardContent>
-          {/* <Typography variant="h5" className="signin-title">
-            로그인
-          </Typography> */}
           <div className="signin-tabs">
-            <div
-              onClick={() => setIsElder(false)}
-              className="signin-tab"
-            >
+            <div onClick={() => setIsElder(false)} className="signin-tab">
               일반 & 요양사 로그인
             </div>
 
-            <div
-              onClick={() => setIsElder(true)}
-              className="signin-tab"
-            >
+            <div onClick={() => setIsElder(true)} className="signin-tab">
               노인 로그인
             </div>
           </div>
@@ -261,9 +264,20 @@ export default function SignIn() {
             네이버 로그인
           </Button>
         </CardActions>
-        
+
+        {/* 아이디 찾기, 비밀번호 찾기, 회원가입 버튼 */}
+        <CardActions className="footer-actions">
+          <Button onClick={handleFindId} fullWidth variant="text">
+            아이디 찾기
+          </Button>
+          <Button onClick={handleFindPassword} fullWidth variant="text">
+            비밀번호 찾기
+          </Button>
+          <Button onClick={handleSignUp} fullWidth variant="text">
+            회원가입
+          </Button>
+        </CardActions>
       </Card>
-      
     </div>
   );
 }
