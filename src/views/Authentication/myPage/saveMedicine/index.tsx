@@ -3,7 +3,7 @@ import axios from "axios";
 import * as s from "./style";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { HealthDetail } from "../../../../components/HealthMagazine/HealthMagazineDetail";
+// import { HealthDetail } from "../../../../components/HealthMagazine/HealthMagazineDetail";
 
 export interface SaveMedicine {
   id: number;
