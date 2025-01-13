@@ -9,7 +9,8 @@ import MedicineDetailPage from "./views/drug/medicineDetailPage";
 
 import Authentication from "./views/authentication";
 import SignUp from "./views/authentication/signUp";
-import PasswordReset from "./views/passwordReset";
+import FindId from "./views/authentication/findId";
+import FindPassword from "./views/authentication/findPassword";
 
 import Board from "./views/board";
 import CreateBoard from "./views/board/CreateBoard";
@@ -36,6 +37,7 @@ import MessageDetails from "./views/message/MessageDetails";
 import HealthMagazineList from "./views/healthMagazine/healthMagazineList"
 import HealthMagazineDetail from "./views/healthMagazine/healthMagazineDetail"
 import PasswordPage from "./views/authentication/passwordPage";
+
 
 
 export default function App() {
@@ -72,7 +74,8 @@ export default function App() {
           <Route path="/auth" element={<Authentication />} />
           <Route path="/passwordpage" element={<PasswordPage />} />
           <Route path="/auth/signup" element={<SignUp />} />
-          <Route path="/passwordReset" element={<PasswordReset />} />
+          <Route path="/findPassword" element={<FindPassword />} />
+          <Route path="/findId" element={<FindId />} />
 
           {/* 게시판 - 로그인 필요 X */}
 

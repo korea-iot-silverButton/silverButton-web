@@ -1,8 +1,8 @@
+import "./findPassword.css";
 import React, { useState } from "react";
 import "../../../stores/auth.store";
-import "./passwordReset.css";
 
-const PasswordReset = () => {
+const FindPassword = () => {
   const [step, setStep] = useState(1); // 현재 단계 (1: 이메일 입력, 2: 인증 코드 확인, 3: 새 비밀번호 설정)
   const [email, setEmail] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
@@ -137,4 +137,5 @@ const PasswordReset = () => {
   );
 };
 
-export default PasswordReset;
+export default FindPassword;
+

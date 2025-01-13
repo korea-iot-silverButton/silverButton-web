@@ -1,0 +1,80 @@
+/* 전체 컨테이너 스타일 */
+.find-id-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: none;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* 카드 스타일 */
+.find-id-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* 제목 스타일 */
+.find-id-card h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* 입력 필드 스타일 */
+.find-id-card input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.find-id-card input:focus {
+  border-color: #5c6bc0;
+  outline: none;
+}
+
+/* 버튼 스타일 */
+.submit-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #5c6bc0;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.submit-button:hover {
+  background-color: #3f51b5;
+  transform: translateY(-2px);
+}
+
+/* 에러 및 성공 메시지 */
+.error-message,
+.success-message {
+  font-size: 14px;
+  margin-top: 10px;
+  padding: 5px;
+}
+
+.error-message {
+  color: #d32f2f;
+}
+
+.success-message {
+  color: #388e3c;
+}
