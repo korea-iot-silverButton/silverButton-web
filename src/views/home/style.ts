@@ -187,3 +187,13 @@ export const generalLogin = css`
     color: black;
   }
 `;
+
+export const listStyle = css`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 23px;
+  color: #333;
+  margin-left: 1%;
+  margin-bottom: 20px;
+`;

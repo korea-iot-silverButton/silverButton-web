@@ -13,7 +13,7 @@ import { RiHealthBookLine } from "react-icons/ri";
 import { RiCalendarTodoLine } from "react-icons/ri";
 
 function HeaderToolWrap() {
-  const { isAuthenticated, user, logout } = useAuthStore();
+  const { isAuthenticated, user, logout, login } = useAuthStore();
   const [cookies, setCookies] = useCookies(["token"]);
   const navigate = useNavigate();
 
