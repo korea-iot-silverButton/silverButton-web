@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import "../../../stores/auth.store";
 import './ReSign.css';
 
 const Resign = () => {

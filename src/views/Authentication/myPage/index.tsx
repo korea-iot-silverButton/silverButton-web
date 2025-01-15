@@ -10,14 +10,47 @@ const MyPage = () => {
   const [editUser, setEditUser] = useState({
     nickname: user?.nickname || "",
     phone: user?.phone || "",
-    profileImg: user?.profileImg || "",
+    profileImg: user?.profileImg || "/images/profile.png", // 기본 이미지 경로 설정
     password: "", 
   });
 
   const [error, setError] = useState(""); // 비밀번호 변경 시 오류 메시지
 
+  // 프로필 이미지 수정 핸들러
   const handleProfileImgEdit = () => {
     alert("프로필 이미지를 수정합니다.");
+    document.getElementById("profileImgUpload")?.click(); // 파일 업로드 창 열기
+  };
+
+  // 프로필 이미지 파일 변경 핸들러
+  const handleProfileImgChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]; // 파일 선택
+
+    if (file) {
+      if (!file.type.startsWith("image/")) {
+        setError("이미지 파일만 업로드 가능합니다.");
+        return;
+      }
+
+      const reader = new FileReader();
+
+      // Base64 문자열로 프로필 이미지 업데이트
+      reader.onload = () => {
+        if (typeof reader.result === "string") {
+          setEditUser((prev) => ({
+            ...prev,
+            profileImg: reader.result as string 
+          }));
+          setError(""); // 에러 초기화
+        }
+      };
+
+      reader.onerror = () => {
+        setError("파일을 읽는 중 오류가 발생했습니다.");
+      };
+
+      reader.readAsDataURL(file); // 파일 읽기
+    }
   };
 
   const handleSaveMedicineClick = () => {
@@ -28,15 +61,20 @@ const MyPage = () => {
     navigate("/message"); // message 페이지로 이동
   };
 
+  const handleResignClick = () => {
+    navigate("/resign"); // 회원탈퇴 페이지로 이동 
+  }
+
   // 비밀번호 변경 핸들러
+   // 비밀번호 변경 핸들러
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEditUser({ ...editUser, password: e.target.value });
-    // const newPassword = e.target.value;
-    // const password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d@$!%*?&]{8,16}$/;
+    const newPassword = e.target.value;
+    const password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d@$!%*?&]{8,16}$/;
   
-    // if (password.test(newPassword) || newPassword === "") {
-    //   setEditUser((prev) => ({ ...prev, password: newPassword }));
-    // }
+    if (password.test(newPassword) || newPassword === "") {
+      setEditUser((prev) => ({ ...prev, password: newPassword }));
+    }
   };
 
 
@@ -55,7 +93,7 @@ const MyPage = () => {
         <div className="mypage-left">
           <div className="profileImg">
             <img
-              src="/images/profile.png"
+              src={editUser.profileImg} // 수정된 프로필 이미지 반영
               alt="Profile"
               style={{
                 width: "100%",
@@ -63,9 +101,16 @@ const MyPage = () => {
                 borderRadius: "50%",
               }}
             />
+            <input
+              type="file"
+              accept="image/*"
+              id="profileImgUpload"
+              style={{ display: "none" }} // 파일 선택창은 숨기기
+              onChange={handleProfileImgChange} // 파일 선택 시 호출
+            />
             <button
               className="edit-button"
-              onClick={handleProfileImgEdit} 
+              onClick={handleProfileImgEdit} // 수정 버튼 클릭 시 파일 업로드 창 열기
             >
               수정하기
             </button>
@@ -133,7 +178,9 @@ const MyPage = () => {
         <button className="save-button" onClick={handleSaveChanges}>
           변경사항 저장하기
         </button>
-        <button className="save-button">회원탈퇴하기</button>
+        <button className="save-button"
+        onClick={handleResignClick}
+        >회원탈퇴하기</button>
       </div>
     </div>
   );

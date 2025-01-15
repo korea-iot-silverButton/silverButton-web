@@ -7,13 +7,13 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    username: "",
+    name: "",
     userId: "",
     email: "",
     password: "",
     confirmPassword: "",
     nickname: "",
-    dateOfBirth: "",
+    birthDate: "",
     phone: "",
     gender: "",
     licenseNumber: "",
@@ -24,10 +24,9 @@ const SignUp = () => {
   const [showModal, setShowModal] = useState(false);
   const [isUserIdChecked, setIsUserIdChecked] = useState(false);
   const [userIdMessage, setUserIdMessage] = useState("");
-  const [nicknameMessage, setNicknameMessage] = useState(""); // 닉네임 상태 메시지
-  const [isNicknameChecked, setIsNicknameChecked] = useState(false); // 닉네임 중복 확인 여부
+  const [nicknameMessage, setNicknameMessage] = useState("");
+  const [isNicknameChecked, setIsNicknameChecked] = useState(false);
 
-  // 입력 값 변경 처리
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -36,17 +35,16 @@ const SignUp = () => {
     });
 
     if (name === "userId") {
-      setIsUserIdChecked(false); // 아이디 입력 시 중복 확인 초기화
-      setUserIdMessage(""); // 메시지 초기화
+      setIsUserIdChecked(false);
+      setUserIdMessage("");
     }
 
     if (name === "nickname") {
-      setIsNicknameChecked(false); // 닉네임 입력 시 중복 확인 초기화
-      setNicknameMessage(""); // 메시지 초기화
+      setIsNicknameChecked(false);
+      setNicknameMessage("");
     }
   };
 
-  // 아이디 중복 확인
   const checkUserId = async () => {
     if (!formData.userId) {
       alert("아이디를 입력하세요.");
@@ -54,26 +52,21 @@ const SignUp = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:4040/api/v1/auth/check-duplicate-userid", { userId: formData.userId });
+      const response = await axios.post("http://localhost:4040/api/v1/auth/check-duplicate-userId", { userId: formData.userId });
       if (response.data.exists) {
         setUserIdMessage("중복된 아이디입니다.");
-        setIsUserIdChecked(false); // 중복된 아이디
+        setIsUserIdChecked(false);
       } else {
         setUserIdMessage("사용 가능한 아이디입니다.");
-        setIsUserIdChecked(true); // 사용 가능한 아이디
+        setIsUserIdChecked(true);
       }
     } catch (error) {
       console.error("아이디 중복 확인 실패", error);
-      if (axios.isAxiosError(error) && error.response) {
-        setUserIdMessage("아이디 확인 중 오류가 발생했습니다.");
-      } else {
-        setUserIdMessage("알 수 없는 오류가 발생했습니다.");
-      }
+      setUserIdMessage("아이디 확인 중 오류가 발생했습니다.");
       setIsUserIdChecked(false);
     }
   };
 
-  // 닉네임 중복 확인
   const checkNickname = async () => {
     if (!formData.nickname) {
       alert("닉네임을 입력하세요.");
@@ -84,10 +77,10 @@ const SignUp = () => {
       const response = await axios.post("http://localhost:4040/api/v1/auth/check-duplicate-nickname", { nickname: formData.nickname });
       if (response.data.exists) {
         setNicknameMessage("중복된 닉네임입니다.");
-        setIsNicknameChecked(false); // 중복된 닉네임
+        setIsNicknameChecked(false);
       } else {
         setNicknameMessage("사용 가능한 닉네임입니다.");
-        setIsNicknameChecked(true); // 사용 가능한 닉네임
+        setIsNicknameChecked(true);
       }
     } catch (error) {
       console.error("닉네임 중복 확인 실패", error);
@@ -96,11 +89,9 @@ const SignUp = () => {
     }
   };
 
-  // 회원가입 처리
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 중복 확인 체크
     if (!isUserIdChecked) {
       alert("아이디 중복 확인을 진행해주세요.");
       return;
@@ -111,14 +102,10 @@ const SignUp = () => {
       return;
     }
 
-    const formDataObj = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
-      formDataObj.append(key, String(value));
-    });
+    // confirmPassword와 agree를 제외한 객체 생성
+    const { confirmPassword, agree, ...submitData } = formData;
 
-    console.log("회원가입 요청 데이터:", formDataObj);
-
-    // 비밀번호 규칙 체크
+    // 비밀번호 정규식 검사
     const passwordRegex =
       /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&*()-_=+[\]{}|;:'",.<>?/]).{8,16}$/;
     if (!passwordRegex.test(formData.password)) {
@@ -126,28 +113,27 @@ const SignUp = () => {
       return;
     }
 
-    // 전화번호 형식 체크
+    // 전화번호 정규식 검사
     if (!/^\d{3}-?\d{3,4}-?\d{4}$/.test(formData.phone)) {
       alert("전화번호 형식이 올바르지 않습니다.");
       return;
     }
 
-    // 비밀번호 확인 체크
+    // 비밀번호 일치 여부 검사
     if (formData.password !== formData.confirmPassword) {
       alert("비밀번호와 확인이 일치하지 않습니다.");
       return;
     }
 
     try {
-      const response = await axios.post("/api/signup", formDataObj, {
-        headers: { "Content-Type": "multipart/form-data" },
+      // submitData를 JSON 형태로 변환하여 전송
+      const response = await axios.post("http://localhost:4040/api/v1/auth/signup", submitData, {
+        headers: { "Content-Type": "application/json" },
       });
 
-      console.log("회원가입 성공:", response.data);
       alert("회원가입이 완료되었습니다!");
-      navigate("/"); // 메인 페이지로 이동
+      navigate("/");
     } catch (error) {
-      // AxiosError 타입으로 처리
       if (axios.isAxiosError(error)) {
         console.error("회원가입 실패:", error.response?.data || error.message);
         alert("회원가입에 실패했습니다. 다시 시도해주세요.");
@@ -167,9 +153,9 @@ const SignUp = () => {
           <label htmlFor="username">이름</label>
           <input
             type="text"
-            id="username"
-            name="username"
-            value={formData.username}
+            id="name"
+            name="name"
+            value={formData.name}
             onChange={handleChange}
             required
             placeholder="이름을 입력하세요"
@@ -301,12 +287,12 @@ const SignUp = () => {
 
         {/* 생년월일 */}
         <div className="input-group">
-          <label htmlFor="birthdate">생년월일</label>
+          <label htmlFor="birthDate">생년월일</label>
           <input
             type="date"
-            id="birthdate"
-            name="dateOfBirth"
-            value={formData.dateOfBirth}
+            id="birthDate"
+            name="birthDate"
+            value={formData.birthDate}
             onChange={handleChange}
             required
           />
