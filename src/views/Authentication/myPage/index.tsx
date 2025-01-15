@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";  // useNavigate import
+import { useNavigate, useParams } from "react-router-dom";  // useNavigate import
 import useAuthStore from "../../../stores/auth.store"; // useAuthStore import
 import "./myPage.css"; // 스타일 import
 
@@ -21,7 +21,10 @@ const MyPage = () => {
   };
 
   const handleSaveMedicineClick = () => {
-    navigate("my-page/save-medicine"); // saveMedicine 페이지로 이동
+    if (user) {
+      navigate(`/my-page/save-medicine/${user.userId}`); // saveMedicine 페이지로 이동 
+    }
+    
   };
 
   const handleMessageClick = () => {

@@ -1,13 +1,21 @@
 /** @jsxImportSource @emotion/react */
 import HealthMegazineTop5 from "../../components/HealthMagazine/HealthMegazineTop5";
 import * as s from "./style";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import kakaoIcon2 from "./kakaoIcon2.png";
 import naverIcom from "./naverIcom.png";
 import mainIcon from "./mainIcon.png";
 import useAuthStore from "../../stores/auth.store";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import SaveMedicineHome from "../../components/saveMedicine/saveMedicineHome";
+import { useCookies } from "react-cookie";
+
+export interface SaveMedicineHomeType {
+  id: number;
+  userId: string;
+  itemName: string;
+}
 
 const getTokenFromCookies = (): string | null => {
   const cookies = document.cookie.split("; ");
@@ -20,11 +28,43 @@ const getTokenFromCookies = (): string | null => {
   return null;
 };
 
-export default function Index() {
+export default function SaveMedicineHomeList() {
+  const { userId } = useParams<{ userId: string }>();
+  const [saveMedicineHomeItem, setSaveMedicineHomeItem] = useState<SaveMedicineHomeType[]>(
+    []
+  );
+
+  const [cookies] = useCookies(["token"]);
+
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
   const [scheduleData, setScheduleData] = useState<any[]>([]);
   const [error, setError] = useState<string>("");
+
+  const fetchSaveMedicineHome = async () => {
+    const token = cookies.token;
+    if (userId && token) {
+      try {
+        const response = await axios.get(
+          `http://localhost:4040/api/v1/medicine-schedule/`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setSaveMedicineHomeItem(response.data.data);
+      } catch (e) {
+        console.error("Failed to fetch medicines data", e);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (userId) {
+      fetchSaveMedicineHome();
+    }
+  }, [userId, cookies.token]);
   
   const loginNavigate = () => {
     navigate("/auth");
@@ -102,6 +142,8 @@ export default function Index() {
                     <div>오늘의 일정이 없습니다.</div>
                   )}
                 </div>
+                <div>약품 복용 리스트</div>
+                <div><SaveMedicineHome saveMedicineHomeItem={saveMedicineHomeItem}/></div>
               </>
             ) : (
               <>

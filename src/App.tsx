@@ -20,11 +20,11 @@ import EditBoard from "./views/board/EditBoard";
 import MyPage from "./views/authentication/myPage";
 import Resign from "./views/authentication/resign";
 import Calendar from "./views/calendar/Calendar";
-import SaveMedicine from "./views/authentication/myPage/saveMedicine"
+import SaveMedicine from "./views/authentication/myPage/saveMedicine";
 
-import Matching from "./views/matching/CaregiverMatching"
+import Matching from "./views/matching/CaregiverMatching";
 import MatchingManage from "./views/matching/MatchingManage";
-import CaregiverDetail from "./views/matching/CaregiverDetail"
+import CaregiverDetail from "./views/matching/CaregiverDetail";
 import RootLayout from "./layouts/rootLayout/RootLayout";
 import Header from "./layouts/header/Header";
 import Footer from "./layouts/footer/Footer";
@@ -34,14 +34,11 @@ import FooterLayout from "./layouts/footerLayout/FooterLayout";
 import MainLayout from "./layouts/mainLayout/MainLayout";
 import MessageBox from "./views/message/MessageBox";
 
-import HealthMagazineList from "./views/healthMagazine/healthMagazineList"
-import HealthMagazineDetail from "./views/healthMagazine/healthMagazineDetail"
+import HealthMagazineList from "./views/healthMagazine/healthMagazineList";
+import HealthMagazineDetail from "./views/healthMagazine/healthMagazineDetail";
 import PasswordPage from "./views/authentication/passwordPage";
 
-
-
 export default function App() {
-
   return (
     <RootLayout>
       <HeaderLayout>
@@ -54,10 +51,11 @@ export default function App() {
 
           <Route path="/" element={<Home />} />
 
-          <Route path="/health-magazine" element={<HealthMagazineList/>}/>
-          <Route path="/health-magazine/:id" element={<HealthMagazineDetail/>}/>
-
-          
+          <Route path="/health-magazine" element={<HealthMagazineList />} />
+          <Route
+            path="/health-magazine/:id"
+            element={<HealthMagazineDetail />}
+          />
 
           {/* 약품 검색기능 */}
           <Route
@@ -99,24 +97,24 @@ export default function App() {
             path="/my-page/*"
             element={
               <Routes>
-                
                 <Route path="/mypage" element={<MyPage />} />
                 <Route path="/resign" element={<Resign />} />
                 <Route path="/calendar" element={<Calendar />} />
-                <Route path="/save-medicine" element={<SaveMedicine />} />
-                
+                <Route
+                  path="/save-medicine/:userId"
+                  element={<SaveMedicine />}
+                />
               </Routes>
             }
           />
 
           {/* 메시지 */}
-          
-        <Route path="/message" element={<MessageBox />} />
-        {/* <Route path="/message/:id" element={<MessageDetails />} />
+
+          <Route path="/message" element={<MessageBox />} />
+          {/* <Route path="/message/:id" element={<MessageDetails />} />
         <Route path="/message/compose" element={<MessageCompose />} />
         <Route path="/message/sent" element={<MessageSent />} />
         <Route path="/message/receive" element={<MessageReceive />} />  */}
-        
 
           <Route
             path="/matching/*"
@@ -129,11 +127,8 @@ export default function App() {
             }
           />
         </Routes>
-
-
-
       </MainLayout>
-      
+
       <FooterLayout>
         <Footer />
       </FooterLayout>

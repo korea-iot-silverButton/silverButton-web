@@ -15,10 +15,7 @@ export const contSt = css`
 export const conttSt = css`
   width: 100%;
   height: 100%;
-  background: rgb(233,231,251);
-  border: 1px solid #e0e0e0;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow-y: scroll;
   overflow-x: hidden;
   padding-top: 20px;
@@ -107,4 +104,44 @@ export const medicneDeatail = css`
   cursor: pointer;
   font-size: 14px;
   color: #666;
+`;
+
+export const paginationContainer = css`
+  width: 100%;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+`;
+
+export const paginationButton = css`
+  background-color: white;
+  color: black;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  margin: 0 5px;
+
+  &:hover {
+    background-color: #4682b4;
+  }
+`;
+
+export const paginationButtonActive = css`
+  background-color: skyblue;
+`;
+
+export const arrowButton = css`
+  background-color: #1e90ff;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+
+  &:disabled {
+    background-color: #d3d3d3;
+    cursor: not-allowed;
+  }
 `;
