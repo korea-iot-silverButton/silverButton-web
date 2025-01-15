@@ -11,6 +11,8 @@ import Authentication from "./views/authentication";
 import SignUp from "./views/authentication/signUp";
 import FindId from "./views/authentication/findId";
 import FindPassword from "./views/authentication/findPassword";
+import VerifyId from "./views/authentication/verifyId";
+import VerifyPassword from "./views/authentication/verifyPassword";
 
 import Board from "./views/board";
 import CreateBoard from "./views/board/CreateBoard";
@@ -75,6 +77,8 @@ export default function App() {
           <Route path="/auth/signup" element={<SignUp />} />
           <Route path="/findPassword" element={<FindPassword />} />
           <Route path="/findId" element={<FindId />} />
+          <Route path="/verifyId" element={<VerifyId />} />
+          <Route path="/verifyPassword" element={<VerifyPassword />} />
 
           {/* 게시판 - 로그인 필요 X */}
 

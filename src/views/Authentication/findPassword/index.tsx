@@ -95,7 +95,7 @@ const FindPassword = () => {
               required
             />
             {error && <p className="error-message">{error}</p>}
-            <button type="submit">인증 코드 받기</button>
+            <button className="confirm" type="submit">인증 코드 받기</button>
           </form>
         )}
 
@@ -112,7 +112,7 @@ const FindPassword = () => {
               required
             />
             {error && <p className="error-message">{error}</p>}
-            <button type="submit">인증 코드 확인</button>
+            <button className="confirm" type="submit">인증 코드 확인</button>
           </form>
         )}
 
@@ -129,7 +129,7 @@ const FindPassword = () => {
               required
             />
             {error && <p className="error-message">{error}</p>}
-            <button type="submit">비밀번호 변경</button>
+            <button className="confirm" type="submit">비밀번호 변경</button>
           </form>
         )}
       </div>
