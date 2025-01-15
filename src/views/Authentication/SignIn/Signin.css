@@ -64,15 +64,15 @@
 
 /* 로그인 버튼 */
 .a {
-  /* background: linear-gradient(to right bottom, #9381ff, #6ee7b7); */
+  background: linear-gradient(to right bottom, #9381ff, #6ee7b7);
   color: #fff;
   padding: 10px;
   font-size: 16px;
   border-radius: 4px;
   /* transition: background 0.3s; */
 }
-/* 
-.kakao {
+
+/* .kakao {
   background-color: #fee500 ; 
   color: #000 ;
   border: none ;
