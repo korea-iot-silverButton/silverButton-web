@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";  // useNavigate import
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; 
 import useAuthStore from "../../../stores/auth.store"; // useAuthStore import
 import "./myPage.css"; // 스타일 import
 import axios from "axios";
@@ -7,6 +7,18 @@ import axios from "axios";
 const MyPage = () => {
   const { isAuthenticated, user, login, logout } = useAuthStore(); // 로그인 상태
   const navigate = useNavigate(); 
+  const getTokenFromCookies = () => {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.startsWith("token=")) {
+        return cookie.substring("token=".length, cookie.length);
+      }
+    }
+    return null;
+  };
+
+  const token = getTokenFromCookies();
 
   const [editUser, setEditUser] = useState({
     nickname: user?.nickname || "",
@@ -17,6 +29,39 @@ const MyPage = () => {
 
   const [error, setError] = useState(""); // 비밀번호 변경 시 오류 메시지
 
+  // 페이지 로드 시 프로필 이미지 조회 (useEffect 사용)
+  useEffect(() => {
+    const fetchProfileImg = async () => {
+      try {
+        const response = await axios.get("http://localhost:4040/api/v1/manage/profile-img", {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}` 
+          }
+        });
+    
+        console.log(response); // 응답 내용 확인
+    
+        if (response.data && response.data.data) {
+          setEditUser((prev) => ({
+            ...prev,
+            profileImg: response.data.data,
+          }));
+        } else {
+          setEditUser((prev) => ({
+            ...prev,
+            profileImg: "/images/profile.png",
+          }));
+        }
+      } catch (err) {
+        console.error("프로필 이미지 조회 중 오류 발생:", err);
+        setError("프로필 이미지를 조회하는 데 오류가 발생했습니다.");
+      }
+    };
+
+    fetchProfileImg(); // API 호출
+  }, []);
+
   // 프로필 이미지 수정 핸들러
   const handleProfileImgEdit = () => {
     alert("프로필 이미지를 수정합니다.");
@@ -24,7 +69,7 @@ const MyPage = () => {
   };
 
   // 프로필 이미지 파일 변경 핸들러
-  const handleProfileImgChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleProfileImgChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]; // 파일 선택
 
     if (file) {
@@ -33,27 +78,32 @@ const MyPage = () => {
         return;
       }
 
-      const reader = new FileReader();
+      const formData = new FormData();
+      formData.append("file", file); 
 
-      // Base64 문자열로 프로필 이미지 업데이트
-      reader.onload = () => {
-        if (typeof reader.result === "string") {
+      try {
+        const response = await axios.patch("http://localhost:4040/api/v1/manage/upload-profile-img", formData, {
+          headers: {
+            Authorization: `Bearer ${token}`, // 토큰 인증
+          },
+        });
+
+        // 서버에서 새로운 프로필 이미지 URL을 받아와서 상태 업데이트
+        if (response.data && response.data.data) {
           setEditUser((prev) => ({
             ...prev,
-            profileImg: reader.result as string 
+            profileImg: response.data.data, // 서버에서 받은 새로운 이미지 URL
           }));
-          setError(""); // 에러 초기화
+        } else {
+          setError("프로필 이미지 업로드에 실패했습니다.");
         }
-      };
-
-      reader.onerror = () => {
-        setError("파일을 읽는 중 오류가 발생했습니다.");
-      };
-
-      reader.readAsDataURL(file); // 파일 읽기
+      } catch (err) {
+        console.log(formData);
+        console.error("프로필 이미지 수정 중 오류 발생:", err);
+        setError("프로필 이미지 수정에 오류가 발생했습니다.");
+      }
     }
   };
-
 
   const handleSaveMedicineClick = () => {
     navigate("my-page/save-medicine"); // saveMedicine 페이지로 이동
@@ -68,7 +118,6 @@ const MyPage = () => {
   }
 
   // 비밀번호 변경 핸들러
-   // 비밀번호 변경 핸들러
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEditUser({ ...editUser, password: e.target.value });
     const newPassword = e.target.value;
@@ -78,7 +127,6 @@ const MyPage = () => {
       setEditUser((prev) => ({ ...prev, password: newPassword }));
     }
   };
-
 
   // 변경사항 저장하기 버튼 클릭 시 메인 페이지로 이동
   const handleSaveChanges = () => {
