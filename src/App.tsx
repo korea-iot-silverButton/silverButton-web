@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes, useParams } from "react-router-dom";
 import Home from "./views/home";
 import "./App.css";
@@ -39,8 +39,15 @@ import MessageBox from "./views/message/MessageBox";
 import HealthMagazineList from "./views/healthMagazine/healthMagazineList";
 import HealthMagazineDetail from "./views/healthMagazine/healthMagazineDetail";
 import PasswordPage from "./views/authentication/passwordPage";
+import useAuthStore from "./stores/auth.store";
 
 export default function App() {
+  const { isAuthenticated, loadFromLocalStorage } = useAuthStore(); // 로그인 상태 가져오기 
+
+  useEffect(() => {
+    loadFromLocalStorage(); // 컴포넌트가 마운트될 때 로컬스토리지에서 로그인 상태 복원
+  }, [loadFromLocalStorage]);
+
   return (
     <RootLayout>
       <HeaderLayout>
