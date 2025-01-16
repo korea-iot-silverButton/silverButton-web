@@ -12,18 +12,40 @@ const Resign = () => {
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value); // 비밀번호 입력값 업데이트
+    try {
+      if (!e || !e.target) {
+        throw new Error('유효하지않음음');
+      }
+      setPassword(e.target.value); // 비밀번호 입력값 업데이트
+    } catch (error) {
+      console.error('에러:', error);
+    }
   };
 
-  const handleConfirmPassword = () => {
-    if (password === 'correct-password') {
-      alert('회원탈퇴가 완료되었습니다.');
-      setIsConfirming(true);
-    } else {
-      alert('비밀번호가 올바르지 않습니다.');
+
+  const handleConfirmPassword = async () => {
+    try {
+      const response = await fetch('/my-page/resign', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password }),
+      });
+
+      if (response.ok) {
+        alert('회원탈퇴가 완료되었습니다.');
+        setIsConfirming(true);
+      } else {
+        const errorData = await response.json();
+        alert(`회원탈퇴 실패: ${errorData.message}`);
+      }
+    } catch (error) {
+      alert('회원탈퇴 중 오류가 발생했습니다.');
+    } finally {
+      setIsPasswordModalOpen(false);
+      setPassword(''); // 비밀번호 초기화
     }
-    setIsPasswordModalOpen(false);
-    setPassword(''); // 비밀번호 초기화
   };
 
   const handleCancelPassword = () => {

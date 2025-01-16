@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";  // useNavigate import
 import useAuthStore from "../../../stores/auth.store"; // useAuthStore import
 import "./myPage.css"; // 스타일 import
+import axios from "axios";
 
 const MyPage = () => {
   const { isAuthenticated, user, login, logout } = useAuthStore(); // 로그인 상태
@@ -52,6 +53,7 @@ const MyPage = () => {
       reader.readAsDataURL(file); // 파일 읽기
     }
   };
+
 
   const handleSaveMedicineClick = () => {
     navigate("my-page/save-medicine"); // saveMedicine 페이지로 이동
