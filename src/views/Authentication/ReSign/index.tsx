@@ -25,8 +25,8 @@ const Resign = () => {
 
   const handleConfirmPassword = async () => {
     try {
-      const response = await fetch('/my-page/resign', {
-        method: 'POST',
+      const response = await fetch('http://localhost:4040/api/v1/manage/delete-account', {
+        method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },

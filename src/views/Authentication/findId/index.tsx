@@ -31,11 +31,12 @@ const FindId = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:4040/api/v1/auth/findId",
+        "http://localhost:4040/api/v1/mail/send",
         formData
       );
+      console.log(response);
 
-      if (response.data?.success && response.data?.userId) {
+      if (response.status && response.data?.userId) {
         const userId = response.data.userId;
         setSuccess(`아이디는 '${userId}'입니다.`);
         setError("");
