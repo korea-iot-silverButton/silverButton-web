@@ -38,11 +38,11 @@ export default function SaveMedicineUserId({
                     <div css={s.medicineName}>{medicine.itemName}</div>
                   </div>
                   <div css={s.medicneDeatail}>
-                    <div css={s.detailText}><span css={s.text}>약품 사용 방법:</span>{medicine.useMethodQesitm}</div>
-                    <div css={s.detailText}><span css={s.text}>약품 복용 시 주의사항:</span>{medicine.atpnQesitm}</div>
-                    <div css={s.detailText}><span css={s.text}>약품 부작용:</span>{medicine.seQesitm}</div>
+                    <div css={s.detailText}><span css={s.text}>약품 사용 방법: </span>{medicine.useMethodQesitm}</div>
+                    <div css={s.detailText}><span css={s.text}>약품 복용 시 주의사항: </span>{medicine.atpnQesitm}</div>
+                    <div css={s.detailText}><span css={s.text}>약품 부작용: </span>{medicine.seQesitm}</div>
 
-                    <div css={s.detailText}><span css={s.text}>약품 보관방법:</span>{medicine.depositMethodQesitm}</div>
+                    <div css={s.detailText}><span css={s.text}>약품 보관방법: </span>{medicine.depositMethodQesitm}</div>
                   </div>
                 </div>
               </div>

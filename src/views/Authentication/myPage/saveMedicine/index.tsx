@@ -74,7 +74,7 @@ export default function SaveMedicineList() {
         {saveMedicineItem.length > 0 ? (
           <SaveMedicineUserId saveMedicineItem={currentItems} />
         ) : (
-          <div>로딩 중...</div>
+          <div>현재 복용중인 약품이 없습니다</div>
         )}
 
         {/* 페이지네이션 */}

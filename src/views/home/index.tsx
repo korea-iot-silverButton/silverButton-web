@@ -11,11 +11,7 @@ import axios from "axios";
 import SaveMedicineHome from "../../components/saveMedicine/saveMedicineHome";
 import { useCookies } from "react-cookie";
 
-export interface SaveMedicineHomeType {
-  id: number;
-  userId: string;
-  itemName: string;
-}
+
 
 const getTokenFromCookies = (): string | null => {
   const cookies = document.cookie.split("; ");
@@ -30,9 +26,7 @@ const getTokenFromCookies = (): string | null => {
 
 export default function SaveMedicineHomeList() {
   const { userId } = useParams<{ userId: string }>();
-  const [saveMedicineHomeItem, setSaveMedicineHomeItem] = useState<SaveMedicineHomeType[]>(
-    []
-  );
+
 
   const [cookies] = useCookies(["token"]);
 
@@ -41,30 +35,9 @@ export default function SaveMedicineHomeList() {
   const [scheduleData, setScheduleData] = useState<any[]>([]);
   const [error, setError] = useState<string>("");
 
-  const fetchSaveMedicineHome = async () => {
-    const token = cookies.token;
-    if (userId && token) {
-      try {
-        const response = await axios.get(
-          `http://localhost:4040/api/v1/medicine-schedule/`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setSaveMedicineHomeItem(response.data.data);
-      } catch (e) {
-        console.error("Failed to fetch medicines data", e);
-      }
-    }
-  };
 
-  useEffect(() => {
-    if (userId) {
-      fetchSaveMedicineHome();
-    }
-  }, [userId, cookies.token]);
+
+
   
   const loginNavigate = () => {
     navigate("/auth");
@@ -142,8 +115,7 @@ export default function SaveMedicineHomeList() {
                     <div>오늘의 일정이 없습니다.</div>
                   )}
                 </div>
-                <div>약품 복용 리스트</div>
-                <div><SaveMedicineHome saveMedicineHomeItem={saveMedicineHomeItem}/></div>
+                
               </>
             ) : (
               <>

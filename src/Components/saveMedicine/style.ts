@@ -19,7 +19,7 @@ export const listCt = css`
   margin-top: 30px;
   &:hover {
       cursor: pointer;
-      background-color: rgba(147, 129, 255, 0.1);
+      background-color: rgba(147, 129, 255, 0.05);
     }
 `;
 
@@ -58,13 +58,11 @@ export const medicineRow = css`
 `;
 
 export const medicineName = css`
-  width: 25%;
-  border: 2px solid black;
+  border-bottom: 2.5px solid black;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
-  margin-left: 2%;
+  margin-left: 2.5%;
   margin-top: 1%;
   font-size: 20px;
   font-weight: bold;
@@ -75,7 +73,6 @@ export const medicineName = css`
 export const medicneDeatail = css`
   width: 95%;
   height: 175px;
-  border: 2px solid black;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -93,7 +90,8 @@ export const detailText = css`
 `;
 
 export const text = css`
-  color: blue;
+  font-weight: bold;
+  color: #007BFF;
 `;
 
 export const imageBox = css`
