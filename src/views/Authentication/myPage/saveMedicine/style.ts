@@ -165,3 +165,18 @@ background-color: rgba(162, 143, 199, 0.2); /* 버튼 배경 */
       border-color: rgba(162, 143, 199, 0.2);
     }
 `;
+
+export const searchInput = css`
+  width: 100%;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border: 1px solid rgba(162, 143, 199, 0.5);
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.2s;
+
+  &:focus {
+    border-color: #007bff;
+  }
+`;
