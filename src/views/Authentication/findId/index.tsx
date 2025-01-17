@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./findId.css";
-import axios from "axios";
 
 const FindId = () => {
   const [formData, setFormData] = useState({
@@ -29,16 +29,20 @@ const FindId = () => {
       return;
     }
 
+    if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      setError("유효한 이메일 주소를 입력해주세요.");
+      setSuccess("");
+      return;
+    }
+
     try {
       const response = await axios.post(
-        "http://localhost:4040/api/v1/mail/send",
+        "http://localhost:4040/api/v1/mail/send", // 서버 API
         formData
       );
-      console.log(response);
 
-      if (response.status && response.data?.userId) {
-        const userId = response.data.userId;
-        setSuccess(`아이디는 '${userId}'입니다.`);
+      if (response.status === 200) {
+        setSuccess("아이디 찾기 요청이 성공적으로 이루어졌습니다.");
         setError("");
       } else {
         setError("사용자 정보를 찾을 수 없습니다. 다시 확인해주세요.");
