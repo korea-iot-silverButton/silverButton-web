@@ -1,11 +1,36 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "../../../stores/auth.store";
 import './ReSign.css';
+import { useNavigate } from 'react-router-dom';
+import useAuthStore from '../../../stores/auth.store';
+import { useCookies } from 'react-cookie';
 
 const Resign = () => {
   const [isConfirming, setIsConfirming] = useState(false); // 탈퇴 확인 상태
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false); // 비밀번호 입력 모달 상태
   const [password, setPassword] = useState(''); // 입력된 비밀번호 상태
+  const navigate = useNavigate();
+  const { logout } = useAuthStore();
+  const [cookies, setCookies] = useCookies(["token"]);
+
+  const getTokenFromCookies = () => {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.startsWith("token=")) {
+        return cookie.substring("token=".length, cookie.length);
+      }
+    }
+    return null;
+  };
+
+  const token = getTokenFromCookies();
+
+  useEffect(() => {
+    if (!cookies.token) {
+      logout();
+    }
+  }, [cookies.token, logout]);
 
   const handleDelete = () => {
     setIsPasswordModalOpen(true); // 비밀번호 입력 모달 열기
@@ -28,7 +53,7 @@ const Resign = () => {
       const response = await fetch('http://localhost:4040/api/v1/manage/delete-account', {
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ password }),
       });
@@ -36,6 +61,9 @@ const Resign = () => {
       if (response.ok) {
         alert('회원탈퇴가 완료되었습니다.');
         setIsConfirming(true);
+        setCookies("token", "", { expires: new Date(0), path: "/" });
+        logout();
+        navigate("/");
       } else {
         const errorData = await response.json();
         alert(`회원탈퇴 실패: ${errorData.message}`);
