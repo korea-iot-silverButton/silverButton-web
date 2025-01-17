@@ -30,6 +30,29 @@ export const headerButton = css`
   background: linear-gradient(to right bottom, #9381ff, #6ee7b7);
 `;
 
+export const logOutButton = css`
+  border: none;
+  width: 100px;
+  border-radius: 40px;
+  padding: 8px 20px;
+  font-size: 16px;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 30px;
+  transition: all 0.3s ease;
+  color: white;
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+  &:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+  background: linear-gradient(to right bottom, #9381ff, #6ee7b7);
+`;
+
 //* headerToolWrap
 export const headerToolWrap = css`
   position: relative;
@@ -126,4 +149,8 @@ export const roleImage = css`
   height: 2em;   
   margin-right: 8px;
   vertical-align: middle; 
+`;
+
+export const profile = css`
+  width: 200px;
 `;

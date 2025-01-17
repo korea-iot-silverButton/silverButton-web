@@ -26,7 +26,7 @@ export default function SaveMedicineList() {
     []
   );
   const [cookies] = useCookies(["token"]);
-
+  const [searchQuery, setSearchQuery] = useState(""); // 검색어 상태 추가
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
 
@@ -55,14 +55,15 @@ export default function SaveMedicineList() {
     }
   }, [userId, cookies.token]);
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = saveMedicineItem.slice(
-    indexOfFirstItem,
-    indexOfLastItem
+  const filteredItems = saveMedicineItem.filter((item) =>
+    item.itemName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const totalPages = Math.ceil(saveMedicineItem.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
 
   const handlePageClick = (page: number) => {
     setCurrentPage(page);
@@ -71,10 +72,18 @@ export default function SaveMedicineList() {
   return (
     <div css={s.contSt}>
       <div css={s.conttSt}>
-        {saveMedicineItem.length > 0 ? (
+        <input
+          type="text"
+          placeholder="약품 이름 검색🔎"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          css={s.searchInput}
+        />
+
+        {filteredItems.length > 0 ? (
           <SaveMedicineUserId saveMedicineItem={currentItems} />
         ) : (
-          <div>현재 복용중인 약품이 없습니다</div>
+          <div>검색 결과가 없습니다</div>
         )}
 
         {/* 페이지네이션 */}

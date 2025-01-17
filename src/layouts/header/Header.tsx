@@ -96,7 +96,7 @@ function HeaderToolWrap() {
       <div css={s.headerToolKit}>
         {isAuthenticated ? (
           <>
-            <div>{user && (
+            <div css={s.profile}>{user && (
                 <>
                 <img
               src={editUser.profileImg} // 수정된 프로필 이미지 반영
@@ -112,10 +112,10 @@ function HeaderToolWrap() {
                     alt={user.role}
                     css={s.roleImage} // CSS로 이미지 크기 조정
                   />
-                  <span>{user.nickname}님 안녕하세요</span>
+                  <span>{user.nickname}님</span>
                 </>
               )}</div>
-            <button onClick={handleLogOutClick} css={s.headerButton}>
+            <button onClick={handleLogOutClick} css={s.logOutButton}>
               로그아웃
             </button>
           </>
