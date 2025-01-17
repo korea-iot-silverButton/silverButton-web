@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 
 export const contSt = css`
-  width: 100%;
+  width: 80%;
   height: 100%; 
   display: flex;
   justify-content: center; 
@@ -10,15 +10,11 @@ export const contSt = css`
   padding:0 150px 20px 150px ;
 `;
 
-
-
 export const conttSt = css`
-  width: 100%;
+  width: 80%;
   height: 100%;
   background: transparent;
-  border: 1px solid #e0e0e0;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow-y: scroll;
   overflow-x: hidden;
   padding-top: 20px;

@@ -15,10 +15,7 @@ export const contSt = css`
 export const conttSt = css`
   width: 100%;
   height: 100%;
-  background: rgb(233,231,251);
-  border: 1px solid #e0e0e0;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow-y: scroll;
   overflow-x: hidden;
   padding-top: 20px;
@@ -107,4 +104,64 @@ export const medicneDeatail = css`
   cursor: pointer;
   font-size: 14px;
   color: #666;
+`;
+
+export const paginationContainer = css`
+display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 16px;
+    border-radius: 8px;
+`;
+
+export const paginationButton = css`
+background-color: rgba(162, 143, 199, 0.2);
+    border: 1px solid rgba(162, 143, 199, 0.5);
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: rgba(162, 143, 199, 0.8);
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+
+    &:hover {
+      background-color: rgba(162, 143, 199, 0.3);
+      border-color: rgba(162, 143, 199, 0.8);
+      color: #ffffff;
+    }
+`;
+
+export const paginationButtonActive = css`
+background-color: rgba(162, 143, 199, 0.8); /* 활성화된 버튼의 배경 */
+    color: #ffffff; /* 텍스트 색상 */
+    border-color: rgba(162, 143, 199, 1);
+
+    &:hover {
+      background-color: rgba(162, 143, 199, 1); /* 호버 시 더 짙은 색 */
+    }
+`;
+
+export const arrowButton = css`
+background-color: rgba(162, 143, 199, 0.2); /* 버튼 배경 */
+    border: 1px solid rgba(162, 143, 199, 0.5); /* 테두리 */
+    color: rgba(162, 143, 199, 0.8); /* 텍스트 색상 */
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+
+    &:hover:not(:disabled) {
+      background-color: rgba(162, 143, 199, 0.3); /* 호버 시 밝은 색상 */
+      border-color: rgba(162, 143, 199, 0.8);
+      color: #ffffff;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      background-color: rgba(162, 143, 199, 0.1);
+      color: rgba(162, 143, 199, 0.5);
+      border-color: rgba(162, 143, 199, 0.2);
+    }
 `;

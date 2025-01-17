@@ -69,9 +69,10 @@ export default function SignIn() {
 
   const SignInSuccessResponse = (data: SignInResponseDto) => {
     if (data) {
+      console.log(data);
       const { token, exprTime, user } = data;
       setToken(token, exprTime);
-      login(user, token); // 사용자 정보와 토큰을 store에 저장
+      login(user, token);
       navigate("/");
     } else {
       setError("로그인 실패: 인증 정보를 확인해주세요.");
@@ -134,6 +135,7 @@ export default function SignIn() {
       }
 
       if (response.data) {
+        console.log('응답 정보: ' + response.data.data);
         SignInSuccessResponse(response.data.data);
       }
     } catch (error) {
