@@ -117,7 +117,7 @@ const MyPage = () => {
   };
 
   const handleResignClick = () => {
-    navigate("/resign"); // 회원탈퇴 페이지로 이동 
+    navigate("/my-page/resign"); // 회원탈퇴 페이지로 이동 
   }
 
   // 비밀번호 변경 핸들러
