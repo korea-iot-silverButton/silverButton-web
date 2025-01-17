@@ -136,7 +136,7 @@ export const detailContainer = css`
   height: 820px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px;
 `;
 
 export const detailTitle = css`
@@ -160,9 +160,10 @@ export const image = css`
 `;
 
 export const content = css`
-  font-size: 25px;
+  font-size: 20px;
   width: 100%;
   height: auto;
+  margin-top: 30px;
 `;
 
 export const paginationContainers = css`
@@ -244,4 +245,10 @@ export const header = css`
   justify-content: flex-end;
   width: 100%;
   margin-bottom: 10px;
+`;
+
+export const magazineMain = css`
+  width: 80%;
+  height: 820px;
+  border: 1px solid black;
 `;

@@ -11,26 +11,47 @@ export interface HealthMagazineDetailType {
   content: string;
 }
 
-interface HealthMagazineDetailProps{
-  healthDetailItem: HealthMagazineDetailType
+interface HealthMagazineDetailProps {
+  healthDetailItem: HealthMagazineDetailType;
 }
 
-export default function HealthMagazineDetail({ healthDetailItem }: HealthMagazineDetailProps) {
+const MyComponent = ({ healthDetailItem }: HealthMagazineDetailProps) => {
+  const formattedContent = healthDetailItem.content
+    .split(".")
+    .map((sentence, index, array) => {
+      return (
+        sentence.trim() +
+        (index < array.length - 1 ? ". " : "") +
+        (index < array.length - 1 ? "<br /><br />" : "")
+      );
+    })
+    .join("");
 
-  console.log(healthDetailItem);
+  return (
+    <div
+      css={s.content}
+      dangerouslySetInnerHTML={{ __html: formattedContent }}
+    />
+  );
+};
+
+export default function HealthMagazineDetail({
+  healthDetailItem,
+}: HealthMagazineDetailProps) {
   return (
     <div css={s.detailContainer} key={healthDetailItem.id}>
-        
-          <h1 css={s.detailTitle}>{healthDetailItem.title}</h1>
-          <div css={s.date}>작성일자: {healthDetailItem.publishedDate}</div>
-          <div css={s.source}>
-            출처: {healthDetailItem.source} / 조회수: {healthDetailItem.viewCount}
-          </div>
-          <div css={s.image}>
-            <img src={healthDetailItem.thumbnailImageUrl} alt={healthDetailItem.title} />
-          </div>
-          <div css={s.content}>{healthDetailItem.content}</div>
-      
+      <h1 css={s.detailTitle}>{healthDetailItem.title}</h1>
+      <div css={s.date}>작성일자: {healthDetailItem.publishedDate}</div>
+      <div css={s.source}>
+        출처: {healthDetailItem.source} / 조회수: {healthDetailItem.viewCount}
+      </div>
+      <div css={s.image}>
+        <img
+          src={healthDetailItem.thumbnailImageUrl}
+          alt={healthDetailItem.title}
+        />
+      </div>
+      <MyComponent healthDetailItem={healthDetailItem} />
     </div>
   );
 }

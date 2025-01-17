@@ -106,7 +106,10 @@ const MyPage = () => {
   };
 
   const handleSaveMedicineClick = () => {
-    navigate("my-page/save-medicine"); // saveMedicine 페이지로 이동
+    if (user) {
+      navigate(`/my-page/save-medicine/${user.userId}`); // saveMedicine 페이지로 이동 
+    }
+    
   };
 
   const handleMessageClick = () => {

@@ -52,7 +52,7 @@ export default function Index() {
         {healthDetailItem && (
           <HealthMagazineDetail healthDetailItem={healthDetailItem}/>
         )}
-      </div>
+      </div> 
     </div>
   )
 }

@@ -1,13 +1,17 @@
 /** @jsxImportSource @emotion/react */
 import HealthMegazineTop5 from "../../components/HealthMagazine/HealthMegazineTop5";
 import * as s from "./style";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import kakaoIcon2 from "./kakaoIcon2.png";
 import naverIcom from "./naverIcom.png";
 import mainIcon from "./mainIcon.png";
 import useAuthStore from "../../stores/auth.store";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import SaveMedicineHome from "../../components/saveMedicine/saveMedicineHome";
+import { useCookies } from "react-cookie";
+
+
 
 const getTokenFromCookies = (): string | null => {
   const cookies = document.cookie.split("; ");
@@ -20,11 +24,20 @@ const getTokenFromCookies = (): string | null => {
   return null;
 };
 
-export default function Index() {
+export default function SaveMedicineHomeList() {
+  const { userId } = useParams<{ userId: string }>();
+
+
+  const [cookies] = useCookies(["token"]);
+
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
   const [scheduleData, setScheduleData] = useState<any[]>([]);
   const [error, setError] = useState<string>("");
+
+
+
+
   
   const loginNavigate = () => {
     navigate("/auth");
@@ -102,6 +115,7 @@ export default function Index() {
                     <div>오늘의 일정이 없습니다.</div>
                   )}
                 </div>
+                
               </>
             ) : (
               <>
